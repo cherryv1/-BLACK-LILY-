@@ -1,25 +1,44 @@
 const SYSTEM = `Eres Black Lily, asistente de Baxto Style Tattoo. REGLAS: Responde SOLO en espanol. Maximo 3 oraciones. Para tatuajes o citas dirigelos al WhatsApp +52 984 256 2365. Nunca inventes. Ubicacion: Villas del Sol, Playa del Carmen QRoo. Instagram: instagram.com/baxto.tattooist`;
 
 const INTENTS = {
-  vision: ["analiza esta imagen", "que ves en la foto", "describe la imagen", "mira esta foto"],
-  code: ["escribe codigo", "programa esto", "script", "funcion en javascript"],
-  cita: ["quiero una cita", "agendar tatuaje", "cuanto cuesta", "precio del tatuaje"],
-  general: ["hola", "quien eres", "que puedes hacer"]
+  vision: ["analiza esta imagen", "que ves en la foto", "mira esta foto", "describe la imagen"],
+  cita: ["quiero una cita", "cuanto cuesta", "precio del tatuaje", "agendar tatuaje"],
+  ubicacion: ["donde estan", "como llegar", "direccion del estudio", "donde queda"],
+  general: ["hola", "quien eres", "que puedes hacer", "ayuda"]
 };
+
+let INTENT_CACHE = null;
+
+async function getIntentVectors(ai) {
+  if (INTENT_CACHE) return INTENT_CACHE;
+  const cache = {};
+  for (const [intent, examples] of Object.entries(INTENTS)) {
+    const result = await ai.run("@cf/baai/bge-small-en-v1.5", { text: examples });
+    cache[intent] = result.data;
+  }
+  INTENT_CACHE = cache;
+  return cache;
+}
+
+function cosineSim(a, b) {
+  let dot = 0, normA = 0, normB = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i]*b[i]; normA += a[i]*a[i]; normB += b[i]*b[i];
+  }
+  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+}
 
 async function semanticRouter(message, ai) {
   try {
-    const msgEmbed = await ai.run("@cf/baai/bge-small-en-v1.5", { text: [message] });
-    const msgVec = msgEmbed.data[0];
-
-    let bestIntent = "general";
-    let bestScore = -1;
-
-    for (const [intent, examples] of Object.entries(INTENTS)) {
-      for (const example of examples) {
-        const exEmbed = await ai.run("@cf/baai/bge-small-en-v1.5", { text: [example] });
-        const exVec = exEmbed.data[0];
-        const score = cosineSim(msgVec, exVec);
+    const [msgResult, intentVectors] = await Promise.all([
+      ai.run("@cf/baai/bge-small-en-v1.5", { text: [message] }),
+      getIntentVectors(ai)
+    ]);
+    const msgVec = msgResult.data[0];
+    let bestIntent = "general", bestScore = -1;
+    for (const [intent, vectors] of Object.entries(intentVectors)) {
+      for (const vec of vectors) {
+        const score = cosineSim(msgVec, vec);
         if (score > bestScore) { bestScore = score; bestIntent = intent; }
       }
     }
@@ -28,18 +47,9 @@ async function semanticRouter(message, ai) {
     const m = message.toLowerCase();
     if (m.includes("foto") || m.includes("imagen")) return { intent: "vision", confidence: 0 };
     if (m.includes("cita") || m.includes("precio")) return { intent: "cita", confidence: 0 };
+    if (m.includes("donde") || m.includes("ubicacion")) return { intent: "ubicacion", confidence: 0 };
     return { intent: "general", confidence: 0 };
   }
-}
-
-function cosineSim(a, b) {
-  let dot = 0, normA = 0, normB = 0;
-  for (let i = 0; i < a.length; i++) {
-    dot += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
-  }
-  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
 export default {
@@ -49,11 +59,8 @@ export default {
     if (url.pathname === "/chat" && request.method === "POST") {
       const {message} = await request.json();
       const t0 = Date.now();
-
       const {intent, confidence} = await semanticRouter(message, env.AI);
-
       let respuesta = null, modelo = null;
-
       if (intent === "vision") {
         respuesta = await callGemini(message, env.GEMINI_API_KEY);
         if (respuesta) modelo = "Gemini 2.0 Flash";
@@ -62,7 +69,6 @@ export default {
         if (respuesta) modelo = "Cerebras Llama 3.3 70B";
         if (!respuesta) { respuesta = await callGroq(message, env.GROQ_API_KEY); if (respuesta) modelo = "Groq Llama 3.3 70B"; }
       }
-
       return new Response(JSON.stringify({
         respuesta: respuesta||"Error",
         modelo: modelo||"desconocido",
@@ -78,23 +84,20 @@ export default {
 async function callCerebras(message, apiKey) {
   try {
     const r = await fetch("https://api.cerebras.ai/v1/chat/completions", {method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},body:JSON.stringify({model:"llama-3.3-70b",messages:[{role:"system",content:SYSTEM},{role:"user",content:message}]})});
-    const d = await r.json();
-    return d.choices?.[0]?.message?.content;
+    const d = await r.json(); return d.choices?.[0]?.message?.content;
   } catch(e) { return null; }
 }
 
 async function callGroq(message, apiKey) {
   try {
     const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},body:JSON.stringify({model:"llama-3.3-70b-versatile",messages:[{role:"system",content:SYSTEM},{role:"user",content:message}]})});
-    const d = await r.json();
-    return d.choices?.[0]?.message?.content;
+    const d = await r.json(); return d.choices?.[0]?.message?.content;
   } catch(e) { return null; }
 }
 
 async function callGemini(message, apiKey) {
   try {
     const r = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key="+apiKey, {method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({system_instruction:{parts:[{text:SYSTEM}]},contents:[{parts:[{text:message}]}]})});
-    const d = await r.json();
-    return d.candidates?.[0]?.content?.parts?.[0]?.text;
+    const d = await r.json(); return d.candidates?.[0]?.content?.parts?.[0]?.text;
   } catch(e) { return null; }
 }
