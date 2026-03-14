@@ -1,6 +1,3 @@
 name = "black-lily-elite"
 main = "src/index.js"
 compatibility_date = "2026-03-14"
-
-[vars]
-APP_NAME = "Black Lily Elite"
