@@ -1,7 +1,7 @@
 name: Deploy Black Lily Elite
 on:
   push:
-    branches: [principal]
+    branches: [main]
 
 jobs:
   deploy:
