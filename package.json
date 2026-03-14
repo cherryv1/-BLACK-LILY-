@@ -1,0 +1,9 @@
+{
+  "name": "baxto-elite-2026",
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "openai": "^4.55.0",
+    "express": "^4.21.0"
+  }
+}
