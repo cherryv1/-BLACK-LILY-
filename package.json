@@ -1,9 +1,11 @@
 {
-  "name": "baxto-elite-2026",
+  "name": "black-lily-elite",
   "version": "1.0.0",
-  "main": "server.js",
-  "dependencies": {
-    "openai": "^4.55.0",
-    "express": "^4.21.0"
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^3.78.0"
   }
 }
