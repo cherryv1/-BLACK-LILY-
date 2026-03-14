@@ -77,7 +77,8 @@ export default {
         latencia_ms: Date.now()-t0
       }), {headers:{"Content-Type":"application/json","Access-Control-Allow-Origin":"*"}});
     }
-    return new Response("Black Lily Elite online", {status:200});
+    const html = await fetch("https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/index.html");
+    return new Response(await html.text(), {headers:{"Content-Type":"text/html"}});
   }
 };
 
