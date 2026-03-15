@@ -1,5 +1,4 @@
 const SYSTEM = `Eres Black Lily, asistente de Baxto Style Tattoo. REGLAS: Responde SOLO en espanol. Maximo 3 oraciones. Para tatuajes o citas dirigelos al WhatsApp +52 984 256 2365. Nunca inventes. Ubicacion: Villas del Sol, Playa del Carmen QRoo. Instagram: instagram.com/baxto.tattooist`;
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -16,14 +15,12 @@ export default {
     return new Response("Black Lily Elite API online", {status:200});
   }
 };
-
 async function callCerebras(message, apiKey) {
   try {
     const r = await fetch("https://api.cerebras.ai/v1/chat/completions", {method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},body:JSON.stringify({model:"llama-3.3-70b",messages:[{role:"system",content:SYSTEM},{role:"user",content:message}]})});
     const d = await r.json(); return d.choices?.[0]?.message?.content;
   } catch(e) { return null; }
 }
-
 async function callGroq(message, apiKey) {
   try {
     const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},body:JSON.stringify({model:"llama-3.3-70b-versatile",messages:[{role:"system",content:SYSTEM},{role:"user",content:message}]})});
