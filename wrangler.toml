@@ -1,6 +1,14 @@
 name = "black-lily-elite"
 main = "src/index.js"
-compatibility_date = "2026-03-14"
+compatibility_date = "2024-03-16"
 
-[ai]
-binding = "AI"
+[d1_databases]
+[[d1_databases.bindings]]
+name = "DB"
+database_id = "c6e1cb30-0fdf-4563-b1fe-6e48a37a9a2b"
+database_name = "baxto-db"
+
+[kv_namespaces]
+[[kv_namespaces.bindings]]
+name = "SESSIONS"
+id = "a136dcf8ea7f4d428a836f6763bb112f"
