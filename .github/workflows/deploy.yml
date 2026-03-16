@@ -33,4 +33,4 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: baxto-museum
           directory: public
-          gitHubToken: ${{ secrets.toke_420 }}
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
