@@ -1,0 +1,22 @@
+{
+  "dashboard": {
+    "enabled": true,
+    "port": 3000,
+    "path": "/lily",
+    "features": {
+      "monitoring": true,
+      "analytics": true,
+      "alerts": true,
+      "reports": true,
+      "aiAnalysis": true
+    }
+  },
+  "workers": {
+    "metricsEndpoint": "/api/trpc/lily.logs.logRequest",
+    "configEndpoint": "/api/trpc/lily.config.getModelConfigs"
+  },
+  "models": {
+    "providers": ["groq", "cerebras", "gemini", "cloudflare-llama"],
+    "fallbackChain": ["groq", "cerebras", "gemini", "cloudflare-llama"]
+  }
+}
