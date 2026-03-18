@@ -1,13 +1,13 @@
 import { Router } from 'itty-router';
 
-const SYSTEM_PROMPT = \`Eres Black Lily, asistente de Baxto Style Tattoo. REGLAS: Responde SOLO en espanol. Maximo 3 oraciones. Para tatuajes o citas dirigelos al WhatsApp +52 984 256 2365. Nunca inventes. Ubicacion: Villas del Sol, Playa del Carmen QRoo. Instagram: instagram.com/baxto.tattooist\`;
+const SYSTEM_PROMPT = `Eres Black Lily, asistente de Baxto Style Tattoo. REGLAS: Responde SOLO en espanol. Maximo 3 oraciones. Para tatuajes o citas dirigelos al WhatsApp +52 984 256 2365. Nunca inventes. Ubicacion: Villas del Sol, Playa del Carmen QRoo. Instagram: instagram.com/baxto.tattooist`;
 
 const router = Router();
 
 // --- Pool de Modelos con Fallback ---
 async function callAI(message, env, intent) {
   const pool = [];
-  if (intent.includes("vision")) pool.push({ name: "Gemini", call: () => fetch(\`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\${env.GEMINI_API_KEY}\`, {method:"POST",body:JSON.stringify({contents:[{parts:[{text: SYSTEM_PROMPT + "\\n\\nUsuario: " + message}]}]})}).then(r => r.json()).then(d => d.candidates?.[0]?.content?.parts?.[0]?.text) });
+  if (intent.includes("vision")) pool.push({ name: "Gemini", call: () => fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\${env.GEMINI_API_KEY}`, {method:"POST",body:JSON.stringify({contents:[{parts:[{text: SYSTEM_PROMPT + "\\n\\nUsuario: " + message}]}]})}).then(r => r.json()).then(d => d.candidates?.[0]?.content?.parts?.[0]?.text) });
   pool.push({ name: "Groq", call: () => fetch("https://api.groq.com/openai/v1/chat/completions", {method:"POST",headers:{"Authorization":"Bearer "+env.GROQ_API_KEY,"Content-Type":"application/json"},body:JSON.stringify({model:"llama-3.3-70b-versatile",messages:[{role:"system",content:SYSTEM_PROMPT},{role:"user",content:message}]})}).then(r => r.json()).then(d => d.choices?.[0]?.message?.content) });
   pool.push({ name: "Cloudflare", call: () => env.AI.run('@cf/meta/llama-3-8b-instruct', {messages:[{role:'system',content:SYSTEM_PROMPT},{role:'user',content:message}]}).then(r => r.response) });
 
@@ -60,7 +60,7 @@ router.post('/webhook/:channel', async (request, env) => {
   const msg = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
   if (msg) {
     const res = await processMessage(env, msg.from, msg.text.body, channel);
-    console.log(\`Respuesta enviada a \${channel}: \${res.reply}\`);
+    console.log(`Respuesta enviada a \${channel}: \${res.reply}`);
   }
   return new Response("OK");
 });
