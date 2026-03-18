@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Baxto Style Tattoo</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#000308;
+  --c1:#00e5ff;
+  --c2:#7c4dff;
+  --c3:#ff1744;
+  --c4:#00e676;
+  --c5:#ffd740;
+  --panel:rgba(0,10,20,0.92);
+  --border:rgba(0,229,255,0.15);
+  --text:#e8f4f8;
+  --muted:#4a7a8a;
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Exo 2',sans-serif;overflow-x:hidden;}
+
+/* NEURAL BG */
+#neural{position:fixed;inset:0;z-index:0;}
+
+/* MAIN */
+#main{position:relative;z-index:2;min-height:100vh;display:flex;flex-direction:column;}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:20px;
+  text-align:center;
+  position:relative;
+}
+
+/* Logo */
+.logo-container{position:relative;width:150px;height:150px;margin:0 auto 24px;}
+.logo-hex{
+  width:150px;height:150px;
+  background:conic-gradient(var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c1));
+  border-radius:50%;
+  animation:hex-spin 6s linear infinite;
+  position:absolute;inset:0;
+}
+.logo-hex-inner{
+  position:absolute;inset:4px;
+  background:var(--bg);
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  z-index:2;
+}
+.logo-hex-inner img{width:100%;height:100%;border-radius:50%;object-fit:cover;}
+.logo-hex-inner .logo-fallback{
+  font-family:'Orbitron',monospace;
+  font-size:22px;font-weight:900;
+  color:var(--c1);
+  text-shadow:0 0 20px var(--c1);
+  letter-spacing:.05em;
+}
+.logo-ping{position:absolute;inset:-8px;border-radius:50%;border:1px solid var(--c1);animation:ping 2s ease-out infinite;opacity:0;}
+.logo-ping2{position:absolute;inset:-16px;border-radius:50%;border:1px solid var(--c2);animation:ping 2s ease-out infinite .6s;opacity:0;}
+@keyframes hex-spin{to{transform:rotate(360deg)}}
+@keyframes ping{0%{transform:scale(.9);opacity:.6}100%{transform:scale(1.15);opacity:0}}
+
+/* Title */
+.hero-name{
+  font-family:'Orbitron',monospace;
+  font-size:clamp(28px,8vw,52px);
+  font-weight:900;
+  letter-spacing:.12em;
+  line-height:1;
+  margin-bottom:4px;
+}
+.hn-baxto{
+  display:block;
+  background:linear-gradient(90deg,var(--c1),#fff,var(--c1));
+  background-size:200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  animation:shine 3s linear infinite;
+  text-shadow:none;
+}
+.hn-style{display:block;color:var(--c5);font-size:.55em;letter-spacing:.3em;text-shadow:0 0 16px var(--c5);}
+.hn-tattoo{display:block;color:var(--c2);font-size:.45em;letter-spacing:.4em;text-shadow:0 0 16px var(--c2);}
+@keyframes shine{0%{background-position:0%}100%{background-position:200%}}
+
+.hero-sub{font-size:11px;letter-spacing:.4em;color:var(--muted);text-transform:uppercase;margin:12px 0 4px;}
+.hero-phrase{
+  font-size:14px;color:var(--c1);letter-spacing:.1em;
+  min-height:20px;text-shadow:0 0 12px var(--c1);
+  margin-bottom:32px;
+}
+
+/* SOCIAL GRID */
+.social-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:10px;width:100%;max-width:320px;margin:0 auto 32px;
+}
+.s-card{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:12px 8px;gap:6px;
+  background:rgba(0,229,255,.04);
+  border:1px solid var(--border);
+  border-radius:8px;
+  text-decoration:none;color:var(--text);
+  transition:all .25s;
+  cursor:pointer;
+}
+.s-card:hover,.s-card:active{border-color:var(--c1);background:rgba(0,229,255,.1);box-shadow:0 0 16px rgba(0,229,255,.15);}
+.s-card svg{width:24px;height:24px;}
+.s-card span{font-size:10px;letter-spacing:.1em;color:var(--muted);}
+.s-wa{border-color:rgba(37,211,102,.3);}.s-wa svg{color:#25D366;}.s-wa:hover{border-color:#25D366!important;box-shadow:0 0 16px rgba(37,211,102,.2)!important;}
+.s-ig{border-color:rgba(225,48,108,.3);}.s-ig svg{color:#E1306C;}.s-ig:hover{border-color:#E1306C!important;box-shadow:0 0 16px rgba(225,48,108,.2)!important;}
+.s-fb{border-color:rgba(24,119,242,.3);}.s-fb svg{color:#1877F2;}.s-fb:hover{border-color:#1877F2!important;}
+.s-tk{border-color:rgba(255,0,80,.3);}.s-tk svg{color:#ff0050;}.s-tk:hover{border-color:#ff0050!important;}
+.s-mp{border-color:rgba(234,67,53,.3);}.s-mp svg{color:#EA4335;}.s-mp:hover{border-color:#EA4335!important;}
+.s-bl{border-color:rgba(124,77,255,.3);}.s-bl svg{color:var(--c2);filter:drop-shadow(0 0 4px var(--c2));}.s-bl:hover{border-color:var(--c2)!important;box-shadow:0 0 16px rgba(124,77,255,.3)!important;}
+
+/* ── GALLERY ── */
+#gallery{padding:32px 16px;max-width:600px;margin:0 auto;width:100%;}
+.section-title{
+  font-family:'Orbitron',monospace;
+  font-size:13px;letter-spacing:.3em;color:var(--c1);
+  text-transform:uppercase;text-align:center;
+  margin-bottom:20px;
+  text-shadow:0 0 10px var(--c1);
+}
+.section-title::before,.section-title::after{content:'──';opacity:.4;margin:0 8px;}
+.gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.gal-card{
+  position:relative;aspect-ratio:1;
+  border:1px solid var(--border);border-radius:8px;
+  overflow:hidden;cursor:pointer;
+  background:rgba(0,229,255,.03);
+  transition:all .3s;
+}
+.gal-card:hover{border-color:var(--c1);box-shadow:0 0 20px rgba(0,229,255,.15);}
+.gal-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.gal-card:hover img{transform:scale(1.06);}
+.gal-card .gal-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(transparent 40%,rgba(0,0,0,.85));
+  display:flex;align-items:flex-end;padding:10px;
+}
+.gal-label{font-size:11px;letter-spacing:.1em;color:#fff;}
+.gal-card .gal-placeholder{
+  width:100%;height:100%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Orbitron',monospace;font-size:11px;
+  color:var(--muted);letter-spacing:.1em;
+  background:linear-gradient(135deg,rgba(0,229,255,.03),rgba(124,77,255,.03));
+}
+
+/* ── INFO CARDS ── */
+#info{padding:0 16px 32px;max-width:600px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:10px;}
+.info-card{
+  padding:14px 16px;
+  background:rgba(0,229,255,.03);
+  border:1px solid var(--border);
+  border-radius:8px;
+  cursor:pointer;
+  transition:all .25s;
+  display:flex;align-items:center;gap:12px;
+}
+.info-card:hover,.info-card:active{border-color:var(--c1);background:rgba(0,229,255,.07);}
+.info-icon{font-size:20px;flex-shrink:0;}
+.info-text{flex:1;}
+.info-title{font-family:'Orbitron',monospace;font-size:12px;letter-spacing:.15em;color:var(--c1);margin-bottom:2px;}
+.info-sub{font-size:11px;color:var(--muted);letter-spacing:.05em;}
+.info-arrow{color:var(--muted);font-size:16px;}
+
+/* ── BLACK LILY CTA ── */
+#lily-cta{
+  padding:32px 16px 48px;
+  max-width:600px;margin:0 auto;width:100%;
+  text-align:center;
+}
+.lily-btn{
+  display:flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;padding:18px;
+  background:linear-gradient(135deg,rgba(124,77,255,.15),rgba(0,229,255,.1));
+  border:1px solid var(--c2);
+  border-radius:12px;
+  cursor:pointer;
+  transition:all .3s;
+  text-decoration:none;
+}
+.lily-btn:hover,.lily-btn:active{
+  background:linear-gradient(135deg,rgba(124,77,255,.25),rgba(0,229,255,.2));
+  box-shadow:0 0 30px rgba(124,77,255,.3);
+  transform:translateY(-2px);
+}
+.lily-btn-icon{font-size:28px;filter:drop-shadow(0 0 8px var(--c2));}
+.lily-btn-text{text-align:left;}
+.lily-btn-title{font-family:'Orbitron',monospace;font-size:14px;letter-spacing:.15em;color:var(--c2);text-shadow:0 0 10px var(--c2);}
+.lily-btn-sub{font-size:11px;color:var(--muted);margin-top:2px;letter-spacing:.05em;}
+
+/* ── MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:100;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal-box{
+  width:100%;max-width:600px;max-height:90vh;
+  background:rgba(0,8,16,.97);
+  border:1px solid var(--border);
+  border-radius:20px 20px 0 0;
+  overflow:hidden;display:flex;flex-direction:column;
+  transform:translateY(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);
+}
+.modal-overlay.open .modal-box{transform:translateY(0);}
+.modal-handle{width:40px;height:4px;background:var(--muted);border-radius:2px;margin:12px auto 0;}
+.modal-head{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-family:'Orbitron',monospace;font-size:13px;letter-spacing:.2em;color:var(--c5);}
+.modal-close{background:rgba(255,255,255,.06);border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.modal-body{padding:20px;overflow-y:auto;flex:1;font-size:13px;line-height:1.8;color:#c8d8e0;}
+.modal-body strong{color:var(--c1);}
+.modal-body a{color:var(--c4);text-decoration:none;}
+.promo-tag{display:inline-block;background:rgba(255,215,64,.08);border:1px solid var(--c5);color:var(--c5);padding:3px 10px;font-size:10px;letter-spacing:.2em;border-radius:4px;margin:4px 2px;}
+
+/* ── CHAT MODAL ── */
+#chat-modal .modal-box{max-height:95vh;}
+#chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:200px;}
+#chat-msgs::-webkit-scrollbar{width:2px;}
+#chat-msgs::-webkit-scrollbar-thumb{background:var(--c2);}
+.cmsg{display:flex;gap:8px;animation:fadeup .25s ease;}
+@keyframes fadeup{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.cmsg.user{flex-direction:row-reverse;}
+.cav{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:9px;font-family:'Orbitron',monospace;font-weight:700;flex-shrink:0;border:1px solid;}
+.cmsg.user .cav{border-color:var(--c1);color:var(--c1);background:rgba(0,229,255,.08);}
+.cmsg.lily .cav{border-color:var(--c2);color:var(--c2);background:rgba(124,77,255,.08);}
+.cbub{max-width:78%;padding:9px 13px;font-size:13px;line-height:1.65;border-radius:8px;}
+.cmsg.user .cbub{background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.2);border-radius:8px 8px 0 8px;}
+.cmsg.lily .cbub{background:rgba(8,8,20,.9);border:1px solid rgba(124,77,255,.2);border-left:2px solid var(--c2);border-radius:8px 8px 8px 0;}
+.cmeta{font-size:9px;color:var(--muted);letter-spacing:.1em;margin-bottom:4px;}
+.tdots{display:flex;gap:3px;padding:3px 0;}
+.td{width:4px;height:4px;background:var(--c2);border-radius:50%;animation:td .9s ease-in-out infinite;}
+.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+@keyframes td{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-5px);opacity:1}}
+.chat-actions-row{display:flex;gap:8px;padding:8px 14px 0;}
+.chat-act{flex:1;padding:6px;background:rgba(124,77,255,.08);border:1px solid rgba(124,77,255,.2);color:var(--c2);font-family:'Exo 2',sans-serif;font-size:11px;letter-spacing:.1em;cursor:pointer;border-radius:6px;transition:all .2s;}
+.chat-act:hover{background:rgba(124,77,255,.15);}
+.chat-inp-wrap{padding:10px 14px 16px;border-top:1px solid var(--border);}
+.chat-inp-box{display:flex;align-items:flex-end;gap:8px;background:rgba(0,8,20,.9);border:1px solid rgba(124,77,255,.3);border-radius:10px;padding:10px 12px;transition:border-color .2s;}
+.chat-inp-box:focus-within{border-color:var(--c2);box-shadow:0 0 16px rgba(124,77,255,.12);}
+.chat-inp-box textarea{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'Exo 2',sans-serif;font-size:14px;resize:none;max-height:80px;min-height:22px;line-height:1.5;}
+.chat-inp-box textarea::placeholder{color:var(--muted);}
+.csend{width:36px;height:36px;background:var(--c2);border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
+.csend:hover{background:var(--c3);box-shadow:0 0 12px var(--c3);}
+.csend:active{transform:scale(.94);}
+</style>
+</head>
+<body>
+
+<canvas id="neural"></canvas>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="m-cuidados" onclick="closeModal(this)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><div class="modal-title">📋 Cuidados Post-Tatuaje</div><button class="modal-close" onclick="closeModal(document.getElementById('m-cuidados'))">✕</button></div>
+    <div class="modal-body">
+      <strong>Primeras 24 horas</strong><br>
+      ✦ Mantén el vendaje mínimo 3 horas<br>
+      ✦ Lava suavemente con jabón neutro<br>
+      ✦ Seca con palmaditas suaves, nunca frotar<br><br>
+      <strong>Primera semana</strong><br>
+      ✦ Aplica crema sin fragancia 2-3 veces al día<br>
+      ✦ Evita el sol directo y albercas<br>
+      ✦ No rasques aunque pique<br><br>
+      <strong>Primer mes</strong><br>
+      ✦ Protector solar SPF 50+ al exponerte<br>
+      ✦ Hidrata diariamente<br>
+      ✦ Consulta a Baxto si notas algo inusual<br><br>
+      <a href="https://wa.me/529842562365">💬 ¿Dudas? Escríbenos al WhatsApp →</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-precios" onclick="closeModal(this)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><div class="modal-title">💰 Precios y Promociones</div><button class="modal-close" onclick="closeModal(document.getElementById('m-precios'))">✕</button></div>
+    <div class="modal-body">
+      <span class="promo-tag">🔥 PROMO BLACK LILY</span><br><br>
+      <strong>Reserva por Black Lily IA y obtén:</strong><br>
+      ✦ 10% descuento en tu primer tatuaje<br>
+      ✦ Consulta de diseño gratuita<br>
+      ✦ Touch-up gratuito al mes<br><br>
+      <strong>Precios desde:</strong><br>
+      ✦ Diseños pequeños: desde $500 MXN<br>
+      ✦ Medianos: desde $1,200 MXN<br>
+      ✦ Grandes / sleeve: cotización especial<br><br>
+      <em style="color:var(--muted);font-size:11px;">* Precios finales según diseño y tamaño</em><br><br>
+      <a href="https://wa.me/529842562365?text=Hola%20Baxto!%20Vi%20la%20promo%20de%20Black%20Lily%20y%20quiero%20reservar">💬 Reservar con descuento →</a>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="m-politicas" onclick="closeModal(this)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-head"><div class="modal-title">📜 Políticas y Pagos</div><button class="modal-close" onclick="closeModal(document.getElementById('m-politicas'))">✕</button></div>
+    <div class="modal-body">
+      <strong>Formas de pago:</strong><br>
+      ✦ Efectivo MXN y USD<br>
+      ✦ Transferencia bancaria<br>
+      ✦ Tarjeta débito/crédito<br><br>
+      <strong>Políticas:</strong><br>
+      ✦ Depósito del 30% para apartar cita<br>
+      ✦ Cancelaciones con 24h de anticipación<br>
+      ✦ Mayores de 18 años (ID requerida)<br>
+      ✦ No se tatúa bajo efectos de alcohol<br><br>
+      <strong style="color:var(--c5)">📍 Ubicación:</strong><br>
+      Villas del Sol, Playa del Carmen, QRoo<br>
+      📱 +52 984 256 2365
+    </div>
+  </div>
+</div>
+
+<!-- CHAT MODAL -->
+<div class="modal-overlay" id="chat-modal" onclick="closeModal(this)">
+  <div class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title">🖤 Black Lily ⚜️ — IA</div>
+      <button class="modal-close" onclick="closeModal(document.getElementById('chat-modal'))">✕</button>
+    </div>
+    <div class="chat-actions-row">
+      <button class="chat-act" onclick="newChat()">＋ Nuevo</button>
+      <button class="chat-act" onclick="clearChat()">🗑 Borrar</button>
+    </div>
+    <div id="chat-msgs">
+      <div class="cmsg lily">
+        <div class="cav">BL</div>
+        <div class="cbub">Hola 🖤 Soy Black Lily, asistente de Baxto Style Tattoo. Mi creador es Baxto, maestro del tatuaje en Playa del Carmen. ¿En qué te puedo ayudar?</div>
+      </div>
+    </div>
+    <div class="chat-inp-wrap">
+      <div class="chat-inp-box">
+        <textarea id="cinp" placeholder="Escribe aquí..." rows="1"></textarea>
+        <button class="csend" onclick="sendChat()">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7L13 1L7 13L6.5 7.5L1 7Z" fill="white"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div id="main">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="logo-container">
+      <div class="logo-ping"></div>
+      <div class="logo-ping2"></div>
+      <div class="logo-hex"></div>
+      <div class="logo-hex-inner">
+        <div class="logo-fallback">BST</div>
+      </div>
+    </div>
+
+    <div class="hero-name">
+      <span class="hn-baxto" id="t1"></span>
+      <span class="hn-style" id="t2"></span>
+      <span class="hn-tattoo" id="t3"></span>
+    </div>
+
+    <div class="hero-sub">Playa del Carmen · Quintana Roo · México</div>
+    <div class="hero-phrase" id="phrase"></div>
+
+    <!-- SOCIAL GRID -->
+    <div class="social-grid">
+      <a class="s-card s-wa" href="https://wa.me/5219842562365" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>WhatsApp</span>
+      </a>
+      <a class="s-card s-ig" href="https://www.instagram.com/baxto.tattooist?igsh=eXk5anRob3Q3dHVx" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <span>Instagram</span>
+      </a>
+      <a class="s-card s-fb" href="https://www.facebook.com/share/18QE2k44rP/" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        <span>Facebook</span>
+      </a>
+      <a class="s-card s-tk" href="https://tiktok.com/@baxtostyletattoo" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+        <span>TikTok</span>
+      </a>
+      <a class="s-card s-mp" href="https://maps.app.goo.gl/p165HXNeh4p7GbuA8" target="_blank">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span>Maps</span>
+      </a>
+      <div class="s-card s-bl" onclick="openChat()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
+        <span>Black Lily</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="section-title">Portafolio</div>
+    <div class="gal-grid">
+      <div class="gal-card">
+        <img src="https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?w=400&q=80" alt="Retrato" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>RETRATO<br>REALISTA</div><div class=gal-overlay><span class=gal-label>Retrato Realista</span></div>'">
+        <div class="gal-overlay"><span class="gal-label">Retrato Realista</span></div>
+      </div>
+      <div class="gal-card">
+        <img src="https://images.unsplash.com/photo-1590246814883-57c511e4f893?w=400&q=80" alt="Neo" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>NEO<br>TRADICIONAL</div><div class=gal-overlay><span class=gal-label>Neo Tradicional</span></div>'">
+        <div class="gal-overlay"><span class="gal-label">Neo Tradicional</span></div>
+      </div>
+      <div class="gal-card">
+        <img src="https://images.unsplash.com/photo-1611501275019-9b5cda994e8d?w=400&q=80" alt="Black" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>BLACKWORK</div><div class=gal-overlay><span class=gal-label>Blackwork</span></div>'">
+        <div class="gal-overlay"><span class="gal-label">Blackwork</span></div>
+      </div>
+      <div class="gal-card">
+        <img src="https://images.unsplash.com/photo-1568515387631-8b650bbcdb90?w=400&q=80" alt="Color" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>COLOR<br>REALISTA</div><div class=gal-overlay><span class=gal-label>Color Realista</span></div>'">
+        <div class="gal-overlay"><span class="gal-label">Color Realista</span></div>
+      </div>
+      <div class="gal-card">
+        <img src="https://images.unsplash.com/photo-1542727313-4f3e99aa2568?w=400&q=80" alt="Fino" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>LÍNEA<br>FINA</div><div class=gal-overlay><span class=gal-label>Línea Fina</span></div>'">
+        <div class="gal-overlay"><span class="gal-label">Línea Fina</span></div>
+      </div>
+      <div class="gal-card">
+        <img src="https://images.unsplash.com/photo-1590246815117-f4c3e6e80b4a?w=400&q=80" alt="Abs" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>ABSTRACTO</div><div class=gal-overlay><span class=gal-label>Abstracto</span></div>'">
+        <div class="gal-overlay"><span class="gal-label">Abstracto</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFO CARDS -->
+  <section id="info">
+    <div class="info-card" onclick="openModal('m-cuidados')">
+      <div class="info-icon">📋</div>
+      <div class="info-text">
+        <div class="info-title">Cuidados Post-Tatuaje</div>
+        <div class="info-sub">Guía completa para tu nuevo tatuaje</div>
+      </div>
+      <div class="info-arrow">›</div>
+    </div>
+    <div class="info-card" onclick="openModal('m-precios')">
+      <div class="info-icon">🔥</div>
+      <div class="info-text">
+        <div class="info-title">Precios y Promociones</div>
+        <div class="info-sub">10% descuento reservando por Black Lily</div>
+      </div>
+      <div class="info-arrow">›</div>
+    </div>
+    <div class="info-card" onclick="openModal('m-politicas')">
+      <div class="info-icon">📜</div>
+      <div class="info-text">
+        <div class="info-title">Políticas y Formas de Pago</div>
+        <div class="info-sub">Efectivo, transferencia y tarjeta</div>
+      </div>
+      <div class="info-arrow">›</div>
+    </div>
+  </section>
+
+  <!-- BLACK LILY CTA -->
+  <section id="lily-cta">
+    <div class="section-title">Asistente IA</div>
+    <div class="lily-btn" onclick="openChat()">
+      <div class="lily-btn-icon">🖤</div>
+      <div class="lily-btn-text">
+        <div class="lily-btn-title">Hablar con Black Lily ⚜️</div>
+        <div class="lily-btn-sub">IA disponible 24/7 · Respuestas instantáneas</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+// SCROLL REVEAL
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      e.target.style.opacity='1';
+      e.target.style.transform='translateY(0)';
+    }
+  });
+}, {threshold:0.15});
+document.querySelectorAll('.gal-card,.info-card,.lily-btn').forEach(el => {
+  el.style.opacity='0';
+  el.style.transform='translateY(28px)';
+  el.style.transition='opacity .5s ease, transform .5s ease';
+  observer.observe(el);
+});
+
+// FLOATING SOCIAL CARDS
+document.querySelectorAll('.s-card').forEach((el,i) => {
+  el.style.animation = `float-card ${2.5+i*.3}s ease-in-out infinite`;
+  el.style.animationDelay = `${i*.2}s`;
+});
+
+// ADD FLOAT KEYFRAME
+const floatStyle = document.createElement('style');
+floatStyle.textContent = `
+@keyframes float-card {
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+.gal-card{transition:border-color .3s,box-shadow .3s,transform .3s!important;}
+.gal-card:hover{transform:translateY(-4px) scale(1.02)!important;}
+.lily-btn{position:relative;overflow:hidden;}
+.lily-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);transform:translateX(-100%);animation:lily-shine 3s ease-in-out infinite;}
+@keyframes lily-shine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+.info-card{transition:all .25s,transform .25s!important;}
+.info-card:hover{transform:translateX(4px)!important;}
+`;
+document.head.appendChild(floatStyle);
+
+// NEURAL NETWORK BG
+const cv = document.getElementById('neural');
+const cx = cv.getContext('2d');
+let W = cv.width = innerWidth, H = cv.height = innerHeight;
+
+const nodes = Array.from({length:60}, () => ({
+  x: Math.random()*W, y: Math.random()*H,
+  vx: (Math.random()-.5)*.4, vy: (Math.random()-.5)*.4,
+  r: Math.random()*2+.5,
+  c: ['#00e5ff','#7c4dff','#ff1744','#00e676','#ffd740'][Math.floor(Math.random()*5)],
+  o: Math.random()*.5+.2
+}));
+
+function drawNeural() {
+  cx.clearRect(0,0,W,H);
+  nodes.forEach(n => {
+    n.x+=n.vx; n.y+=n.vy;
+    if(n.x<0)n.x=W; if(n.x>W)n.x=0;
+    if(n.y<0)n.y=H; if(n.y>H)n.y=0;
+    cx.beginPath(); cx.arc(n.x,n.y,n.r,0,Math.PI*2);
+    cx.fillStyle=n.c+Math.floor(n.o*255).toString(16).padStart(2,'0');
+    cx.fill();
+  });
+  for(let i=0;i<nodes.length;i++) {
+    for(let j=i+1;j<nodes.length;j++) {
+      const dx=nodes[i].x-nodes[j].x, dy=nodes[i].y-nodes[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<100) {
+        cx.beginPath();cx.moveTo(nodes[i].x,nodes[i].y);cx.lineTo(nodes[j].x,nodes[j].y);
+        cx.strokeStyle=`rgba(0,229,255,${.06*(1-d/100)})`;cx.lineWidth=.5;cx.stroke();
+      }
+    }
+  }
+  requestAnimationFrame(drawNeural);
+}
+drawNeural();
+window.addEventListener('resize',()=>{W=cv.width=innerWidth;H=cv.height=innerHeight;});
+
+// TYPEWRITER
+function animTitle() {
+  const e1=document.getElementById('t1'),e2=document.getElementById('t2'),e3=document.getElementById('t3');
+  let i=0;
+  const t1=setInterval(()=>{e1.textContent='BAXTO'.slice(0,++i);if(i>=5){clearInterval(t1);let j=0;const t2i=setInterval(()=>{e2.textContent='STYLE'.slice(0,++j);if(j>=5){clearInterval(t2i);let k=0;const t3i=setInterval(()=>{e3.textContent='TATTOO'.slice(0,++k);if(k>=6){clearInterval(t3i);startPhrases();}},80);}},80);}},120);
+}
+setTimeout(animTitle,400);
+
+const PH=['Arte en tu piel para siempre.','Cada tatuaje cuenta tu historia.','Diseños únicos, sin repetición.','Tu visión, nuestro arte.','Playa del Carmen te espera 🌴'];
+let pi=0,ci=0,del=false;
+function startPhrases(){typeNext();}
+function typeNext(){
+  const el=document.getElementById('phrase'),cur=PH[pi];
+  if(!del){el.textContent=cur.slice(0,++ci);if(ci>=cur.length){del=true;setTimeout(typeNext,2500);return;}}
+  else{el.textContent=cur.slice(0,--ci);if(ci===0){del=false;pi=(pi+1)%PH.length;}}
+  setTimeout(typeNext,del?40:80);
+}
+
+// MODALS
+function openModal(id) {
+  document.getElementById(id).classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(el) {
+  el.classList.remove('open');
+  document.body.style.overflow='';
+}
+function openChat() {
+  openModal('chat-modal');
+  setTimeout(()=>document.getElementById('cinp').focus(),400);
+}
+
+// CHAT
+const API='https://black-lily-elite.cherry-v1pro.workers.dev/chat';
+let busy=false;
+const cinp=document.getElementById('cinp');
+const msgs=document.getElementById('chat-msgs');
+
+cinp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}});
+cinp.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px';});
+
+function addMsg(txt,type,meta){
+  const d=document.createElement('div');d.className='cmsg '+type;
+  d.innerHTML=`<div class="cav">${type==='user'?'TÚ':'BL'}</div><div class="cbub">${meta?`<div class="cmeta">${meta.modelo||meta.model||''}</div>`:''}${txt.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+function addTyping(){
+  const d=document.createElement('div');d.className='cmsg lily';d.id='tbl';
+  d.innerHTML='<div class="cav">BL</div><div class="cbub"><div class="tdots"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>';
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
+}
+window.sendChat=async function(){
+  const t=cinp.value.trim();if(!t||busy)return;
+  busy=true;cinp.value='';cinp.style.height='auto';
+  addMsg(t,'user');addTyping();
+  try{
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,customerId:'web-'+Date.now(),channel:'web'})});
+    const data=await r.json();
+    document.getElementById('tbl')?.remove();
+    addMsg(data.reply||data.respuesta||'Sin respuesta','lily',data);
+  }catch(e){document.getElementById('tbl')?.remove();addMsg('Error de conexión. Intenta de nuevo.','lily');}
+  busy=false;
+};
+window.newChat=function(){msgs.innerHTML='';addMsg('Chat nuevo iniciado. Hola 🖤 Soy Black Lily. ¿En qué te ayudo?','lily');};
+window.clearChat=function(){if(confirm('¿Borrar conversación?')){msgs.innerHTML='';addMsg('Listo. Estoy aquí para ayudarte. 🖤','lily');}};
+</script>
+</body>
+</html>
