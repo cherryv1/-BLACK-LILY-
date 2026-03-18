@@ -13,31 +13,24 @@ export default {
         const message = body.message || "";
         const t0 = Date.now();
         let reply = null, model = null;
-
         reply = await callGroq(message, env.GROQ_API_KEY);
         if (reply) model = "Groq Llama 3.3 70B";
         if (!reply) { reply = await callCerebras(message, env.CEREBRAS_API_KEY); if (reply) model = "Cerebras"; }
-
-        return new Response(JSON.stringify({
-          reply: reply || "Error", respuesta: reply || "Error",
-          model, modelo: model, latencia_ms: Date.now()-t0
-        }), {headers:{...CORS,"Content-Type":"application/json"}});
+        return new Response(JSON.stringify({reply: reply||"Error", respuesta: reply||"Error", model, modelo: model, latencia_ms: Date.now()-t0}), {headers:{...CORS,"Content-Type":"application/json"}});
       } catch(e) {
         return new Response(JSON.stringify({reply:"Error", respuesta:"Error"}), {headers:{...CORS,"Content-Type":"application/json"}});
       }
     }
 
-    return Response.redirect("https://cdn.jsdelivr.net/gh/cherryv1/-BLACK-LILY-@main/public/index.html", 302);
+    const html = await fetch("https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/index.html");
+    const content = await html.text();
+    return new Response(content, {headers:{"Content-Type":"text/html;charset=utf-8","Cache-Control":"no-store"}});
   }
 };
 
 async function callGroq(message, apiKey) {
   try {
-    const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method:"POST",
-      headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},
-      body:JSON.stringify({model:"llama-3.3-70b-versatile",messages:[{role:"system",content:SYSTEM},{role:"user",content:message}]})
-    });
+    const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},body:JSON.stringify({model:"llama-3.3-70b-versatile",messages:[{role:"system",content:SYSTEM},{role:"user",content:message}]})});
     const d = await r.json();
     return d.choices?.[0]?.message?.content;
   } catch(e) { return null; }
@@ -45,11 +38,7 @@ async function callGroq(message, apiKey) {
 
 async function callCerebras(message, apiKey) {
   try {
-    const r = await fetch("https://api.cerebras.ai/v1/chat/completions", {
-      method:"POST",
-      headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},
-      body:JSON.stringify({model:"llama-3.3-70b",messages:[{role:"system",content:SYSTEM},{role:"user",content:message}]})
-    });
+    const r = await fetch("https://api.cerebras.ai/v1/chat/completions", {method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},body:JSON.stringify({model:"llama-3.3-70b",messages:[{role:"system",content:SYSTEM},{role:"user",content:message}]})});
     const d = await r.json();
     return d.choices?.[0]?.message?.content;
   } catch(e) { return null; }
