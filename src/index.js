@@ -562,8 +562,8 @@ document.querySelectorAll('.gal-card,.info-card,.lily-btn').forEach(el => {
 
 // FLOATING SOCIAL CARDS
 document.querySelectorAll('.s-card').forEach((el,i) => {
-  el.style.animation = \`float-card ${2.5+i*.3}s ease-in-out infinite\`;
-  el.style.animationDelay = \`${i*.2}s\`;
+  el.style.animation = \`float-card \${2.5+i*.3}s ease-in-out infinite\`;
+  el.style.animationDelay = \`\${i*.2}s\`;
 });
 
 // ADD FLOAT KEYFRAME
@@ -612,7 +612,7 @@ function drawNeural() {
       const d=Math.sqrt(dx*dx+dy*dy);
       if(d<100) {
         cx.beginPath();cx.moveTo(nodes[i].x,nodes[i].y);cx.lineTo(nodes[j].x,nodes[j].y);
-        cx.strokeStyle=\`rgba(0,229,255,${.06*(1-d/100)})\`;cx.lineWidth=.5;cx.stroke();
+        cx.strokeStyle=\`rgba(0,229,255,\${.06*(1-d/100)})\`;cx.lineWidth=.5;cx.stroke();
       }
     }
   }
@@ -664,7 +664,7 @@ cinp.addEventListener('input',function(){this.style.height='auto';this.style.hei
 
 function addMsg(txt,type,meta){
   const d=document.createElement('div');d.className='cmsg '+type;
-  d.innerHTML=\`<div class="cav">${type==='user'?'TÚ':'BL'}</div><div class="cbub">${meta?\`<div class="cmeta">${meta.modelo||meta.model||''}</div>\`:''}${txt.replace(/\\n/g,'<br>').replace(/\\*\\*(.*?)\\*\\*/g,'<strong>$1</strong>')}</div>\`;
+  d.innerHTML=\`<div class="cav">\${type==='user'?'TÚ':'BL'}</div><div class="cbub">\${meta?\`<div class="cmeta">\${meta.modelo||meta.model||''}</div>\`:''}\${txt.replace(/\\n/g,'<br>').replace(/\\*\\*(.*?)\\*\\*/g,'<strong>$1</strong>')}</div>\`;
   msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
 }
 function addTyping(){
