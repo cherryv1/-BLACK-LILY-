@@ -62,9 +62,7 @@ router.post('/webhook/:channel', async (request, env) => {
     const res = await processMessage(env, msg.from, msg.text.body, channel);
     console.log(`Respuesta enviada a \${channel}: \${res.reply}`);
   }
-  const html = await fetch("https://cdn.jsdelivr.net/gh/cherryv1/-BLACK-LILY-@main/public/index.html");
-    const content = await html.text();
-    return new Response(content, {headers:{"Content-Type":"text/html;charset=utf-8","Cache-Control":"no-cache"}});
+  return Response.redirect("https://cdn.jsdelivr.net/gh/cherryv1/-BLACK-LILY-@main/public/index.html", 302);
 });
 
 router.post('/chat', async (request, env) => {
