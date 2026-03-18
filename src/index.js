@@ -1,74 +1,56 @@
-import { Router } from 'itty-router';
+const SYSTEM = `Eres Black Lily, asistente de Baxto Style Tattoo. REGLAS: Responde SOLO en espanol. Maximo 3 oraciones. Para tatuajes o citas dirigelos al WhatsApp +52 984 256 2365. Nunca inventes. Ubicacion: Villas del Sol, Playa del Carmen QRoo. Instagram: instagram.com/baxto.tattooist`;
 
-const SYSTEM_PROMPT = `Eres Black Lily, asistente de Baxto Style Tattoo. REGLAS: Responde SOLO en espanol. Maximo 3 oraciones. Para tatuajes o citas dirigelos al WhatsApp +52 984 256 2365. Nunca inventes. Ubicacion: Villas del Sol, Playa del Carmen QRoo. Instagram: instagram.com/baxto.tattooist`;
+const CORS = {"Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"GET,POST,OPTIONS","Access-Control-Allow-Headers":"Content-Type"};
 
-const router = Router();
+export default {
+  async fetch(request, env) {
+    const url = new URL(request.url);
+    if (request.method === "OPTIONS") return new Response(null, {headers:CORS});
 
-// --- Pool de Modelos con Fallback ---
-async function callAI(message, env, intent) {
-  const pool = [];
-  if (intent.includes("vision")) pool.push({ name: "Gemini", call: () => fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=\${env.GEMINI_API_KEY}`, {method:"POST",body:JSON.stringify({contents:[{parts:[{text: SYSTEM_PROMPT + "\\n\\nUsuario: " + message}]}]})}).then(r => r.json()).then(d => d.candidates?.[0]?.content?.parts?.[0]?.text) });
-  pool.push({ name: "Groq", call: () => fetch("https://api.groq.com/openai/v1/chat/completions", {method:"POST",headers:{"Authorization":"Bearer "+env.GROQ_API_KEY,"Content-Type":"application/json"},body:JSON.stringify({model:"llama-3.3-70b-versatile",messages:[{role:"system",content:SYSTEM_PROMPT},{role:"user",content:message}]})}).then(r => r.json()).then(d => d.choices?.[0]?.message?.content) });
-  pool.push({ name: "Cloudflare", call: () => env.AI.run('@cf/meta/llama-3-8b-instruct', {messages:[{role:'system',content:SYSTEM_PROMPT},{role:'user',content:message}]}).then(r => r.response) });
+    if (url.pathname === "/chat" && request.method === "POST") {
+      try {
+        const body = await request.json();
+        const message = body.message || "";
+        const t0 = Date.now();
+        let reply = null, model = null;
 
-  for (const ai of pool) {
-    try {
-      const res = await ai.call();
-      if (res && res.length > 5) return { reply: res, model: ai.name };
-    } catch(e) { continue; }
+        reply = await callGroq(message, env.GROQ_API_KEY);
+        if (reply) model = "Groq Llama 3.3 70B";
+        if (!reply) { reply = await callCerebras(message, env.CEREBRAS_API_KEY); if (reply) model = "Cerebras"; }
+
+        return new Response(JSON.stringify({
+          reply: reply || "Error", respuesta: reply || "Error",
+          model, modelo: model, latencia_ms: Date.now()-t0
+        }), {headers:{...CORS,"Content-Type":"application/json"}});
+      } catch(e) {
+        return new Response(JSON.stringify({reply:"Error", respuesta:"Error"}), {headers:{...CORS,"Content-Type":"application/json"}});
+      }
+    }
+
+    return Response.redirect("https://cdn.jsdelivr.net/gh/cherryv1/-BLACK-LILY-@main/public/index.html", 302);
   }
-  return { reply: "Sistemas saturados. Contacta al WhatsApp.", model: "Fallback" };
+};
+
+async function callGroq(message, apiKey) {
+  try {
+    const r = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},
+      body:JSON.stringify({model:"llama-3.3-70b-versatile",messages:[{role:"system",content:SYSTEM},{role:"user",content:message}]})
+    });
+    const d = await r.json();
+    return d.choices?.[0]?.message?.content;
+  } catch(e) { return null; }
 }
 
-// --- Lógica de Memoria (D1) ---
-async function getCustomer(env, id) {
-  return await env.DB.prepare("SELECT * FROM customers WHERE customer_id = ?").bind(id).first() || null;
+async function callCerebras(message, apiKey) {
+  try {
+    const r = await fetch("https://api.cerebras.ai/v1/chat/completions", {
+      method:"POST",
+      headers:{"Content-Type":"application/json","Authorization":"Bearer "+apiKey},
+      body:JSON.stringify({model:"llama-3.3-70b",messages:[{role:"system",content:SYSTEM},{role:"user",content:message}]})
+    });
+    const d = await r.json();
+    return d.choices?.[0]?.message?.content;
+  } catch(e) { return null; }
 }
-
-async function saveCustomer(env, id, name) {
-  await env.DB.prepare("INSERT OR IGNORE INTO customers (customer_id, name, last_contact, status) VALUES (?, ?, ?, ?)").bind(id, name, Math.floor(Date.now()/1000), 'nuevo').run();
-}
-
-// --- Procesador Central ---
-async function processMessage(env, customerId, message, channel) {
-  const session = await env.SESSIONS.get(customerId, {type: 'json'}) || { step: 'inicio' };
-  const customer = await getCustomer(env, customerId);
-  if (!customer) await saveCustomer(env, customerId, "Cliente " + channel);
-
-  // Clasificar Intención
-  const classification = await env.AI.run('@cf/meta/llama-3-8b-instruct', {
-    messages: [{ role: 'system', content: 'Clasifica en una palabra: "cita", "vision", o "general".' }, { role: 'user', content: message }]
-  });
-  const intent = classification.response.toLowerCase();
-
-  let response;
-  if (intent.includes("cita")) {
-    response = { reply: "¡Claro! Para agendar, dime qué diseño tienes en mente y qué día te gustaría venir. 🖤", model: "Logic-Cita" };
-    session.step = 'agendando';
-  } else {
-    response = await callAI(message, env, intent);
-  }
-
-  await env.SESSIONS.put(customerId, JSON.stringify(session), {expirationTtl: 3600});
-  return response;
-}
-
-// --- Rutas Webhooks ---
-router.post('/webhook/:channel', async (request, env) => {
-  const { channel } = request.params;
-  const body = await request.json();
-  const msg = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
-  if (msg) {
-    const res = await processMessage(env, msg.from, msg.text.body, channel);
-    console.log(`Respuesta enviada a \${channel}: \${res.reply}`);
-  }
-  return Response.redirect("https://cdn.jsdelivr.net/gh/cherryv1/-BLACK-LILY-@main/public/index.html", 302);
-});
-
-router.post('/chat', async (request, env) => {
-  const { message } = await request.json();
-  const res = await processMessage(env, "web-user", message, "web");
-  return new Response(JSON.stringify(res), {headers:{"Content-Type":"application/json","Access-Control-Allow-Origin":"*"}});
-});
-
-export default { fetch: (req, env) => router.handle(req, env) };
