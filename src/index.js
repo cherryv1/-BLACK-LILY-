@@ -384,7 +384,8 @@ export default {
       // ── Chat con memoria ──────────────────────────────────────────────────────
       if (path === '/api/chat' && method === 'POST') {
         const body = await request.json();
-        const { message, customer_id } = body;
+        const { message, customer_id: cid_snake, customerId: cid_camel } = body;
+        const customer_id = cid_snake || cid_camel;
 
         if (!message) return json({ error: 'message requerido' }, 400);
 
