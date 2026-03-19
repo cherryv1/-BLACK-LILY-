@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLACK LILY — Dashboard</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #080808;
+    --surface: #111;
+    --border: #1e1e1e;
+    --border-hover: #e11d48;
+    --red: #e11d48;
+    --text: #f0f0f0;
+    --muted: #444;
+    --green: #22c55e;
+    --amber: #f59e0b;
+    --purple: #a855f7;
+    --blue: #3b82f6;
+  }
+  body { background: var(--bg); color: var(--text); font-family: 'Courier New', monospace; min-height: 100vh; }
+
+  /* Layout */
+  .header { padding: 20px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+  .logo-title { font-size: 22px; font-weight: 900; letter-spacing: -1px; }
+  .logo-sub { color: #2a2a2a; font-size: 10px; letter-spacing: 4px; margin-top: 2px; }
+  .main { padding: 24px 28px; max-width: 900px; }
+
+  /* Botones */
+  .btn { border: none; border-radius: 8px; padding: 9px 18px; font-family: monospace; font-weight: 700; cursor: pointer; font-size: 13px; transition: opacity .2s; }
+  .btn:hover { opacity: .85; }
+  .btn-red { background: var(--red); color: #fff; }
+  .btn-ghost { background: #1a1a1a; border: 1px solid var(--border); color: var(--muted); }
+  .btn-sm { padding: 5px 10px; font-size: 11px; }
+
+  /* Stats */
+  .stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .stat { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px 20px; flex: 1; min-width: 120px; }
+  .stat-label { color: var(--muted); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .stat-value { font-size: 28px; font-weight: 900; }
+
+  /* Search */
+  .search-bar { width: 100%; max-width: 480px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 9px 14px; color: var(--text); font-family: monospace; font-size: 13px; margin-bottom: 20px; }
+  .search-bar:focus { outline: none; border-color: var(--red); }
+
+  /* Lista clientes */
+  .customer-list { display: flex; flex-direction: column; gap: 8px; }
+  .customer-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 18px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: border-color .2s; }
+  .customer-card:hover { border-color: var(--red); }
+  .avatar { width: 38px; height: 38px; background: #1a1a1a; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; flex-shrink: 0; color: var(--red); border: 1px solid #222; }
+  .customer-info { flex: 1; min-width: 0; }
+  .customer-name { font-weight: 700; font-size: 14px; }
+  .customer-meta { color: var(--muted); font-size: 11px; margin-top: 2px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .customer-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+  .time-ago { color: #2e2e2e; font-size: 11px; }
+
+  /* Badge */
+  .badge { padding: 2px 9px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+
+  /* Detail view */
+  .detail-header { padding: 18px 28px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 14px; }
+  .detail-name { font-size: 18px; font-weight: 900; }
+  .detail-sub { color: var(--muted); font-size: 11px; margin-top: 3px; }
+  .tabs { display: flex; border-bottom: 1px solid var(--border); padding: 0 28px; }
+  .tab { background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); padding: 11px 18px; cursor: pointer; font-family: monospace; font-weight: 700; font-size: 12px; letter-spacing: 1px; transition: color .2s, border-color .2s; }
+  .tab.active { color: var(--text); border-bottom-color: var(--red); }
+  .tab-content { padding: 24px 28px; display: none; }
+  .tab-content.active { display: block; }
+
+  /* Info cards */
+  .info-grid { display: grid; gap: 12px; max-width: 480px; }
+  .info-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; }
+  .info-label { color: var(--muted); font-size: 10px; letter-spacing: 2px; margin-bottom: 5px; }
+  .info-value { font-size: 14px; line-height: 1.5; }
+
+  /* Form */
+  .form-group { margin-bottom: 14px; }
+  .form-label { color: var(--muted); font-size: 11px; display: block; margin-bottom: 5px; letter-spacing: 1px; }
+  .form-input { width: 100%; background: #1a1a1a; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; color: var(--text); font-family: monospace; font-size: 13px; }
+  .form-input:focus { outline: none; border-color: var(--red); }
+  select.form-input option { background: #1a1a1a; }
+
+  /* Appointments */
+  .appt-form { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 18px; margin-bottom: 20px; max-width: 540px; }
+  .appt-form-title { color: var(--muted); font-size: 10px; letter-spacing: 3px; margin-bottom: 14px; }
+  .appt-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; max-width: 540px; }
+  .appt-service { font-weight: 700; font-size: 14px; }
+  .appt-meta { color: var(--muted); font-size: 11px; margin-top: 3px; }
+
+  /* Chat */
+  .chat-wrap { display: flex; flex-direction: column; height: 480px; max-width: 600px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+  .chat-header { padding: 10px 14px; border-bottom: 1px solid var(--border); color: var(--muted); font-size: 11px; letter-spacing: 1px; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
+  .chat-messages::-webkit-scrollbar { width: 4px; }
+  .chat-messages::-webkit-scrollbar-thumb { background: #222; border-radius: 2px; }
+  .msg { max-width: 80%; padding: 9px 13px; border-radius: 12px; font-size: 13px; line-height: 1.5; white-space: pre-wrap; word-break: break-word; }
+  .msg-user { background: var(--red); color: #fff; align-self: flex-end; border-radius: 12px 12px 3px 12px; }
+  .msg-assistant { background: #181818; border: 1px solid var(--border); color: var(--text); align-self: flex-start; border-radius: 12px 12px 12px 3px; }
+  .msg-typing { color: #333; font-size: 12px; align-self: flex-start; }
+  .chat-input-row { padding: 10px; border-top: 1px solid var(--border); display: flex; gap: 8px; }
+  .chat-input { flex: 1; background: #1a1a1a; border: 1px solid var(--border); border-radius: 8px; padding: 8px 12px; color: var(--text); font-family: monospace; font-size: 13px; }
+  .chat-input:focus { outline: none; border-color: var(--red); }
+
+  /* Modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.85); display: flex; align-items: center; justify-content: center; z-index: 200; }
+  .modal { background: #111; border: 1px solid #2a2a2a; border-radius: 14px; padding: 28px; width: 380px; max-width: 95vw; }
+  .modal-title { font-size: 18px; font-weight: 900; margin-bottom: 22px; }
+  .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+  /* Empty / loading */
+  .empty { color: #2a2a2a; text-align: center; padding: 50px 20px; font-size: 14px; }
+
+  /* Views */
+  #view-list { display: block; }
+  #view-detail { display: none; }
+</style>
+</head>
+<body>
+
+<!-- ═══ VISTA LISTA ═══════════════════════════════════════════════════════ -->
+<div id="view-list">
+  <div class="header">
+    <div>
+      <div class="logo-title">🖤 BLACK LILY</div>
+      <div class="logo-sub">BAXTO STYLE TATTOO · MEMORIA ACTIVA</div>
+    </div>
+    <button class="btn btn-red" onclick="openNewModal()">+ Cliente</button>
+  </div>
+
+  <div class="main">
+    <div class="stats">
+      <div class="stat"><div class="stat-label">Clientes</div><div class="stat-value" id="stat-total">—</div></div>
+      <div class="stat"><div class="stat-label">Activos</div><div class="stat-value" style="color:var(--green)" id="stat-activos">—</div></div>
+      <div class="stat"><div class="stat-label">VIP</div><div class="stat-value" style="color:var(--purple)" id="stat-vip">—</div></div>
+      <div class="stat"><div class="stat-label">Leads</div><div class="stat-value" style="color:var(--amber)" id="stat-leads">—</div></div>
+    </div>
+
+    <input class="search-bar" type="text" placeholder="Buscar nombre, teléfono o instagram..." oninput="filterCustomers(this.value)" />
+
+    <div id="customer-list" class="customer-list">
+      <div class="empty">Cargando memoria...</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ VISTA DETALLE ════════════════════════════════════════════════════ -->
+<div id="view-detail">
+  <div class="detail-header">
+    <button class="btn btn-ghost btn-sm" onclick="showList()">← Volver</button>
+    <div style="flex:1">
+      <div class="detail-name" id="detail-name"></div>
+      <div class="detail-sub" id="detail-sub"></div>
+    </div>
+    <span id="detail-badge"></span>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('info')">INFO</button>
+    <button class="tab" onclick="switchTab('citas')">CITAS</button>
+    <button class="tab" onclick="switchTab('chat')">CHAT</button>
+  </div>
+
+  <!-- INFO -->
+  <div id="tab-info" class="tab-content active">
+    <div class="info-grid" id="info-grid"></div>
+  </div>
+
+  <!-- CITAS -->
+  <div id="tab-citas" class="tab-content">
+    <div class="appt-form">
+      <div class="appt-form-title">NUEVA CITA</div>
+      <div class="form-group">
+        <label class="form-label">SERVICIO</label>
+        <input id="appt-service" class="form-input" placeholder="Manga japonesa sesión 2..." />
+      </div>
+      <div class="form-group">
+        <label class="form-label">FECHA Y HORA</label>
+        <input id="appt-date" type="datetime-local" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">NOTAS</label>
+        <input id="appt-notes" class="form-input" placeholder="3 horas, traer referencia..." />
+      </div>
+      <button class="btn btn-red" onclick="saveAppointment()">Agendar</button>
+    </div>
+    <div id="appt-list"></div>
+  </div>
+
+  <!-- CHAT -->
+  <div id="tab-chat" class="tab-content">
+    <div class="chat-wrap">
+      <div class="chat-header">🖤 LILY — MEMORIA ACTIVA</div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="empty" style="padding:30px 0">Inicia la conversación con Lily</div>
+      </div>
+      <div class="chat-input-row">
+        <input id="chat-input" class="chat-input" placeholder="Escribe a Lily..." onkeydown="if(event.key==='Enter')sendChat()" />
+        <button class="btn btn-red" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL NUEVO CLIENTE ══════════════════════════════════════════════ -->
+<div id="modal-new" class="modal-overlay" style="display:none">
+  <div class="modal">
+    <div class="modal-title">Nuevo Cliente</div>
+    <div class="form-group"><label class="form-label">NOMBRE</label><input id="new-name" class="form-input" placeholder="Rodrigo Gómez" /></div>
+    <div class="form-group"><label class="form-label">TELÉFONO</label><input id="new-phone" class="form-input" placeholder="+5215512345678" /></div>
+    <div class="form-group"><label class="form-label">INSTAGRAM</label><input id="new-ig" class="form-input" placeholder="@usuario" /></div>
+    <div class="form-group"><label class="form-label">NOTAS</label><input id="new-notes" class="form-input" placeholder="Prefiere blackwork..." /></div>
+    <div class="form-group">
+      <label class="form-label">STATUS</label>
+      <select id="new-status" class="form-input">
+        <option value="lead">lead</option>
+        <option value="activo">activo</option>
+        <option value="vip">vip</option>
+        <option value="inactivo">inactivo</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" style="flex:1" onclick="closeNewModal()">Cancelar</button>
+      <button class="btn btn-red" style="flex:1" onclick="saveNewCustomer()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const WORKER = 'https://black-lily-elite.cherry-v1pro.workers.dev';
+let allCustomers = [];
+let currentCustomer = null;
+let chatSessionId = null;
+
+// ─── Colores badge ────────────────────────────────────────────────────────────
+const STATUS_COLOR = {
+  activo: '#22c55e', lead: '#f59e0b', vip: '#a855f7', inactivo: '#6b7280',
+  confirmed: '#22c55e', pending: '#f59e0b', cancelled: '#ef4444', completed: '#3b82f6'
+};
+
+function badge(status) {
+  const c = STATUS_COLOR[status] || '#6b7280';
+  return `<span class="badge" style="background:${c}22;color:${c};border:1px solid ${c}44">${status}</span>`;
+}
+
+function timeAgo(ts) {
+  if (!ts) return '—';
+  const d = Math.floor(Date.now() / 1000) - ts;
+  if (d < 60) return 'ahora';
+  if (d < 3600) return Math.floor(d/60) + 'm';
+  if (d < 86400) return Math.floor(d/3600) + 'h';
+  return Math.floor(d/86400) + 'd';
+}
+
+function fmtDate(ts) {
+  if (!ts) return '—';
+  return new Date(ts * 1000).toLocaleDateString('es-MX', { day:'2-digit', month:'short', year:'numeric' });
+}
+
+// ─── API ──────────────────────────────────────────────────────────────────────
+async function api(path, opts = {}) {
+  const r = await fetch(WORKER + path, {
+    headers: { 'Content-Type': 'application/json' },
+    ...opts
+  });
+  return r.json();
+}
+
+// ─── Cargar clientes ──────────────────────────────────────────────────────────
+async function loadCustomers() {
+  const data = await api('/api/customers?limit=100');
+  allCustomers = data.customers || [];
+  updateStats();
+  renderList(allCustomers);
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent = allCustomers.length;
+  document.getElementById('stat-activos').textContent = allCustomers.filter(c => c.status === 'activo').length;
+  document.getElementById('stat-vip').textContent = allCustomers.filter(c => c.status === 'vip').length;
+  document.getElementById('stat-leads').textContent = allCustomers.filter(c => c.status === 'lead').length;
+}
+
+function renderList(list) {
+  const el = document.getElementById('customer-list');
+  if (!list.length) { el.innerHTML = '<div class="empty">Sin clientes — agrega el primero 🖤</div>'; return; }
+  el.innerHTML = list.map(c => `
+    <div class="customer-card" onclick="openCustomer('${c.customer_id}')">
+      <div class="avatar">${(c.name || '?')[0].toUpperCase()}</div>
+      <div class="customer-info">
+        <div class="customer-name">${c.name || 'Sin nombre'}</div>
+        <div class="customer-meta">${c.phone_number || ''} ${c.instagram_id ? '· ' + c.instagram_id : ''}</div>
+      </div>
+      <div class="customer-right">
+        ${badge(c.status || 'lead')}
+        <span class="time-ago">${timeAgo(c.last_contact)}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterCustomers(q) {
+  const s = q.toLowerCase();
+  renderList(allCustomers.filter(c =>
+    !s || (c.name||'').toLowerCase().includes(s) ||
+    (c.phone_number||'').includes(s) ||
+    (c.instagram_id||'').toLowerCase().includes(s)
+  ));
+}
+
+// ─── Detalle cliente ──────────────────────────────────────────────────────────
+async function openCustomer(id) {
+  const data = await api(`/api/customers/${id}`);
+  currentCustomer = data.customer;
+  chatSessionId = null;
+
+  document.getElementById('detail-name').textContent = currentCustomer.name || 'Sin nombre';
+  document.getElementById('detail-sub').textContent =
+    [currentCustomer.phone_number, currentCustomer.instagram_id].filter(Boolean).join(' · ');
+  document.getElementById('detail-badge').innerHTML = badge(currentCustomer.status || 'lead');
+
+  // Info
+  document.getElementById('info-grid').innerHTML = [
+    { label: 'NOTAS', value: currentCustomer.notes || '—' },
+    { label: 'TELÉFONO', value: currentCustomer.phone_number || '—' },
+    { label: 'INSTAGRAM', value: currentCustomer.instagram_id || '—' },
+    { label: 'ÚLTIMO CONTACTO', value: timeAgo(currentCustomer.last_contact) },
+    { label: 'CLIENTE DESDE', value: fmtDate(currentCustomer.created_at) },
+  ].map(i => `
+    <div class="info-card">
+      <div class="info-label">${i.label}</div>
+      <div class="info-value">${i.value}</div>
+    </div>
+  `).join('');
+
+  // Citas
+  renderAppointments(data.appointments || []);
+
+  // Chat reset
+  document.getElementById('chat-messages').innerHTML =
+    '<div class="empty" style="padding:30px 0">Inicia la conversación con Lily</div>';
+
+  switchTab('info');
+  document.getElementById('view-list').style.display = 'none';
+  document.getElementById('view-detail').style.display = 'block';
+}
+
+function showList() {
+  document.getElementById('view-list').style.display = 'block';
+  document.getElementById('view-detail').style.display = 'none';
+  currentCustomer = null;
+  chatSessionId = null;
+}
+
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    const names = ['info','citas','chat'];
+    t.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
+// ─── Citas ────────────────────────────────────────────────────────────────────
+function renderAppointments(list) {
+  const el = document.getElementById('appt-list');
+  if (!list.length) { el.innerHTML = '<div class="empty" style="padding:20px 0">Sin citas registradas</div>'; return; }
+  el.innerHTML = list.map(a => `
+    <div class="appt-card">
+      <div>
+        <div class="appt-service">${a.service || '—'}</div>
+        <div class="appt-meta">${fmtDate(a.date)}${a.notes ? ' · ' + a.notes : ''}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        ${badge(a.status || 'pending')}
+        <button class="btn btn-ghost btn-sm" onclick="deleteAppt('${a.appointment_id}')">✕</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function saveAppointment() {
+  const service = document.getElementById('appt-service').value.trim();
+  if (!service) return;
+  const dateVal = document.getElementById('appt-date').value;
+  await api('/api/appointments', {
+    method: 'POST',
+    body: JSON.stringify({
+      customer_id: currentCustomer.customer_id,
+      service,
+      date: dateVal ? Math.floor(new Date(dateVal).getTime() / 1000) : undefined,
+      notes: document.getElementById('appt-notes').value,
+      status: 'pending'
+    })
+  });
+  document.getElementById('appt-service').value = '';
+  document.getElementById('appt-date').value = '';
+  document.getElementById('appt-notes').value = '';
+  const data = await api(`/api/customers/${currentCustomer.customer_id}`);
+  renderAppointments(data.appointments || []);
+}
+
+async function deleteAppt(id) {
+  await api(`/api/appointments/${id}`, { method: 'DELETE' });
+  const data = await api(`/api/customers/${currentCustomer.customer_id}`);
+  renderAppointments(data.appointments || []);
+}
+
+// ─── Chat ─────────────────────────────────────────────────────────────────────
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const msg = input.value.trim();
+  if (!msg) return;
+  input.value = '';
+
+  const box = document.getElementById('chat-messages');
+  // Quitar placeholder
+  box.querySelectorAll('.empty').forEach(e => e.remove());
+
+  box.innerHTML += `<div class="msg msg-user">${msg}</div>`;
+  box.innerHTML += `<div class="msg msg-typing" id="typing">Lily está escribiendo...</div>`;
+  box.scrollTop = box.scrollHeight;
+
+  const data = await api('/api/chat', {
+    method: 'POST',
+    body: JSON.stringify({
+      message: msg,
+      customer_id: currentCustomer.customer_id,
+      session_id: chatSessionId
+    })
+  });
+
+  chatSessionId = data.session_id;
+  document.getElementById('typing')?.remove();
+  box.innerHTML += `<div class="msg msg-assistant">${data.reply}</div>`;
+  box.scrollTop = box.scrollHeight;
+}
+
+// ─── Modal nuevo cliente ──────────────────────────────────────────────────────
+function openNewModal() { document.getElementById('modal-new').style.display = 'flex'; }
+function closeNewModal() { document.getElementById('modal-new').style.display = 'none'; }
+
+async function saveNewCustomer() {
+  const name = document.getElementById('new-name').value.trim();
+  if (!name) return;
+  await api('/api/customers', {
+    method: 'POST',
+    body: JSON.stringify({
+      name,
+      phone_number: document.getElementById('new-phone').value,
+      instagram_id: document.getElementById('new-ig').value,
+      notes: document.getElementById('new-notes').value,
+      status: document.getElementById('new-status').value,
+    })
+  });
+  ['new-name','new-phone','new-ig','new-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('new-status').value = 'lead';
+  closeNewModal();
+  loadCustomers();
+}
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+loadCustomers();
+</script>
+</body>
+</html>
