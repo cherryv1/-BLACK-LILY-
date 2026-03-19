@@ -156,8 +156,8 @@ async function chatWithMemory(env, sessionId, userMessage, customer_id) {
 
   // Cargar perfil del cliente desde D1 si existe
   let systemContext = SYSTEM;
-Estilo: profesional, cálida, precisa. Responde siempre en español.
-Tienes acceso a la memoria estructurada del cliente.`;
+
+
 
   if (customer_id) {
     const memory = await getClientMemory(env, customer_id);
