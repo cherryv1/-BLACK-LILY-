@@ -175,12 +175,22 @@ async function chatWithMemory(env, sessionId, userMessage, customer_id) {
   // Mantener ventana de contexto (últimos 20 mensajes)
   const recentMessages = session.messages.slice(-20);
 
-  const response = await env.AI.run('@cf/meta/llama-3.1-8b-instruct', {
-    system: systemContext,
-    messages: recentMessages,
+  const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {'Content-Type':'application/json','Authorization':'Bearer '+env.GROQ_API_KEY},
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      messages: [{role:'system',content:systemContext}, ...recentMessages],
+      max_tokens: 300,
+      temperature: 0.7
+    })
   });
+  const groqData = await groqResponse.json();
 
-  const assistantMessage = response.response || '';
+
+
+
+  const assistantMessage = groqData.choices?.[0]?.message?.content || 'Error al procesar';
 
   // Agregar respuesta al historial y guardar en KV
   session.messages.push({ role: 'assistant', content: assistantMessage });
