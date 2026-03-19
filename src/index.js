@@ -196,6 +196,21 @@ async function chatWithMemory(env, sessionId, userMessage, customer_id) {
 
   const assistantMessage = groqData.choices?.[0]?.message?.content || 'Error al procesar';
 
+  // GUARDAR EN D1 PERMANENTE
+  try {
+    const msgId = crypto.randomUUID();
+    const now = Math.floor(Date.now()/1000);
+    await env.DB.prepare('INSERT INTO conversations (id, customer_id, role, content, created_at) VALUES (?, ?, ?, ?, ?)').bind(msgId, customer_id||'anonymous', 'user', userMessage, now).run();
+    await env.DB.prepare('INSERT INTO conversations (id, customer_id, role, content, created_at) VALUES (?, ?, ?, ?, ?)').bind(crypto.randomUUID(), customer_id||'anonymous', 'assistant', assistantMessage, now).run();
+    
+    // Detectar nombre en mensaje
+    const nameMatch = userMessage.match(/me llamo ([A-Za-z]+)|soy ([A-Za-z]+)|mi nombre es ([A-Za-z]+)/i);
+    if(nameMatch) {
+      const name = nameMatch[1]||nameMatch[2]||nameMatch[3];
+      await env.DB.prepare('INSERT OR REPLACE INTO customer_profiles (customer_id, name, last_visit, created_at) VALUES (?, ?, ?, ?)').bind(customer_id||'anonymous', name, now, now).run();
+    }
+  } catch(e) { console.error('D1 error:', e); }
+
   // Agregar respuesta al historial y guardar en KV
   session.messages.push({ role: 'assistant', content: assistantMessage });
   await saveSession(env, sessionId, session, 7200);
