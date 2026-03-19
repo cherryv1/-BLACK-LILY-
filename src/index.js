@@ -345,7 +345,14 @@ export default {
         return json({ reply, session_id: sessionId });
       }
 
-      // ── 404 ───────────────────────────────────────────────────────────────────
+      // ── HTML MUSEO ──────────────────────────────────────────────────────────────
+      if (path === '/' || path === '') {
+        const html = await fetch('https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/index.html');
+        const content = await html.text();
+        return new Response(content, {headers:{'Content-Type':'text/html;charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'}});
+      }
+
+      // ── 404 ─────────────────────────────────────────────────────────────────
       return json({ error: 'Ruta no encontrada', path }, 404);
 
     } catch (err) {
