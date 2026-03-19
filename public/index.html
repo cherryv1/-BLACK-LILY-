@@ -745,6 +745,10 @@ function openChat() {
 
 // CHAT
 const API='https://black-lily-elite.cherry-v1pro.workers.dev/api/chat';
+let PERSISTENT_ID = localStorage.getItem('baxto_uid');
+  PERSISTENT_ID = 'uid_' + Date.now() + '_' + Math.random().toString(36).substr(2,9);
+  localStorage.setItem('baxto_uid', PERSISTENT_ID);
+}
 let busy=false;
 const cinp=document.getElementById('cinp');
 const msgs=document.getElementById('chat-msgs');
@@ -767,7 +771,7 @@ window.sendChat=async function(){
   busy=true;cinp.value='';cinp.style.height='auto';
   addMsg(t,'user');addTyping();
   try{
-    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,customerId:'web-'+Date.now(),channel:'web'})});
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,customerId:PERSISTENT_ID,customer_id:PERSISTENT_ID,channel:'web'})});
     const data=await r.json();
     document.getElementById('tbl')?.remove();
     addMsg(data.reply||data.respuesta||'Sin respuesta','lily',data);
