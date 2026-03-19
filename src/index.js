@@ -199,7 +199,7 @@ export default {
     try {
       // ── Health ──────────────────────────────────────────────────────────────
       if (path === '/' && method === 'GET') {
-        return json({ status: 'ok', service: 'Black Lily Elite', version: '2.0.0' });
+        const html = await fetch('https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/index.html');const content = await html.text();return new Response(content,{headers:{'Content-Type':'text/html;charset=utf-8','Cache-Control':'no-store','Access-Control-Allow-Origin':'*'}});
       }
 
       // Dashboard
