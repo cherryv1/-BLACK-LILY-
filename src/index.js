@@ -206,7 +206,7 @@ export default {
       if (path === '/dashboard' && method === 'GET') {
         return Response.redirect('https://cherryv1.github.io/-BLACK-LILY-/dashboard.html', 302);
       }
-      }
+
 
       // ── DB Init (aplicar schema) ─────────────────────────────────────────
       if (path === '/api/init-db' && method === 'POST') {
