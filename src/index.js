@@ -202,6 +202,12 @@ export default {
         return json({ status: 'ok', service: 'Black Lily Elite', version: '2.0.0' });
       }
 
+      // Dashboard
+      if (path === '/dashboard' && method === 'GET') {
+        return Response.redirect('https://cherryv1.github.io/-BLACK-LILY-/dashboard.html', 302);
+      }
+      }
+
       // ── DB Init (aplicar schema) ─────────────────────────────────────────
       if (path === '/api/init-db' && method === 'POST') {
         await env.DB.exec(`
