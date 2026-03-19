@@ -816,6 +816,23 @@ function drawEnergy2(){
     });
     if(Math.random()<.04) spawnPulse2(lx,ly,ax,ay,'#7c4dff');
 
+    ex.save();
+    ex.globalAlpha=0.12+0.06*Math.sin(Date.now()*.001);
+    ex.beginPath();ex.moveTo(lx,ly);
+    ex.bezierCurveTo(lx,ly+50,ax,ay-50,ax,ay);
+    ex.strokeStyle="#7c4dff";ex.lineWidth=1.5;
+    ex.setLineDash([5,8]);ex.stroke();ex.setLineDash([]);
+    ex.restore();
+    cards.forEach(function(card,i){
+      var cr=card.getBoundingClientRect();
+      var cx2=cr.left+cr.width/2,cy2=cr.top+cr.height/2;
+      ex.save();
+      ex.globalAlpha=0.08+0.04*Math.sin(Date.now()*.0015+i);
+      ex.beginPath();ex.moveTo(ax,ay+90);ex.lineTo(cx2,cy2);
+      ex.strokeStyle=ECOLS[i%ECOLS.length];ex.lineWidth=1;
+      ex.setLineDash([3,10]);ex.stroke();ex.setLineDash([]);
+      ex.restore();
+    });
     // LINEAS TENUES PERMANENTES
     // Logo -> Avatar
     ex.save();
