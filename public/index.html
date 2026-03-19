@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Baxto Style Tattoo</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -103,14 +103,20 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 .s-card{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
   padding:12px 8px;gap:6px;
-  background:rgba(0,229,255,.04);
+  background:linear-gradient(160deg,rgba(255,255,255,.04) 0%,rgba(0,0,20,.7) 100%);
   border:1px solid var(--border);
-  border-radius:8px;
+  border-radius:12px;
   text-decoration:none;color:var(--text);
-  transition:all .25s;
+  transition:all .3s cubic-bezier(.175,.885,.32,1.275);
   cursor:pointer;
+  box-shadow:0 6px 20px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.04) inset,0 -3px 0 rgba(0,0,0,.3) inset;
+  transform:perspective(600px) translateZ(0) translateY(0);
+  position:relative;overflow:hidden;
 }
-.s-card:hover,.s-card:active{border-color:var(--c1);background:rgba(0,229,255,.1);box-shadow:0 0 16px rgba(0,229,255,.15);}
+.s-card::after{content:"";position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 60%);opacity:0;transition:opacity .3s;}
+.s-card:hover::after{opacity:1;}
+.s-card:hover{border-color:rgba(0,229,255,.5);box-shadow:0 10px 30px rgba(0,229,255,.2),0 2px 0 rgba(255,255,255,.06) inset,0 -4px 0 rgba(0,0,0,.4) inset;transform:perspective(600px) translateZ(12px) translateY(-4px);}
+.s-card:active{transform:perspective(600px) translateZ(2px) translateY(1px);box-shadow:0 2px 8px rgba(0,0,0,.3);}
 .s-card svg{width:24px;height:24px;}
 .s-card span{font-size:10px;letter-spacing:.1em;color:var(--muted);}
 .s-wa{border-color:rgba(37,211,102,.3);}.s-wa svg{color:#25D366;}.s-wa:hover{border-color:#25D366!important;box-shadow:0 0 16px rgba(37,211,102,.2)!important;}
@@ -189,27 +195,29 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 .section-title::before,.section-title::after{content:'──';opacity:.4;margin:0 8px;}
 .gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
 .gal-card{
-  position:relative;aspect-ratio:1;
+  position:relative;
   border:1px solid var(--border);border-radius:8px;
   overflow:hidden;cursor:pointer;
   background:rgba(0,229,255,.03);
   transition:all .3s;
+  display:flex;flex-direction:column;
 }
-.gal-card:hover{border-color:var(--c1);box-shadow:0 0 20px rgba(0,229,255,.15);}
-.gal-card img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.gal-card:hover{border-color:var(--c1);box-shadow:0 0 20px rgba(0,229,255,.15);transform:translateY(-3px);}
+.gal-card img{width:100%;aspect-ratio:1;object-fit:cover;transition:transform .4s;flex-shrink:0;}
 .gal-card:hover img{transform:scale(1.06);}
-.gal-card .gal-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(transparent 40%,rgba(0,0,0,.85));
-  display:flex;align-items:flex-end;padding:10px;
+.gal-card .gal-overlay{display:none;}
+.gal-label{
+  font-size:10px;letter-spacing:.06em;color:#a0e8ff;
+  padding:7px 8px;background:rgba(0,5,15,.95);
+  text-shadow:0 0 6px rgba(0,229,255,.3);
+  border-top:1px solid rgba(0,229,255,.12);
+  line-height:1.4;
 }
-.gal-label{font-size:11px;letter-spacing:.1em;color:#fff;}
 .gal-card .gal-placeholder{
-  width:100%;height:100%;
+  width:100%;aspect-ratio:1;
   display:flex;align-items:center;justify-content:center;
-  font-family:'Bebas Neue',cursive;font-size:11px;
+  font-family:"Bebas Neue",cursive;font-size:11px;
   color:var(--muted);letter-spacing:.1em;
-  background:linear-gradient(135deg,rgba(0,229,255,.03),rgba(124,77,255,.03));
 }
 
 /* ── INFO CARDS ── */
@@ -312,6 +320,68 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 .csend{width:36px;height:36px;background:var(--c2);border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;}
 .csend:hover{background:var(--c3);box-shadow:0 0 12px var(--c3);}
 .csend:active{transform:scale(.94);}
+
+@keyframes bl-shimmer{0%{transform:translateX(-100%)}60%,100%{transform:translateX(200%)}}
+@keyframes energy-pulse{0%,100%{opacity:.3;transform:scale(1)}50%{opacity:1;transform:scale(1.02)}}
+@keyframes node-connect{0%{stroke-dashoffset:1000}100%{stroke-dashoffset:0}}
+
+/* ENERGY CANVAS */
+#energyCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;}
+
+/* AVATAR HERO */
+.lily-avatar-wrap{
+  position:relative;width:180px;
+  margin:12px auto 20px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;
+  animation:avatar-float 4s ease-in-out infinite;
+  z-index:5;
+}
+@keyframes avatar-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.lily-avatar-img{
+  width:160px;height:195px;object-fit:cover;object-position:top center;
+  border-radius:50% 50% 42% 42%;
+  border:2px solid rgba(124,77,255,.6);
+  position:relative;z-index:3;
+  filter:drop-shadow(0 0 16px rgba(124,77,255,.7));
+  transition:filter .3s;
+}
+.lily-avatar-wrap:hover .lily-avatar-img,.lily-avatar-wrap:active .lily-avatar-img{
+  filter:drop-shadow(0 0 28px rgba(124,77,255,1));
+}
+.lily-avatar-glow{
+  position:absolute;top:5%;left:50%;transform:translateX(-50%);
+  width:160px;height:195px;border-radius:50% 50% 42% 42%;
+  background:radial-gradient(ellipse,rgba(124,77,255,.25) 0%,transparent 70%);
+  animation:energy-pulse 2.5s ease-in-out infinite;z-index:1;
+}
+.lily-avatar-ring{
+  position:absolute;top:-4px;left:50%;transform:translateX(-50%);
+  width:170px;height:205px;border-radius:50% 50% 42% 42%;
+  border:1px solid rgba(124,77,255,.35);
+  animation:energy-pulse 2.5s ease-in-out infinite .3s;z-index:2;pointer-events:none;
+}
+.lily-avatar-ring2{
+  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  width:184px;height:219px;border-radius:50% 50% 42% 42%;
+  border:1px solid rgba(0,229,255,.18);
+  animation:energy-pulse 3s ease-in-out infinite .7s;z-index:2;pointer-events:none;
+}
+.lily-avatar-shimmer{
+  position:absolute;top:0;left:0;width:100%;height:195px;
+  background:linear-gradient(108deg,transparent 35%,rgba(255,255,255,.07) 50%,transparent 65%);
+  border-radius:50% 50% 42% 42%;
+  animation:bl-shimmer 3.5s ease-in-out infinite;z-index:4;pointer-events:none;
+}
+.lily-av-name{
+  display:block;font-family:"Bebas Neue",cursive;
+  font-size:20px;letter-spacing:.3em;
+  color:#bf94ff;text-shadow:0 0 12px rgba(124,77,255,.8),0 0 24px rgba(124,77,255,.4);
+  margin-top:8px;
+}
+.lily-av-sub{
+  display:block;font-size:10px;letter-spacing:.12em;
+  color:rgba(191,148,255,.55);margin-top:2px;
+}
 </style>
 </head>
 <body>
@@ -442,7 +512,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
       <span class="hn-tattoo" id="t3"></span>
     </div>
 
-    <div class="hero-sub">Playa del Carmen · QRoo · 8 años de arte</div>
+    <div class="hero-sub" style="font-size:13px;color:#fff;text-shadow:0 0 10px #ffd700,0 0 20px rgba(255,215,0,.5);letter-spacing:.25em;font-weight:600;margin-bottom:4px;">8 AÑOS DE EXPERIENCIA</div><div style="font-size:10px;letter-spacing:.3em;color:rgba(160,200,255,.7);text-transform:uppercase;margin-bottom:8px;">Playa del Carmen · Quintana Roo</div>
     <div class="hero-phrase" id="phrase"></div>
 
     <!-- BLACK LILY AVATAR -->
@@ -480,9 +550,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         <span>Maps</span>
       </a>
-      <div class="s-card s-bl" onclick="openChat()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2z"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/></svg>
-        <span>Black Lily</span>
+      <div class="s-card s-bl" onclick="openChat()" id="bl-btn" style="border-color:rgba(124,77,255,.4);background:linear-gradient(160deg,rgba(124,77,255,.12),rgba(0,0,20,.8));position:relative;overflow:hidden;">
+        <div style="width:30px;height:30px;border-radius:50%;overflow:hidden;border:1px solid rgba(124,77,255,.6);box-shadow:0 0 10px rgba(124,77,255,.5);" id="bl-avatar-mini">
+          <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" style="width:100%;height:100%;object-fit:cover;object-position:top;">
+        </div>
+        <span style="color:#bf94ff;font-size:9px;letter-spacing:.08em;line-height:1.2;text-align:center;">Black Lily<br>IA ⚜️</span>
+        <div style="position:absolute;inset:0;background:linear-gradient(105deg,transparent 30%,rgba(124,77,255,.08) 50%,transparent 70%);animation:bl-shimmer 2.5s ease-in-out infinite;"></div>
       </div>
     </div>
   </section>
@@ -491,30 +564,30 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
   <section id="gallery">
     <div class="section-title">Portafolio</div>
     <div class="gal-grid">
-      <div class="gal-card">
+      <div style="display:flex;flex-direction:column;border-radius:8px;overflow:hidden;border:1px solid rgba(0,229,255,.08);"><div class="gal-card">
         <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_153716186.jpg" alt="Retrato" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>RETRATO<br>REALISTA</div><div class=gal-overlay><span class=gal-label>Retrato Realista</span></div>'">
-        <div class="gal-overlay"><span class="gal-label">Retrato Realista · Negro puro, expresion capturada</span></div>
-      </div>
-      <div class="gal-card">
+        <div class="gal-overlay"></div></div>
+      <div class="gal-label">Retrato Realista · Negro puro, expresion capturada</div></div>
+      <div style="display:flex;flex-direction:column;border-radius:8px;overflow:hidden;border:1px solid rgba(0,229,255,.08);"><div class="gal-card">
         <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_154348790.jpg" alt="Neo" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>NEO<br>TRADICIONAL</div><div class=gal-overlay><span class=gal-label>Neo Tradicional</span></div>'">
-        <div class="gal-overlay"><span class="gal-label">Neo Tradicional · Color vibrante, lineas de autor</span></div>
-      </div>
-      <div class="gal-card">
+        <div class="gal-overlay"></div></div>
+      <div class="gal-label">Neo Tradicional · Color vibrante, lineas de autor</div></div>
+      <div style="display:flex;flex-direction:column;border-radius:8px;overflow:hidden;border:1px solid rgba(0,229,255,.08);"><div class="gal-card">
         <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_161221693.jpg" alt="Black" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>BLACKWORK</div><div class=gal-overlay><span class=gal-label>Blackwork</span></div>'">
-        <div class="gal-overlay"><span class="gal-label">Blackwork · Dynamic Triple Black, una sola aguja</span></div>
-      </div>
-      <div class="gal-card">
+        <div class="gal-overlay"></div></div>
+      <div class="gal-label">Blackwork · Dynamic Triple Black, una sola aguja</div></div>
+      <div style="display:flex;flex-direction:column;border-radius:8px;overflow:hidden;border:1px solid rgba(0,229,255,.08);"><div class="gal-card">
         <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_161812794.jpg" alt="Color" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>COLOR<br>REALISTA</div><div class=gal-overlay><span class=gal-label>Color Realista</span></div>'">
-        <div class="gal-overlay"><span class="gal-label">Color · Solo primarios, color sobre color</span></div>
-      </div>
-      <div class="gal-card">
+        <div class="gal-overlay"></div></div>
+      <div class="gal-label">Color · Solo primarios, color sobre color</div></div>
+      <div style="display:flex;flex-direction:column;border-radius:8px;overflow:hidden;border:1px solid rgba(0,229,255,.08);"><div class="gal-card">
         <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_162704690.jpg" alt="Fino" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>LÍNEA<br>FINA</div><div class=gal-overlay><span class=gal-label>Línea Fina</span></div>'">
-        <div class="gal-overlay"><span class="gal-label">Línea Fina</span></div>
-      </div>
-      <div class="gal-card">
+        <div class="gal-overlay"></div></div>
+      <div class="gal-label">Línea Fina</div></div>
+      <div style="display:flex;flex-direction:column;border-radius:8px;overflow:hidden;border:1px solid rgba(0,229,255,.08);"><div class="gal-card">
         <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_153716186.jpg" alt="Abs" onerror="this.parentElement.innerHTML='<div class=gal-placeholder>ABSTRACTO</div><div class=gal-overlay><span class=gal-label>Abstracto</span></div>'">
-        <div class="gal-overlay"><span class="gal-label">Cover-up · Transformacion total, trazo fluido</span></div>
-      </div>
+        <div class="gal-overlay"></div></div>
+      <div class="gal-label">Cover-up · Transformacion total, trazo fluido</div></div>
     </div>
   </section>
 
