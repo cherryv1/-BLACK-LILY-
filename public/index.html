@@ -783,7 +783,7 @@ window.clearChat=function(){if(confirm('¿Borrar conversación?')){msgs.innerHTM
 
 // ENERGY SYSTEM v2
 const ec2 = document.createElement('canvas');
-ec2.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:1;';
+ec2.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:-1;';
 document.body.appendChild(ec2);
 const ex = ec2.getContext('2d');
 const ECOLS = ['#7c4dff','#00e5ff','#ff0066','#ffd740','#00ff88'];
