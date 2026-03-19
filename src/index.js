@@ -161,6 +161,19 @@ async function chatWithMemory(env, sessionId, userMessage, customer_id) {
   // Cargar perfil del cliente desde D1 si existe
   let systemContext = SYSTEM;
 
+  // CARGAR MEMORIA PERMANENTE DE D1
+  try {
+    const profile = await env.DB.prepare('SELECT * FROM customer_profiles WHERE customer_id = ?').bind(customer_id||sessionId).first();
+    if(profile && profile.name) {
+      systemContext += ' El cliente se llama ' + profile.name + '. Saluda por su nombre.';
+    }
+    const prevConvs = await env.DB.prepare('SELECT role, content FROM conversations WHERE customer_id = ? ORDER BY created_at DESC LIMIT 10').bind(customer_id||sessionId).all();
+    if(prevConvs.results && prevConvs.results.length > 0) {
+      const history = prevConvs.results.reverse().map(r => r.role + ': ' + r.content).join(' | ');
+      systemContext += ' Historial previo: ' + history;
+    }
+  } catch(e) { console.error('D1 load error:', e); }
+
 
 
   if (customer_id) {
