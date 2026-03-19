@@ -326,7 +326,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 @keyframes node-connect{0%{stroke-dashoffset:1000}100%{stroke-dashoffset:0}}
 
 /* ENERGY CANVAS */
-#energyCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;}
+#energyCanvas{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;}
 
 /* AVATAR HERO */
 .lily-avatar-wrap{
@@ -781,99 +781,7 @@ window.sendChat=async function(){
 window.newChat=function(){msgs.innerHTML='';addMsg('Chat nuevo iniciado. Hola 🖤 Soy Black Lily. ¿En qué te ayudo?','lily');};
 window.clearChat=function(){if(confirm('¿Borrar conversación?')){msgs.innerHTML='';addMsg('Listo. Estoy aquí para ayudarte. 🖤','lily');}};
 
-// ENERGY SYSTEM v2
-const ec2 = document.createElement('canvas');
-ec2.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:-1;';
-document.body.appendChild(ec2);
-const ex = ec2.getContext('2d');
-const ECOLS = ['#7c4dff','#00e5ff','#ff0066','#ffd740','#00ff88'];
-const pulses2 = [];
-
-function spawnPulse2(x1,y1,x2,y2,color){
-  pulses2.push({x1,y1,x2,y2,progress:0,speed:.005+Math.random()*.007,color,size:Math.random()*2+1.5});
-}
-
-function drawEnergy2(){
-  ec2.width=innerWidth;ec2.height=innerHeight;
-  ex.clearRect(0,0,ec2.width,ec2.height);
-  const logo=document.querySelector('.logo-container');
-  const avatar=document.getElementById('lilyAvatar');
-  const cards=document.querySelectorAll('.s-card');
-  if(logo&&avatar&&cards.length>0){
-    const lr=logo.getBoundingClientRect();
-    const ar=avatar.getBoundingClientRect();
-    const lx=lr.left+lr.width/2,ly=lr.bottom;
-    const ax=ar.left+ar.width/2,ay=ar.top+ar.height/3;
-    // Linea base logo-avatar
-    ex.beginPath();ex.moveTo(lx,ly);
-    ex.bezierCurveTo(lx,ly+40,ax,ay-40,ax,ay);
-    ex.strokeStyle='rgba(124,77,255,.2)';ex.lineWidth=1.5;
-    ex.setLineDash([4,6]);ex.stroke();ex.setLineDash([]);
-    // Lineas avatar-botones
-    cards.forEach((card,i)=>{
-      const cr=card.getBoundingClientRect();
-      const cx2=cr.left+cr.width/2,cy2=cr.top+cr.height/2;
-      ex.beginPath();ex.moveTo(ax,ay+90);ex.lineTo(cx2,cy2);
-      ex.strokeStyle=ECOLS[i%ECOLS.length]+'20';ex.lineWidth=1;
-      ex.setLineDash([3,8]);ex.stroke();ex.setLineDash([]);
-      if(Math.random()<.015) spawnPulse2(ax,ay+90,cx2,cy2,ECOLS[i%ECOLS.length]);
-    });
-    if(Math.random()<.04) spawnPulse2(lx,ly,ax,ay,'#7c4dff');
-
-    ex.save();
-    ex.globalAlpha=0.12+0.06*Math.sin(Date.now()*.001);
-    ex.beginPath();ex.moveTo(lx,ly);
-    ex.bezierCurveTo(lx,ly+50,ax,ay-50,ax,ay);
-    ex.strokeStyle="#7c4dff";ex.lineWidth=1.5;
-    ex.setLineDash([5,8]);ex.stroke();ex.setLineDash([]);
-    ex.restore();
-    cards.forEach(function(card,i){
-      var cr=card.getBoundingClientRect();
-      var cx2=cr.left+cr.width/2,cy2=cr.top+cr.height/2;
-      ex.save();
-      ex.globalAlpha=0.08+0.04*Math.sin(Date.now()*.0015+i);
-      ex.beginPath();ex.moveTo(ax,ay+90);ex.lineTo(cx2,cy2);
-      ex.strokeStyle=ECOLS[i%ECOLS.length];ex.lineWidth=1;
-      ex.setLineDash([3,10]);ex.stroke();ex.setLineDash([]);
-      ex.restore();
-    });
-    // LINEAS TENUES PERMANENTES
-    // Logo -> Avatar
-    ex.save();
-    ex.globalAlpha = 0.12 + 0.06*Math.sin(Date.now()*.001);
-    ex.beginPath();ex.moveTo(lx,ly);
-    ex.bezierCurveTo(lx,ly+50,ax,ay-50,ax,ay);
-    ex.strokeStyle='#7c4dff';ex.lineWidth=1.5;
-    ex.setLineDash([5,8]);ex.stroke();ex.setLineDash([]);
-    ex.restore();
-
-    // Avatar -> Botones
-    cards.forEach((card,i)=>{
-      const cr=card.getBoundingClientRect();
-      const cx2=cr.left+cr.width/2,cy2=cr.top+cr.height/2;
-      ex.save();
-      ex.globalAlpha = 0.08 + 0.04*Math.sin(Date.now()*.0015+i);
-      ex.beginPath();ex.moveTo(ax,ay+90);ex.lineTo(cx2,cy2);
-      ex.strokeStyle=ECOLS[i%ECOLS.length];ex.lineWidth=1;
-      ex.setLineDash([3,10]);ex.stroke();ex.setLineDash([]);
-      ex.restore();
-    });
-  }
-  for(let i=pulses2.length-1;i>=0;i--){
-    const p=pulses2[i];p.progress+=p.speed;
-    if(p.progress>=1){pulses2.splice(i,1);continue;}
-    const t=p.progress;
-    const mx=(p.x1+p.x2)/2,my=(p.y1+p.y2)/2-30;
-    const px=(1-t)*(1-t)*p.x1+2*(1-t)*t*mx+t*t*p.x2;
-    const py=(1-t)*(1-t)*p.y1+2*(1-t)*t*my+t*t*p.y2;
-    const g=ex.createRadialGradient(px,py,0,px,py,p.size*4);
-    g.addColorStop(0,p.color+'ff');g.addColorStop(1,p.color+'00');
-    ex.beginPath();ex.arc(px,py,p.size*4,0,Math.PI*2);ex.fillStyle=g;ex.fill();
-    ex.beginPath();ex.arc(px,py,p.size,0,Math.PI*2);ex.fillStyle=p.color;ex.fill();
-  }
-  requestAnimationFrame(drawEnergy2);
-}
-setTimeout(drawEnergy2, 1000);
+// Energy system removed
 </script>
 </body>
 </html>
