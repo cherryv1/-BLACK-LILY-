@@ -3,35 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Baxto Style Tattoo — Visión 2038</title>
+<title>Baxto Style Tattoo — Gen 2028</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
-  --bg:#000308;
-  --c1:#00e5ff;
-  --c2:#7c4dff;
-  --c3:#ff1744;
-  --c4:#00e676;
-  --c5:#ffd740;
-  --panel:rgba(0,10,20,0.92);
-  --border:rgba(0,229,255,0.15);
-  --text:#e8f4f8;
-  --muted:#4a7a8a;
-  --glass:rgba(0,15,30,0.85);
+  --bg:#000205;
+  --c1:#00f2ff;
+  --c2:#8a2be2;
+  --c3:#ff003c;
+  --c4:#00ff88;
+  --c5:#ffcc00;
+  --glass:rgba(0,10,20,0.75);
+  --border:rgba(0,242,255,0.2);
 }
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;touch-action:manipulation;}
+html,body{height:100%;background:var(--bg);color:#e0f7ff;font-family:'Rajdhani',sans-serif;overflow-x:hidden;touch-action:manipulation;}
 
-/* ── CANVASES ── */
+/* ── MULTI-LAYER CANVASES ── */
 #neural,#plasma,#energy{position:fixed;inset:0;z-index:0;pointer-events:none;}
-#neural{z-index:-2;opacity:0.5;}
-#plasma{z-index:-1;opacity:0.7;}
-#energy{z-index:5;}
+#neural{z-index:-3;opacity:0.3;filter:blur(1px);}
+#plasma{z-index:-2;opacity:0.6;mix-blend-mode:screen;}
+#energy{z-index:5;filter:drop-shadow(0 0 8px var(--c1));}
 
-/* ── MAIN ── */
+/* ── MAIN CONTAINER ── */
 #main{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;}
 
-/* ── HERO ── */
+/* ── HERO SECTION ── */
 #hero{
   min-height:100vh;
   display:flex;flex-direction:column;
@@ -41,214 +38,202 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
   position:relative;
 }
 
-/* Logo Maya/Azteca Elite */
-.logo-container{position:relative;width:160px;height:160px;margin:0 auto 24px;z-index:20;}
-.logo-maya-ring{
-  position:absolute;inset:-15px;
-  border:2px dashed var(--c1);
+/* Logo Holográfico Volumétrico */
+.logo-container{position:relative;width:170px;height:170px;margin:0 auto 25px;z-index:20;}
+.logo-holo-ring{
+  position:absolute;inset:-20px;
+  border:1px solid var(--c1);
   border-radius:50%;
-  animation:maya-spin 12s linear infinite;
-  opacity:0.6;
-  background:radial-gradient(circle,transparent 60%,rgba(0,229,255,0.1) 100%);
-}
-.logo-maya-ring::after{
-  content:'';position:absolute;inset:-5px;
-  border:1px solid var(--c5);border-radius:50%;
-  clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  animation:holo-spin 15s linear infinite;
+  box-shadow:0 0 20px var(--c1), inset 0 0 20px var(--c1);
+  opacity:0.4;
 }
 .logo-hex{
-  width:160px;height:160px;
+  width:170px;height:170px;
   background:conic-gradient(var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c1));
   border-radius:50%;
-  animation:hex-spin 6s linear infinite, logo-heartbeat 2s ease-in-out infinite;
+  animation:hex-spin 8s linear infinite, logo-pulse 3s ease-in-out infinite;
   position:absolute;inset:0;
+  box-shadow:0 0 40px rgba(0,242,255,0.3);
 }
 .logo-hex-inner{
-  position:absolute;inset:5px;
+  position:absolute;inset:6px;
   background:var(--bg);
   border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   z-index:2;
+  overflow:hidden;
 }
-.logo-hex-inner img{width:100%;height:100%;border-radius:50%;object-fit:cover;filter:contrast(1.1) brightness(1.1);}
-@keyframes maya-spin{to{transform:rotate(-360deg)}}
+.logo-hex-inner img{width:100%;height:100%;border-radius:50%;object-fit:cover;filter:contrast(1.2) brightness(1.1);}
+@keyframes holo-spin{from{transform:rotate(0) scale(1)}50%{transform:rotate(180deg) scale(1.1)}to{transform:rotate(360deg) scale(1)}}
 @keyframes hex-spin{to{transform:rotate(360deg)}}
-@keyframes logo-heartbeat{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.05);filter:brightness(1.3)}}
+@keyframes logo-pulse{0%,100%{transform:scale(1);filter:hue-rotate(0deg)}50%{transform:scale(1.06);filter:hue-rotate(15deg)}}
 
-/* Tipografía BAXTO STYLE 2038 */
+/* Tipografía BAXTO STYLE Gen 2028 */
 .hero-name{
   font-family:'UnifrakturMaguntia', cursive;
-  line-height:0.9;
-  margin-bottom:20px;
+  line-height:0.85;
+  margin-bottom:25px;
   z-index:20;
-  perspective:1000px;
 }
 .hn-baxto{
   display:block;
-  font-size:clamp(48px, 14vw, 82px);
+  font-size:clamp(50px, 15vw, 88px);
   color: #fff;
-  -webkit-text-stroke: 1.5px var(--c1);
-  filter: drop-shadow(0 0 15px var(--c4)) drop-shadow(0 0 30px rgba(0,230,118,0.4));
-  letter-spacing: 1px;
-  animation: light-carve 3s ease-in-out infinite alternate;
+  -webkit-text-stroke: 1px var(--c1);
+  filter: drop-shadow(0 0 10px var(--c1)) drop-shadow(0 0 25px var(--c4));
+  letter-spacing: 2px;
+  animation: text-glitch 5s infinite;
 }
 .hn-tattoo{
   display:block;
-  font-size:clamp(26px, 8vw, 42px);
+  font-size:clamp(28px, 9vw, 46px);
   color: #fff;
-  -webkit-text-stroke: 1px var(--c1);
-  filter: drop-shadow(0 0 10px var(--c4));
-  margin-top: 5px;
-  letter-spacing: 10px;
+  -webkit-text-stroke: 0.5px var(--c1);
+  filter: drop-shadow(0 0 8px var(--c1));
+  margin-top: 8px;
+  letter-spacing: 12px;
 }
-@keyframes light-carve{from{opacity:0.8;transform:translateZ(0)}to{opacity:1;transform:translateZ(20px)}}
+@keyframes text-glitch{
+  0%,90%,100%{transform:skew(0);filter:drop-shadow(0 0 10px var(--c1))}
+  92%{transform:skew(2deg);filter:drop-shadow(2px 0 0 var(--c3))}
+  94%{transform:skew(-2deg);filter:drop-shadow(-2px 0 0 var(--c4))}
+}
 
-.hero-sub{font-size:14px;color:#fff;text-shadow:0 0 15px #ffd700;letter-spacing:.3em;font-weight:700;margin-bottom:8px;z-index:20;}
+.hero-sub{font-size:15px;color:#fff;text-shadow:0 0 15px var(--c5);letter-spacing:.4em;font-weight:700;margin-bottom:10px;z-index:20;}
 .hero-phrase{
-  font-size:15px;color:var(--c1);letter-spacing:.15em;
-  min-height:24px;text-shadow:0 0 15px var(--c1);
-  margin-bottom:40px;z-index:20;
+  font-size:16px;color:var(--c1);letter-spacing:.2em;
+  min-height:26px;text-shadow:0 0 15px var(--c1);
+  margin-bottom:45px;z-index:20;
 }
 
-/* ── BLACK LILY ENTIDAD VIVA ── */
+/* ── BLACK LILY ENTIDAD 2028 ── */
 .lily-avatar-wrap{
-  position:relative;width:200px;height:280px;
-  margin:10px auto 40px;cursor:pointer;
+  position:relative;width:210px;height:290px;
+  margin:15px auto 45px;cursor:pointer;
   display:flex;flex-direction:column;align-items:center;
   z-index:25;
 }
-.lily-mandala{
-  position:absolute;top:0;width:220px;height:220px;
-  background:repeating-conic-gradient(from 0deg, transparent 0deg 10deg, rgba(124,77,255,0.1) 10deg 20deg);
+.lily-aura{
+  position:absolute;top:-10px;width:230px;height:230px;
+  background:radial-gradient(circle, rgba(138,43,226,0.2) 0%, transparent 75%);
   border-radius:50%;
-  animation:maya-spin 20s linear infinite;
+  animation:aura-pulse 4s ease-in-out infinite;
   z-index:1;
 }
+@keyframes aura-pulse{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.2);opacity:0.8}}
 .lily-avatar-img{
-  width:180px;height:220px;object-fit:cover;object-position:top;
-  border-radius:50% 50% 40% 40%;
-  border:2px solid rgba(124,77,255,0.8);
+  width:190px;height:230px;object-fit:cover;object-position:top;
+  border-radius:50% 50% 45% 45%;
+  border:1.5px solid rgba(138,43,226,0.6);
   position:relative;z-index:3;
-  filter:drop-shadow(0 0 20px var(--c2));
-  animation:lily-breathing 4s ease-in-out infinite;
+  filter:drop-shadow(0 0 25px var(--c2));
+  animation:lily-float 5s ease-in-out infinite;
 }
-@keyframes lily-breathing {
-  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px var(--c2)) brightness(1); }
-  50% { transform: scale(1.04); filter: drop-shadow(0 0 35px var(--c2)) brightness(1.2); }
-}
-.lily-avatar-shimmer{
-  position:absolute;top:0;left:0;width:100%;height:220px;
-  background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.2) 50%,transparent 60%);
-  border-radius:50% 50% 40% 40%;
-  animation:shimmer-pass 3s ease-in-out infinite;z-index:4;pointer-events:none;
-}
+@keyframes lily-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 .lily-av-name{
   display:block;font-family:'Bebas Neue',cursive;
-  font-size:26px;letter-spacing:.4em;
-  color:#bf94ff;text-shadow:0 0 15px var(--c2), 0 0 30px rgba(124,77,255,0.5);
-  margin-top:15px;
+  font-size:28px;letter-spacing:.5em;
+  color:#d4bfff;text-shadow:0 0 20px var(--c2);
+  margin-top:18px;
 }
 
-/* ── BOTONES SOCIALES 3D HEX ── */
+/* ── BOTONES CRISTAL TALLADO ── */
 .social-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:18px;width:100%;max-width:360px;margin:0 auto 40px;
+  gap:20px;width:100%;max-width:380px;margin:0 auto 45px;
   z-index:20;
 }
 .s-card{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:18px 10px;gap:10px;
-  background:rgba(255,255,255,0.04);
-  border:1px solid var(--border);
-  border-radius:15px;
-  text-decoration:none;color:var(--text);
-  transition:all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding:20px 12px;gap:12px;
+  background:linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:18px;
+  text-decoration:none;color:#fff;
+  transition:all 0.5s cubic-bezier(0.2, 1, 0.2, 1);
   cursor:pointer;
-  box-shadow: 0 6px 0 rgba(0,0,0,0.6), 0 12px 24px rgba(0,0,0,0.5);
-  transform: perspective(600px) rotateX(15deg);
+  backdrop-filter:blur(10px);
+  box-shadow:0 10px 30px rgba(0,0,0,0.5);
   position:relative;overflow:hidden;
 }
-.s-card::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 70%);
-  opacity:0;transition:opacity 0.3s;
+.s-card::after{
+  content:'';position:absolute;top:-100%;left:-100%;width:300%;height:300%;
+  background:radial-gradient(circle, rgba(0,242,255,0.15) 0%, transparent 50%);
+  transition:0.5s;
 }
 .s-card:hover{
-  transform: perspective(600px) rotateX(0deg) translateY(-8px);
-  box-shadow: 0 10px 0 rgba(0,0,0,0.6), 0 20px 40px rgba(0,229,255,0.3);
-  border-color: var(--c1);
+  transform:translateY(-10px) scale(1.05);
+  border-color:var(--c1);
+  box-shadow:0 20px 40px rgba(0,242,255,0.2);
 }
-.s-card:hover::before{opacity:1;}
-.s-card svg{width:28px;height:28px;filter: drop-shadow(0 0 8px currentColor);}
-.s-card span{font-size:11px;font-weight:800;letter-spacing:.15em;text-transform:uppercase;text-shadow:0 0 10px currentColor;}
+.s-card:hover::after{top:-50%;left:-50%;}
+.s-card svg{width:30px;height:30px;filter:drop-shadow(0 0 10px currentColor);}
+.s-card span{font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;}
 
 /* ── GALERÍA HOLOGRÁFICA ── */
-#gallery{padding:40px 16px;max-width:600px;margin:0 auto;width:100%;z-index:20;}
-.gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;}
+#gallery{padding:50px 20px;max-width:650px;margin:0 auto;width:100%;z-index:20;}
+.gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
 .gal-item{
-  display:flex;flex-direction:column;border-radius:12px;overflow:hidden;
-  border:1px solid rgba(0,229,255,0.2);background:rgba(0,0,0,0.4);
-  transition:all 0.4s;
+  display:flex;flex-direction:column;border-radius:15px;overflow:hidden;
+  border:1px solid rgba(0,242,255,0.15);background:rgba(0,0,0,0.5);
+  transition:0.5s;
 }
 .gal-card{position:relative;aspect-ratio:1;overflow:hidden;cursor:pointer;}
-.gal-card img{width:100%;height:100%;object-fit:cover;transition:transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);}
-.gal-item:hover{transform:translateY(-10px);border-color:var(--c1);box-shadow:0 15px 45px rgba(0,229,255,0.25);}
-.gal-item:hover img{transform:scale(1.15) rotate(1deg);}
+.gal-card img{width:100%;height:100%;object-fit:cover;transition:0.8s cubic-bezier(0.2, 1, 0.2, 1);}
+.gal-item:hover{transform:translateY(-12px);border-color:var(--c1);box-shadow:0 25px 50px rgba(0,242,255,0.2);}
+.gal-item:hover img{transform:scale(1.2);}
 .gal-label{
-  font-size:12px;letter-spacing:.05em;color:#a0e8ff;
-  padding:12px;background:rgba(0,10,25,0.95);
-  border-top:1px solid rgba(0,229,255,0.15);
-  line-height:1.5;min-height:65px;
+  font-size:13px;letter-spacing:.05em;color:#b0f0ff;
+  padding:15px;background:rgba(0,5,15,0.98);
+  border-top:1px solid rgba(0,242,255,0.1);
+  line-height:1.6;min-height:75px;
 }
 
-/* ── MODALES GLASSMORPHISM ── */
+/* ── MODALES NEOMORFISMO CRISTAL ── */
 .modal-overlay{
   position:fixed;inset:0;z-index:1000;
-  background:rgba(0,0,0,0.92);backdrop-filter:blur(15px);
+  background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);
   display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity 0.4s;
+  opacity:0;pointer-events:none;transition:0.5s;
 }
 .modal-overlay.open{opacity:1;pointer-events:all;}
 .modal-box{
-  width:92%;max-width:550px;max-height:85vh;
-  background:var(--glass);
-  border:1px solid rgba(0,229,255,0.3);
-  border-radius:24px;
+  width:94%;max-width:580px;max-height:88vh;
+  background:linear-gradient(160deg, rgba(0,20,40,0.9), rgba(0,5,10,0.95));
+  border:1px solid rgba(0,242,255,0.25);
+  border-radius:30px;
   overflow:hidden;display:flex;flex-direction:column;
-  transform:scale(0.8) translateY(50px);transition:transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow:0 0 50px rgba(0,229,255,0.2);
+  transform:scale(0.9) translateY(30px);transition:0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow:0 0 60px rgba(0,242,255,0.15);
 }
 .modal-overlay.open .modal-box{transform:scale(1) translateY(0);}
-.modal-head{padding:20px 25px;border-bottom:1px solid rgba(0,229,255,0.15);display:flex;align-items:center;justify-content:space-between;}
-.modal-title{font-family:'Bebas Neue',cursive;font-size:18px;letter-spacing:.2em;color:var(--c5);text-shadow:0 0 10px var(--c5);}
-.modal-close{background:rgba(255,255,255,0.1);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.3s;}
-.modal-close:hover{background:var(--c3);transform:rotate(90deg);}
-.modal-body{padding:30px;overflow-y:auto;flex:1;font-size:15px;line-height:1.8;color:#c8d8e0;}
+.modal-head{padding:25px 30px;border-bottom:1px solid rgba(0,242,255,0.1);display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-family:'Bebas Neue',cursive;font-size:20px;letter-spacing:.25em;color:var(--c5);text-shadow:0 0 15px var(--c5);}
+.modal-close{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.3s;}
+.modal-close:hover{background:var(--c3);border-color:var(--c3);transform:rotate(90deg);}
+.modal-body{padding:35px;overflow-y:auto;flex:1;font-size:16px;line-height:1.9;color:#d0e0e8;}
 
-/* ── CHAT ELITE ── */
-#chat-modal .modal-box{max-height:92vh;}
-#chat-msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:15px;}
-.cmsg{display:flex;gap:12px;animation:materialize 0.5s ease-out;}
-@keyframes materialize{from{opacity:0;transform:scale(0.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.cbub{max-width:82%;padding:12px 18px;font-size:15px;border-radius:16px;position:relative;}
-.cmsg.user .cbub{background:rgba(0,229,255,0.15);border:1px solid rgba(0,229,255,0.3);border-bottom-right-radius:4px;}
-.cmsg.lily .cbub{background:rgba(124,77,255,0.1);border:1px solid rgba(124,77,255,0.3);border-bottom-left-radius:4px;}
-.chat-inp-wrap{padding:20px;border-top:1px solid rgba(0,229,255,0.15);}
-.chat-inp-box{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border-radius:20px;padding:8px 20px;border:1px solid rgba(124,77,255,0.4);transition:0.3s;}
-.chat-inp-box:focus-within{border-color:var(--c2);box-shadow:0 0 20px rgba(124,77,255,0.2);}
-.chat-inp-box textarea{flex:1;background:none;border:none;outline:none;color:#fff;font-family:inherit;padding:10px 0;resize:none;max-height:120px;font-size:15px;}
-.csend{background:var(--c2);border:none;width:42px;height:42px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.3s;box-shadow:0 0 15px var(--c2);}
-.csend:hover{transform:scale(1.1);background:var(--c3);box-shadow:0 0 20px var(--c3);}
+/* ── CHAT GEN 2028 ── */
+#chat-msgs{flex:1;overflow-y:auto;padding:25px;display:flex;flex-direction:column;gap:18px;}
+.cbub{max-width:85%;padding:15px 22px;font-size:16px;border-radius:20px;backdrop-filter:blur(5px);}
+.cmsg.user .cbub{background:rgba(0,242,255,0.12);border:1px solid rgba(0,242,255,0.25);border-bottom-right-radius:5px;}
+.cmsg.lily .cbub{background:rgba(138,43,226,0.08);border:1px solid rgba(138,43,226,0.25);border-bottom-left-radius:5px;}
+.chat-inp-wrap{padding:25px;border-top:1px solid rgba(0,242,255,0.1);}
+.chat-inp-box{display:flex;align-items:center;gap:15px;background:rgba(255,255,255,0.04);border-radius:25px;padding:10px 25px;border:1px solid rgba(138,43,226,0.3);}
+.chat-inp-box textarea{flex:1;background:none;border:none;outline:none;color:#fff;font-family:inherit;padding:12px 0;resize:none;max-height:140px;font-size:16px;}
+.csend{background:var(--c2);border:none;width:48px;height:48px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.4s;box-shadow:0 0 20px var(--c2);}
+.csend:hover{transform:scale(1.15) rotate(15deg);background:var(--c3);box-shadow:0 0 30px var(--c3);}
 
 /* MOBILE OPTIMIZATION */
 @media (max-width: 480px) {
-  .social-grid { grid-template-columns: repeat(2, 1fr); gap:12px; }
+  .social-grid { grid-template-columns: repeat(2, 1fr); gap:15px; }
   .s-card:last-child { grid-column: span 2; }
   .gal-grid { grid-template-columns: 1fr; }
-  .hn-baxto { font-size: 52px; }
-  .hn-tattoo { font-size: 26px; letter-spacing: 6px; }
-  .logo-container { width:130px; height:130px; }
-  .logo-hex { width:130px; height:130px; }
+  .hn-baxto { font-size: 56px; }
+  .hn-tattoo { font-size: 28px; letter-spacing: 8px; }
+  .logo-container { width:140px; height:140px; }
+  .logo-hex { width:140px; height:140px; }
 }
 </style>
 </head>
@@ -261,7 +246,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 <div id="main">
   <section id="hero">
     <div class="logo-container" id="logoTarget">
-      <div class="logo-maya-ring"></div>
+      <div class="logo-holo-ring"></div>
       <div class="logo-hex"></div>
       <div class="logo-hex-inner">
         <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/image_1762409915252.jpeg">
@@ -273,16 +258,15 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
       <span class="hn-tattoo">TATTOO</span>
     </div>
 
-    <div class="hero-sub">8 AÑOS DE EXPERIENCIA</div>
-    <div style="font-size:11px;letter-spacing:.4em;color:rgba(160,200,255,0.8);text-transform:uppercase;margin-bottom:20px;">Playa del Carmen · Quintana Roo</div>
+    <div class="hero-sub">ESTÉTICA DE AUTOR</div>
+    <div style="font-size:12px;letter-spacing:.5em;color:rgba(0,242,255,0.6);text-transform:uppercase;margin-bottom:25px;">Playa del Carmen · México</div>
     <div class="hero-phrase" id="phrase"></div>
 
     <div class="lily-avatar-wrap" id="lilyTarget" onclick="openChat()">
-      <div class="lily-mandala"></div>
+      <div class="lily-aura"></div>
       <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" class="lily-avatar-img">
-      <div class="lily-avatar-shimmer"></div>
       <span class="lily-av-name">BLACK LILY</span>
-      <span style="font-size:11px;letter-spacing:.2em;color:rgba(191,148,255,0.7);">⚜️ Entidad IA · Toca para conectar</span>
+      <span style="font-size:12px;letter-spacing:.25em;color:rgba(138,43,226,0.8);">⚜️ IA GENERATIVA 2028</span>
     </div>
 
     <div class="social-grid" id="socialTarget">
@@ -307,7 +291,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
         <span>Maps</span>
       </a>
       <div class="s-card" onclick="openChat()" style="color:var(--c2);" id="btn-bl">
-        <div style="width:28px;height:28px;border-radius:50%;overflow:hidden;border:1px solid var(--c2);box-shadow:0 0 10px var(--c2);">
+        <div style="width:30px;height:30px;border-radius:50%;overflow:hidden;border:1px solid var(--c2);">
           <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" style="width:100%;height:100%;object-fit:cover;">
         </div>
         <span>Black Lily</span>
@@ -316,7 +300,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
   </section>
 
   <section id="gallery">
-    <div class="section-title">Portafolio Elite</div>
+    <div class="section-title">PORTAFOLIO 2028</div>
     <div class="gal-grid">
       <div class="gal-item" id="gal-1">
         <div class="gal-card"><img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_153716186.jpg"></div>
@@ -345,27 +329,27 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
     </div>
   </section>
 
-  <section style="padding:0 16px 60px; max-width:600px; margin:0 auto; display:flex; flex-direction:column; gap:15px;">
-    <div class="s-card" onclick="openModal('m-cuidados')" style="transform:none; flex-direction:row; justify-content:space-between; padding:20px; width:100%;" id="btn-cuidados">
+  <section style="padding:0 20px 80px; max-width:650px; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
+    <div class="s-card" onclick="openModal('m-cuidados')" style="flex-direction:row; justify-content:space-between; padding:25px; width:100%;" id="btn-cuidados">
       <div style="text-align:left;">
-        <div style="font-family:'Bebas Neue'; color:var(--c1); font-size:18px; letter-spacing:2px;">Cuidados Post-Tatuaje</div>
-        <div style="font-size:12px; color:var(--muted);">Protocolo de sanación 2038</div>
+        <div style="font-family:'Bebas Neue'; color:var(--c1); font-size:20px; letter-spacing:3px;">Cuidados Post-Tatuaje</div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.6);">Protocolo de sanación avanzada</div>
       </div>
-      <div style="font-size:24px; color:var(--c1);">📋</div>
+      <div style="font-size:28px; color:var(--c1);">📋</div>
     </div>
-    <div class="s-card" onclick="openModal('m-precios')" style="transform:none; flex-direction:row; justify-content:space-between; padding:20px; width:100%;" id="btn-precios">
+    <div class="s-card" onclick="openModal('m-precios')" style="flex-direction:row; justify-content:space-between; padding:25px; width:100%;" id="btn-precios">
       <div style="text-align:left;">
-        <div style="font-family:'Bebas Neue'; color:var(--c1); font-size:18px; letter-spacing:2px;">Precios y Promociones</div>
-        <div style="font-size:12px; color:var(--muted);">10% OFF vía Black Lily</div>
+        <div style="font-family:'Bebas Neue'; color:var(--c1); font-size:20px; letter-spacing:3px;">Precios y Promociones</div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.6);">10% OFF vía Black Lily</div>
       </div>
-      <div style="font-size:24px; color:var(--c5);">🔥</div>
+      <div style="font-size:28px; color:var(--c5);">🔥</div>
     </div>
-    <div class="s-card" onclick="openModal('m-politicas')" style="transform:none; flex-direction:row; justify-content:space-between; padding:20px; width:100%;" id="btn-politicas">
+    <div class="s-card" onclick="openModal('m-politicas')" style="flex-direction:row; justify-content:space-between; padding:25px; width:100%;" id="btn-politicas">
       <div style="text-align:left;">
-        <div style="font-family:'Bebas Neue'; color:var(--c1); font-size:18px; letter-spacing:2px;">Políticas y Pagos</div>
-        <div style="font-size:12px; color:var(--muted);">Ubicación y métodos de pago</div>
+        <div style="font-family:'Bebas Neue'; color:var(--c1); font-size:20px; letter-spacing:3px;">Políticas y Pagos</div>
+        <div style="font-size:13px; color:rgba(255,255,255,0.6);">Ubicación y métodos de pago</div>
       </div>
-      <div style="font-size:24px; color:var(--c2);">📜</div>
+      <div style="font-size:28px; color:var(--c2);">📜</div>
     </div>
   </section>
 </div>
@@ -392,12 +376,12 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-head"><div class="modal-title">💰 Precios y Promociones</div><button class="modal-close" onclick="closeModal(document.getElementById('m-precios'))">✕</button></div>
     <div class="modal-body">
-      <div style="background:rgba(255,215,64,0.1); border:1px solid var(--c5); padding:15px; border-radius:12px; margin-bottom:20px; text-align:center; font-weight:bold; color:var(--c5); text-shadow:0 0 10px var(--c5);">🔥 PROMO BLACK LILY: 10% OFF RESERVANDO AQUÍ</div>
+      <div style="background:rgba(255,204,0,0.1); border:1px solid var(--c5); padding:20px; border-radius:15px; margin-bottom:25px; text-align:center; font-weight:bold; color:var(--c5); text-shadow:0 0 15px var(--c5);">🔥 PROMO BLACK LILY: 10% OFF RESERVANDO AQUÍ</div>
       ✦ Micro / minimalista: desde $500 MXN<br>
       ✦ Lettering cursivo: desde $800 MXN<br>
       ✦ Medianos (10-15cm): desde $1,200 MXN<br>
       ✦ Retratos / realismo: desde $2,500 MXN<br><br>
-      <em style="font-size:12px; color:var(--muted);">* Precios sujetos a complejidad y zona del cuerpo.</em>
+      <em style="font-size:13px; color:rgba(255,255,255,0.5);">* Precios sujetos a complejidad y zona del cuerpo.</em>
     </div>
   </div>
 </div>
@@ -420,20 +404,20 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 <div class="modal-overlay" id="chat-modal" onclick="closeModal(this)">
   <div class="modal-box" onclick="event.stopPropagation()">
     <div class="modal-head">
-      <div class="modal-title">🖤 Black Lily ⚜️ — IA</div>
+      <div class="modal-title">🖤 Black Lily ⚜️ — IA 2028</div>
       <button class="modal-close" onclick="closeModal(document.getElementById('chat-modal'))">✕</button>
     </div>
     <div id="chat-msgs">
       <div class="cmsg lily">
-        <div class="cav">BL</div>
-        <div class="cbub">Hola 🖤 Soy Black Lily, la entidad IA de Baxto Style Tattoo. He sido programada para asistirte en tu próximo viaje artístico. ¿Qué diseño tienes en mente?</div>
+        <div class="cav" style="border-color:var(--c2)">BL</div>
+        <div class="cbub">Hola 🖤 Soy Black Lily. Mi red neural ha sido actualizada a la generación 2028. ¿Qué visión artística vamos a materializar hoy?</div>
       </div>
     </div>
     <div class="chat-inp-wrap">
       <div class="chat-inp-box">
         <textarea id="cinp" placeholder="Escribe a Black Lily..." rows="1"></textarea>
         <button class="csend" onclick="sendChat()">
-          <svg width="18" height="18" viewBox="0 0 14 14" fill="none"><path d="M1 7L13 1L7 13L6.5 7.5L1 7Z" fill="white"/></svg>
+          <svg width="20" height="20" viewBox="0 0 14 14" fill="none"><path d="M1 7L13 1L7 13L6.5 7.5L1 7Z" fill="white"/></svg>
         </button>
       </div>
     </div>
@@ -481,10 +465,10 @@ async function sendChat() {
     });
     const data = await r.json();
     document.getElementById('tbl')?.remove();
-    addMsg(data.reply || data.respuesta || 'Conexión establecida. Black Lily lista.', 'lily');
+    addMsg(data.reply || data.respuesta || 'Conexión Gen 2028 establecida.', 'lily');
   } catch(e) {
     document.getElementById('tbl')?.remove();
-    addMsg('Error en la red neural. Reintentando...', 'lily');
+    addMsg('Error de sincronización. Reintentando...', 'lily');
   } finally {
     busy = false;
   }
@@ -500,26 +484,26 @@ function addMsg(txt, type) {
 function addTyping() {
   const msgs = document.getElementById('chat-msgs');
   const d = document.createElement('div'); d.className = 'cmsg lily'; d.id = 'tbl';
-  d.innerHTML = '<div class="cav" style="border-color:var(--c2)">BL</div><div class="cbub">Procesando...</div>';
+  d.innerHTML = '<div class="cav" style="border-color:var(--c2)">BL</div><div class="cbub">Sincronizando...</div>';
   msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
 }
 
 document.getElementById('cinp')?.addEventListener('keydown', e => { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } });
 
-// ── VISUAL ENGINE 2038 ──
+// ── VISUAL ENGINE GEN 2028 ──
 
-// 1. PLASMA PARTICLES
+// 1. FLUID PLASMA
 const p_cv = document.getElementById('plasma');
 const p_cx = p_cv.getContext('2d');
 let p_list = [];
-const p_colors = ['#00e5ff', '#7c4dff', '#ff1744', '#00e676', '#ffd740'];
+const p_colors = ['#00f2ff', '#8a2be2', '#ff003c', '#00ff88', '#ffcc00'];
 
 function initPlasma() {
   p_cv.width = window.innerWidth; p_cv.height = window.innerHeight;
-  p_list = Array.from({length: 60}, () => ({
+  p_list = Array.from({length: 70}, () => ({
     x: Math.random() * p_cv.width, y: Math.random() * p_cv.height,
-    s: Math.random() * 3 + 1, vx: (Math.random() - 0.5) * 0.8, vy: (Math.random() - 0.5) * 0.8,
-    c: p_colors[Math.floor(Math.random() * p_colors.length)], o: Math.random() * 0.6 + 0.2
+    s: Math.random() * 4 + 1, vx: (Math.random() - 0.5) * 1.2, vy: (Math.random() - 0.5) * 1.2,
+    c: p_colors[Math.floor(Math.random() * p_colors.length)], o: Math.random() * 0.7 + 0.3
   }));
 }
 
@@ -531,13 +515,13 @@ function drawPlasma() {
     if(p.y < 0) p.y = p_cv.height; if(p.y > p_cv.height) p.y = 0;
     p_cx.beginPath(); p_cx.arc(p.x, p.y, p.s, 0, Math.PI*2);
     p_cx.fillStyle = p.c; p_cx.globalAlpha = p.o;
-    p_cx.shadowBlur = 10; p_cx.shadowColor = p.c;
+    p_cx.shadowBlur = 15; p_cx.shadowColor = p.c;
     p_cx.fill();
   });
   requestAnimationFrame(drawPlasma);
 }
 
-// 2. ENERGY CONNECTORS
+// 2. VOLUMETRIC ENERGY
 const e_cv = document.getElementById('energy');
 const e_cx = e_cv.getContext('2d');
 let e_time = 0;
@@ -545,7 +529,7 @@ let e_time = 0;
 function drawEnergy() {
   e_cv.width = window.innerWidth; e_cv.height = window.innerHeight;
   e_cx.clearRect(0, 0, e_cv.width, e_cv.height);
-  e_time += 0.03;
+  e_time += 0.04;
 
   const logo = document.getElementById('logoTarget').getBoundingClientRect();
   const lily = document.getElementById('lilyTarget').getBoundingClientRect();
@@ -555,7 +539,7 @@ function drawEnergy() {
   const p2 = {x: lily.left + lily.width/2, y: lily.top + lily.height/2};
 
   // Main connection Logo -> Lily
-  drawPlasmaLine(p1, p2, 'var(--c1)', 'var(--c2)');
+  drawHoloLine(p1, p2, 'var(--c1)', 'var(--c2)');
 
   // Connections Lily -> Buttons
   targets.forEach(id => {
@@ -564,7 +548,7 @@ function drawEnergy() {
       const rect = el.getBoundingClientRect();
       const p3 = {x: rect.left + rect.width/2, y: rect.top + rect.height/2};
       if(rect.top > 0 && rect.top < window.innerHeight) {
-        drawPlasmaLine(p2, p3, 'rgba(124,77,255,0.3)', 'rgba(0,229,255,0.2)');
+        drawHoloLine(p2, p3, 'rgba(138,43,226,0.4)', 'rgba(0,242,255,0.3)');
       }
     }
   });
@@ -572,36 +556,36 @@ function drawEnergy() {
   requestAnimationFrame(drawEnergy);
 }
 
-function drawPlasmaLine(p1, p2, c1, c2) {
-  e_cx.lineWidth = 1;
+function drawHoloLine(p1, p2, c1, c2) {
+  e_cx.lineWidth = 1.5;
   const grad = e_cx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
   grad.addColorStop(0, c1); grad.addColorStop(1, c2);
   e_cx.strokeStyle = grad;
   e_cx.beginPath();
   e_cx.moveTo(p1.x, p1.y);
-  const cpX = (p1.x + p2.x)/2 + Math.sin(e_time) * 20;
-  const cpY = (p1.y + p2.y)/2 + Math.cos(e_time) * 20;
+  const cpX = (p1.x + p2.x)/2 + Math.sin(e_time) * 25;
+  const cpY = (p1.y + p2.y)/2 + Math.cos(e_time) * 25;
   e_cx.quadraticCurveTo(cpX, cpY, p2.x, p2.y);
   e_cx.stroke();
 
-  // Pulse traveling
-  const pulse = (e_time % 3) / 3;
-  const px = p1.x + (p2.x - p1.x) * pulse;
-  const py = p1.y + (p2.y - p1.y) * pulse;
-  e_cx.fillStyle = '#fff'; e_cx.shadowBlur = 15; e_cx.shadowColor = '#fff';
-  e_cx.beginPath(); e_cx.arc(px, py, 2, 0, Math.PI*2); e_cx.fill();
+  // Traveling Scan
+  const scan = (e_time % 4) / 4;
+  const px = p1.x + (p2.x - p1.x) * scan;
+  const py = p1.y + (p2.y - p1.y) * scan;
+  e_cx.fillStyle = '#fff'; e_cx.shadowBlur = 20; e_cx.shadowColor = '#fff';
+  e_cx.beginPath(); e_cx.arc(px, py, 2.5, 0, Math.PI*2); e_cx.fill();
 }
 
-// 3. NEURAL NETWORK
+// 3. NEURAL NETWORK GEN 2028
 const n_cv = document.getElementById('neural');
 const n_cx = n_cv.getContext('2d');
 let n_nodes = [];
 
 function initNeural() {
   n_cv.width = window.innerWidth; n_cv.height = window.innerHeight;
-  n_nodes = Array.from({length: 45}, () => ({
+  n_nodes = Array.from({length: 50}, () => ({
     x: Math.random() * n_cv.width, y: Math.random() * n_cv.height,
-    vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4
+    vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5
   }));
 }
 
@@ -613,22 +597,22 @@ function drawNeural() {
     if(n.y < 0 || n.y > n_cv.height) n.vy *= -1;
     n_nodes.forEach(m => {
       const d = Math.hypot(n.x - m.x, n.y - m.y);
-      if(d < 160) {
+      if(d < 180) {
         n_cx.beginPath(); n_cx.moveTo(n.x, n.y); n_cx.lineTo(m.x, m.y);
-        n_cx.strokeStyle = `rgba(0, 229, 255, ${0.15 * (1 - d/160)})`;
-        n_cx.lineWidth = 0.8; n_cx.stroke();
+        n_cx.strokeStyle = `rgba(0, 242, 255, ${0.2 * (1 - d/180)})`;
+        n_cx.lineWidth = 1; n_cx.stroke();
       }
     });
   });
   requestAnimationFrame(drawNeural);
 }
 
-// 4. EXPLOSION EFFECT
+// 4. PARTICLE EXPLOSION
 function createExplosion(x, y) {
-  for(let i=0; i<15; i++) {
-    const p = { x, y, vx: (Math.random()-0.5)*10, vy: (Math.random()-0.5)*10, s: Math.random()*4, o: 1, c: p_colors[Math.floor(Math.random()*5)] };
+  for(let i=0; i<20; i++) {
+    const p = { x, y, vx: (Math.random()-0.5)*12, vy: (Math.random()-0.5)*12, s: Math.random()*5, o: 1, c: p_colors[Math.floor(Math.random()*5)] };
     p_list.push(p);
-    setTimeout(() => { const idx = p_list.indexOf(p); if(idx > -1) p_list.splice(idx, 1); }, 1000);
+    setTimeout(() => { const idx = p_list.indexOf(p); if(idx > -1) p_list.splice(idx, 1); }, 1200);
   }
 }
 
@@ -638,9 +622,9 @@ let pi=0, ci=0, del=false;
 function typeNext() {
   const el = document.getElementById('phrase'); if(!el) return;
   const cur = PH[pi];
-  if(!del) { el.textContent = cur.slice(0, ++ci); if(ci >= cur.length) { del = true; setTimeout(typeNext, 2500); return; } }
+  if(!del) { el.textContent = cur.slice(0, ++ci); if(ci >= cur.length) { del = true; setTimeout(typeNext, 3000); return; } }
   else { el.textContent = cur.slice(0, --ci); if(ci === 0) { del = false; pi = (pi+1)%PH.length; } }
-  setTimeout(typeNext, del ? 40 : 80);
+  setTimeout(typeNext, del ? 30 : 60);
 }
 
 // INITIALIZE
