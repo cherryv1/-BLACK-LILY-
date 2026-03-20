@@ -3,639 +3,909 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Baxto Style Tattoo — Gen 2028</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+<title>Baxto Style Tattoo</title>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 :root{
-  --bg:#000205;
-  --c1:#00f2ff;
-  --c2:#8a2be2;
-  --c3:#ff003c;
+  --bg:#00020a;
+  --c1:#00f5ff;
+  --c2:#9d00ff;
+  --c3:#ff0066;
   --c4:#00ff88;
-  --c5:#ffcc00;
-  --glass:rgba(0,10,20,0.75);
-  --border:rgba(0,242,255,0.2);
+  --c5:#ffd700;
+  --c6:#ff6b00;
+  --glow1:rgba(0,245,255,.6);
+  --glow2:rgba(157,0,255,.6);
+  --glow3:rgba(0,255,136,.4);
+  --text:#e0f0ff;
+  --muted:#3a5a7a;
+  --panel:rgba(0,5,20,.92);
+  --border:rgba(0,245,255,.12);
 }
-html,body{height:100%;background:var(--bg);color:#e0f7ff;font-family:'Rajdhani',sans-serif;overflow-x:hidden;touch-action:manipulation;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;cursor:default;}
 
-/* ── MULTI-LAYER CANVASES ── */
-#neural,#plasma,#energy{position:fixed;inset:0;z-index:0;pointer-events:none;}
-#neural{z-index:-3;opacity:0.3;filter:blur(1px);}
-#plasma{z-index:-2;opacity:0.6;mix-blend-mode:screen;}
-#energy{z-index:5;filter:drop-shadow(0 0 8px var(--c1));}
+/* PLASMA CANVAS */
+#plasma{position:fixed;inset:0;z-index:0;pointer-events:none;}
 
-/* ── MAIN CONTAINER ── */
-#main{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;}
+/* GRID OVERLAY */
+body::before{
+  content:'';position:fixed;inset:0;z-index:1;pointer-events:none;
+  background-image:linear-gradient(rgba(0,245,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,.03) 1px,transparent 1px);
+  background-size:40px 40px;
+  animation:grid-move 20s linear infinite;
+}
+@keyframes grid-move{0%{background-position:0 0}100%{background-position:40px 40px}}
 
-/* ── HERO SECTION ── */
+/* SCANLINES */
+body::after{
+  content:'';position:fixed;inset:0;z-index:2;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.05) 2px,rgba(0,0,0,.05) 4px);
+}
+
+/* MAIN */
+#app{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+
+/* ═══ HERO ═══ */
 #hero{
-  min-height:100vh;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:20px;
-  text-align:center;
-  position:relative;
-}
-
-/* Logo Holográfico Volumétrico */
-.logo-container{position:relative;width:170px;height:170px;margin:0 auto 25px;z-index:20;}
-.logo-holo-ring{
-  position:absolute;inset:-20px;
-  border:1px solid var(--c1);
-  border-radius:50%;
-  animation:holo-spin 15s linear infinite;
-  box-shadow:0 0 20px var(--c1), inset 0 0 20px var(--c1);
-  opacity:0.4;
-}
-.logo-hex{
-  width:170px;height:170px;
-  background:conic-gradient(var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c1));
-  border-radius:50%;
-  animation:hex-spin 8s linear infinite, logo-pulse 3s ease-in-out infinite;
-  position:absolute;inset:0;
-  box-shadow:0 0 40px rgba(0,242,255,0.3);
-}
-.logo-hex-inner{
-  position:absolute;inset:6px;
-  background:var(--bg);
-  border-radius:50%;
-  display:flex;align-items:center;justify-content:center;
-  z-index:2;
-  overflow:hidden;
-}
-.logo-hex-inner img{width:100%;height:100%;border-radius:50%;object-fit:cover;filter:contrast(1.2) brightness(1.1);}
-@keyframes holo-spin{from{transform:rotate(0) scale(1)}50%{transform:rotate(180deg) scale(1.1)}to{transform:rotate(360deg) scale(1)}}
-@keyframes hex-spin{to{transform:rotate(360deg)}}
-@keyframes logo-pulse{0%,100%{transform:scale(1);filter:hue-rotate(0deg)}50%{transform:scale(1.06);filter:hue-rotate(15deg)}}
-
-/* Tipografía BAXTO STYLE Gen 2028 */
-.hero-name{
-  font-family:'UnifrakturMaguntia', cursive;
-  line-height:0.85;
-  margin-bottom:25px;
-  z-index:20;
-}
-.hn-baxto{
-  display:block;
-  font-size:clamp(50px, 15vw, 88px);
-  color: #fff;
-  -webkit-text-stroke: 1px var(--c1);
-  filter: drop-shadow(0 0 10px var(--c1)) drop-shadow(0 0 25px var(--c4));
-  letter-spacing: 2px;
-  animation: text-glitch 5s infinite;
-}
-.hn-tattoo{
-  display:block;
-  font-size:clamp(28px, 9vw, 46px);
-  color: #fff;
-  -webkit-text-stroke: 0.5px var(--c1);
-  filter: drop-shadow(0 0 8px var(--c1));
-  margin-top: 8px;
-  letter-spacing: 12px;
-}
-@keyframes text-glitch{
-  0%,90%,100%{transform:skew(0);filter:drop-shadow(0 0 10px var(--c1))}
-  92%{transform:skew(2deg);filter:drop-shadow(2px 0 0 var(--c3))}
-  94%{transform:skew(-2deg);filter:drop-shadow(-2px 0 0 var(--c4))}
-}
-
-.hero-sub{font-size:15px;color:#fff;text-shadow:0 0 15px var(--c5);letter-spacing:.4em;font-weight:700;margin-bottom:10px;z-index:20;}
-.hero-phrase{
-  font-size:16px;color:var(--c1);letter-spacing:.2em;
-  min-height:26px;text-shadow:0 0 15px var(--c1);
-  margin-bottom:45px;z-index:20;
-}
-
-/* ── BLACK LILY ENTIDAD 2028 ── */
-.lily-avatar-wrap{
-  position:relative;width:210px;height:290px;
-  margin:15px auto 45px;cursor:pointer;
+  width:100%;max-width:480px;
+  padding:40px 20px 20px;
   display:flex;flex-direction:column;align-items:center;
-  z-index:25;
+  text-align:center;position:relative;
 }
-.lily-aura{
-  position:absolute;top:-10px;width:230px;height:230px;
-  background:radial-gradient(circle, rgba(138,43,226,0.2) 0%, transparent 75%);
+
+/* LOGO */
+.logo-wrap{position:relative;width:140px;height:140px;margin:0 auto 16px;}
+.logo-ring{
+  position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c1));
+  animation:ring-spin 4s linear infinite;
+  filter:blur(1px);
+}
+.logo-ring2{
+  position:absolute;inset:3px;border-radius:50%;
+  background:conic-gradient(var(--c2),var(--c3),var(--c4),var(--c1),var(--c2));
+  animation:ring-spin 6s linear infinite reverse;
+  opacity:.5;
+}
+@keyframes ring-spin{to{transform:rotate(360deg)}}
+.logo-inner{
+  position:absolute;inset:6px;border-radius:50%;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;z-index:2;
+}
+.logo-inner img{width:100%;height:100%;object-fit:cover;border-radius:50%;}
+.logo-pulse{position:absolute;inset:-6px;border-radius:50%;border:1px solid var(--c1);animation:lpulse 2s ease-out infinite;opacity:0;}
+.logo-pulse2{position:absolute;inset:-14px;border-radius:50%;border:1px solid var(--c2);animation:lpulse 2s ease-out infinite .5s;opacity:0;}
+.logo-pulse3{position:absolute;inset:-22px;border-radius:50%;border:1px solid var(--c4);animation:lpulse 2.5s ease-out infinite 1s;opacity:0;}
+@keyframes lpulse{0%{opacity:.7;transform:scale(.95)}100%{opacity:0;transform:scale(1.1)}}
+
+/* TITLE */
+.title-baxto{
+  font-family:'UnifrakturMaguntia',cursive;
+  font-size:clamp(42px,11vw,70px);
+  line-height:.95;
+  color:#fff;
+  -webkit-text-stroke:1.5px #0088ff;
+  text-shadow:0 0 10px #00f5ff,0 0 20px #00f5ff,0 0 40px rgba(0,245,255,.4),0 0 80px rgba(0,245,255,.2),2px 2px 0 rgba(0,0,255,.3);
+  letter-spacing:.03em;
+  display:block;
+  animation:title-breathe 4s ease-in-out infinite;
+}
+.title-style{
+  font-family:'UnifrakturMaguntia',cursive;
+  font-size:clamp(28px,7vw,46px);
+  color:#fff;
+  -webkit-text-stroke:1px #0066cc;
+  text-shadow:0 0 8px #00f5ff,0 0 16px rgba(0,245,255,.4),0 0 32px rgba(0,100,255,.3);
+  letter-spacing:.06em;
+  display:inline;
+}
+.title-tattoo{
+  display:block;
+  font-family:'UnifrakturMaguntia',cursive;
+  font-size:clamp(18px,5vw,30px);
+  color:var(--c2);
+  -webkit-text-stroke:.5px #7700cc;
+  text-shadow:0 0 10px var(--c2),0 0 20px rgba(157,0,255,.5),0 0 40px rgba(157,0,255,.3);
+  letter-spacing:.2em;
+  margin-top:2px;
+}
+@keyframes title-breathe{0%,100%{filter:brightness(1)}50%{filter:brightness(1.15)}}
+
+.hero-loc{
+  font-size:10px;letter-spacing:.4em;color:var(--muted);
+  text-transform:uppercase;margin:10px 0 4px;
+}
+.hero-exp{
+  font-size:13px;letter-spacing:.2em;font-weight:600;
+  color:var(--c5);text-shadow:0 0 10px var(--c5);
+  margin-bottom:4px;
+}
+.hero-phrase{
+  font-size:13px;color:var(--c1);letter-spacing:.08em;
+  text-shadow:0 0 8px var(--c1);min-height:18px;
+  margin-bottom:20px;font-style:italic;
+}
+
+/* ═══ AVATAR BLACK LILY ═══ */
+.lily-section{
+  position:relative;width:200px;margin:0 auto 24px;
+  cursor:pointer;display:flex;flex-direction:column;align-items:center;
+}
+.lily-mandala{
+  position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+  width:220px;height:220px;
+  background:conic-gradient(from 0deg,transparent 0deg,rgba(157,0,255,.08) 30deg,transparent 60deg,rgba(0,245,255,.06) 90deg,transparent 120deg,rgba(157,0,255,.08) 150deg,transparent 180deg,rgba(0,245,255,.06) 210deg,transparent 240deg,rgba(157,0,255,.08) 270deg,transparent 300deg,rgba(0,245,255,.06) 330deg,transparent 360deg);
   border-radius:50%;
-  animation:aura-pulse 4s ease-in-out infinite;
+  animation:mandala-spin 20s linear infinite;
   z-index:1;
 }
-@keyframes aura-pulse{0%,100%{transform:scale(1);opacity:0.5}50%{transform:scale(1.2);opacity:0.8}}
-.lily-avatar-img{
-  width:190px;height:230px;object-fit:cover;object-position:top;
-  border-radius:50% 50% 45% 45%;
-  border:1.5px solid rgba(138,43,226,0.6);
-  position:relative;z-index:3;
-  filter:drop-shadow(0 0 25px var(--c2));
-  animation:lily-float 5s ease-in-out infinite;
+.lily-mandala2{
+  position:absolute;top:-20px;left:50%;transform:translateX(-50%);
+  width:240px;height:240px;
+  background:conic-gradient(from 45deg,transparent 0deg,rgba(0,255,136,.05) 20deg,transparent 40deg,rgba(255,0,102,.05) 60deg,transparent 80deg,rgba(0,255,136,.05) 100deg,transparent 120deg,rgba(255,0,102,.05) 140deg,transparent 160deg,rgba(0,255,136,.05) 200deg,transparent 220deg,rgba(255,0,102,.05) 260deg,transparent 280deg,rgba(0,255,136,.05) 320deg,transparent 340deg);
+  border-radius:50%;
+  animation:mandala-spin 15s linear infinite reverse;
+  z-index:1;
 }
-@keyframes lily-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.lily-av-name{
-  display:block;font-family:'Bebas Neue',cursive;
-  font-size:28px;letter-spacing:.5em;
-  color:#d4bfff;text-shadow:0 0 20px var(--c2);
-  margin-top:18px;
+@keyframes mandala-spin{to{transform:translateX(-50%) rotate(360deg)}}
+
+.lily-glow-bg{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:180px;height:210px;
+  background:radial-gradient(ellipse at center,rgba(157,0,255,.2) 0%,rgba(0,245,255,.08) 40%,transparent 70%);
+  border-radius:50% 50% 42% 42%;
+  animation:lily-breathe 3s ease-in-out infinite;
+  z-index:2;
+}
+@keyframes lily-breathe{0%,100%{transform:translateX(-50%) scale(1);opacity:.8}50%{transform:translateX(-50%) scale(1.05);opacity:1}}
+
+.lily-ring-outer{
+  position:absolute;top:-8px;left:50%;transform:translateX(-50%);
+  width:196px;height:226px;border-radius:50% 50% 42% 42%;
+  border:1px solid rgba(157,0,255,.3);
+  animation:lily-breathe 3s ease-in-out infinite .3s;
+  z-index:2;pointer-events:none;
+}
+.lily-ring-inner{
+  position:absolute;top:4px;left:50%;transform:translateX(-50%);
+  width:172px;height:202px;border-radius:50% 50% 42% 42%;
+  border:1px solid rgba(0,245,255,.2);
+  animation:lily-breathe 3s ease-in-out infinite .6s;
+  z-index:2;pointer-events:none;
 }
 
-/* ── BOTONES CRISTAL TALLADO ── */
+.lily-img{
+  width:180px;height:215px;
+  object-fit:cover;object-position:top center;
+  border-radius:50% 50% 42% 42%;
+  border:2px solid rgba(157,0,255,.5);
+  position:relative;z-index:3;
+  filter:drop-shadow(0 0 16px rgba(157,0,255,.7)) saturate(1.1);
+  transition:filter .3s;
+  animation:lily-float 5s ease-in-out infinite;
+}
+@keyframes lily-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.lily-section:hover .lily-img,.lily-section:active .lily-img{
+  filter:drop-shadow(0 0 28px rgba(157,0,255,1)) drop-shadow(0 0 50px rgba(0,245,255,.5)) saturate(1.2);
+}
+
+.lily-shimmer{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:180px;height:215px;
+  background:linear-gradient(108deg,transparent 30%,rgba(255,255,255,.06) 50%,rgba(157,0,255,.04) 55%,transparent 70%);
+  border-radius:50% 50% 42% 42%;
+  animation:shimmer 4s ease-in-out infinite;
+  z-index:4;pointer-events:none;
+}
+@keyframes shimmer{0%,100%{transform:translateX(-50%) translateX(-60px)}50%{transform:translateX(-50%) translateX(60px)}}
+
+.lily-eye-glow{
+  position:absolute;top:28%;left:50%;transform:translate(-50%,-50%);
+  width:60px;height:8px;
+  background:radial-gradient(ellipse,rgba(0,245,255,.6) 0%,transparent 70%);
+  animation:eye-glow 3s ease-in-out infinite;
+  z-index:5;pointer-events:none;
+}
+@keyframes eye-glow{0%,100%{opacity:.3;width:50px}50%{opacity:.8;width:70px}}
+
+.lily-particles-wrap{position:absolute;inset:0;z-index:6;pointer-events:none;overflow:visible;}
+
+.lily-name{
+  display:block;margin-top:10px;z-index:5;
+  font-family:'UnifrakturMaguntia',cursive;
+  font-size:24px;letter-spacing:.2em;
+  color:rgba(200,150,255,.9);
+  text-shadow:0 0 10px rgba(157,0,255,.8),0 0 20px rgba(157,0,255,.4);
+}
+.lily-sub{
+  display:block;font-size:10px;letter-spacing:.2em;
+  color:rgba(157,0,255,.5);margin-top:2px;
+  font-family:'Share Tech Mono',monospace;
+}
+
+/* ═══ SOCIAL GRID ═══ */
 .social-grid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:20px;width:100%;max-width:380px;margin:0 auto 45px;
-  z-index:20;
+  gap:8px;width:100%;max-width:320px;
+  margin:0 auto 24px;
 }
 .s-card{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:20px 12px;gap:12px;
-  background:linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
-  border:1px solid rgba(255,255,255,0.1);
-  border-radius:18px;
-  text-decoration:none;color:#fff;
-  transition:all 0.5s cubic-bezier(0.2, 1, 0.2, 1);
-  cursor:pointer;
-  backdrop-filter:blur(10px);
-  box-shadow:0 10px 30px rgba(0,0,0,0.5);
-  position:relative;overflow:hidden;
+  padding:14px 8px 10px;gap:6px;
+  background:linear-gradient(160deg,rgba(255,255,255,.04),rgba(0,0,20,.8));
+  border:1px solid rgba(0,245,255,.1);
+  border-radius:10px;
+  text-decoration:none;color:var(--text);
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:all .3s cubic-bezier(.175,.885,.32,1.275);
+  box-shadow:0 4px 20px rgba(0,0,0,.4),0 1px 0 rgba(255,255,255,.04) inset,0 -2px 0 rgba(0,0,0,.3) inset;
 }
-.s-card::after{
-  content:'';position:absolute;top:-100%;left:-100%;width:300%;height:300%;
-  background:radial-gradient(circle, rgba(0,242,255,0.15) 0%, transparent 50%);
-  transition:0.5s;
+.s-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,.05),transparent);
+  opacity:0;transition:opacity .3s;
 }
-.s-card:hover{
-  transform:translateY(-10px) scale(1.05);
-  border-color:var(--c1);
-  box-shadow:0 20px 40px rgba(0,242,255,0.2);
+.s-card:hover::before,.s-card:active::before{opacity:1;}
+.s-card:hover,.s-card:active{
+  transform:translateY(-4px) scale(1.03);
+  box-shadow:0 8px 30px rgba(0,245,255,.2),0 2px 0 rgba(255,255,255,.06) inset;
 }
-.s-card:hover::after{top:-50%;left:-50%;}
-.s-card svg{width:30px;height:30px;filter:drop-shadow(0 0 10px currentColor);}
-.s-card span{font-size:12px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;}
+.s-card:active{transform:translateY(0) scale(.98);}
+.s-card svg{width:26px;height:26px;filter:drop-shadow(0 0 4px currentColor);}
+.s-card span{font-size:9px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;}
+.s-wa svg,.s-wa span{color:#25d366;}.s-wa:hover{border-color:rgba(37,211,102,.4);box-shadow:0 8px 30px rgba(37,211,102,.2)!important;}
+.s-ig svg,.s-ig span{color:#e1306c;}.s-ig:hover{border-color:rgba(225,48,108,.4);box-shadow:0 8px 30px rgba(225,48,108,.2)!important;}
+.s-fb svg,.s-fb span{color:#1877f2;}.s-fb:hover{border-color:rgba(24,119,242,.4);}
+.s-tk svg,.s-tk span{color:#ff0050;}.s-tk:hover{border-color:rgba(255,0,80,.4);}
+.s-mp svg,.s-mp span{color:#ea4335;}.s-mp:hover{border-color:rgba(234,67,53,.4);}
+.s-bl{border-color:rgba(157,0,255,.3);background:linear-gradient(160deg,rgba(157,0,255,.1),rgba(0,0,20,.9))!important;}
+.s-bl svg,.s-bl span{color:var(--c2);}
+.s-bl:hover{border-color:rgba(157,0,255,.6);box-shadow:0 8px 30px rgba(157,0,255,.3)!important;}
+.s-bl-avatar{width:28px;height:28px;border-radius:50%;overflow:hidden;border:1px solid rgba(157,0,255,.5);}
+.s-bl-avatar img{width:100%;height:100%;object-fit:cover;object-position:top;}
 
-/* ── GALERÍA HOLOGRÁFICA ── */
-#gallery{padding:50px 20px;max-width:650px;margin:0 auto;width:100%;z-index:20;}
-.gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
-.gal-item{
-  display:flex;flex-direction:column;border-radius:15px;overflow:hidden;
-  border:1px solid rgba(0,242,255,0.15);background:rgba(0,0,0,0.5);
-  transition:0.5s;
+/* ═══ GALLERY ═══ */
+#gallery{padding:0 16px 24px;max-width:480px;margin:0 auto;width:100%;}
+.sec-title{
+  font-family:'UnifrakturMaguntia',cursive;
+  font-size:22px;letter-spacing:.2em;color:var(--c1);
+  text-align:center;margin-bottom:16px;
+  text-shadow:0 0 10px var(--c1);
 }
-.gal-card{position:relative;aspect-ratio:1;overflow:hidden;cursor:pointer;}
-.gal-card img{width:100%;height:100%;object-fit:cover;transition:0.8s cubic-bezier(0.2, 1, 0.2, 1);}
-.gal-item:hover{transform:translateY(-12px);border-color:var(--c1);box-shadow:0 25px 50px rgba(0,242,255,0.2);}
-.gal-item:hover img{transform:scale(1.2);}
-.gal-label{
-  font-size:13px;letter-spacing:.05em;color:#b0f0ff;
-  padding:15px;background:rgba(0,5,15,0.98);
-  border-top:1px solid rgba(0,242,255,0.1);
-  line-height:1.6;min-height:75px;
-}
+.sec-title::before,.sec-title::after{content:'⟡';opacity:.4;margin:0 8px;font-family:sans-serif;}
+.gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.gal-item{border-radius:8px;overflow:hidden;border:1px solid rgba(0,245,255,.08);background:rgba(0,5,20,.5);transition:all .3s;}
+.gal-item:hover{border-color:rgba(0,245,255,.3);box-shadow:0 0 20px rgba(0,245,255,.1);}
+.gal-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:transform .4s;}
+.gal-item:hover .gal-img{transform:scale(1.04);}
+.gal-desc{padding:6px 8px;background:rgba(0,5,15,.95);border-top:1px solid rgba(0,245,255,.08);}
+.gal-desc-title{font-size:10px;letter-spacing:.1em;color:var(--c1);font-weight:600;text-shadow:0 0 6px rgba(0,245,255,.4);}
+.gal-desc-sub{font-size:9px;color:var(--muted);letter-spacing:.05em;margin-top:1px;}
 
-/* ── MODALES NEOMORFISMO CRISTAL ── */
+/* ═══ INFO CARDS ═══ */
+#info{padding:0 16px 20px;max-width:480px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:8px;}
+.info-card{
+  padding:14px 16px;
+  background:rgba(0,5,20,.7);
+  border:1px solid var(--border);
+  border-radius:8px;cursor:pointer;
+  display:flex;align-items:center;gap:12px;
+  transition:all .25s;position:relative;overflow:hidden;
+}
+.info-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--c1);transform:scaleY(0);transition:transform .3s;transform-origin:bottom;}
+.info-card:hover::before,.info-card:active::before{transform:scaleY(1);}
+.info-card:hover,.info-card:active{border-color:rgba(0,245,255,.3);background:rgba(0,10,30,.8);transform:translateX(4px);}
+.info-icon{font-size:18px;flex-shrink:0;}
+.info-text{flex:1;}
+.info-title{font-size:13px;letter-spacing:.15em;color:var(--c1);font-weight:600;text-shadow:0 0 6px rgba(0,245,255,.3);}
+.info-sub{font-size:10px;color:var(--muted);letter-spacing:.05em;margin-top:1px;}
+.info-arr{color:var(--muted);font-size:16px;}
+
+/* ═══ LILY CTA ═══ */
+#lily-cta{padding:0 16px 40px;max-width:480px;margin:0 auto;width:100%;}
+.lily-cta-btn{
+  width:100%;padding:18px;
+  background:linear-gradient(135deg,rgba(157,0,255,.15),rgba(0,245,255,.08));
+  border:1px solid rgba(157,0,255,.4);border-radius:12px;
+  cursor:pointer;display:flex;align-items:center;gap:14px;
+  transition:all .3s;position:relative;overflow:hidden;
+  text-decoration:none;
+}
+.lily-cta-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(157,0,255,.06),transparent);
+  animation:cta-shine 3s ease-in-out infinite;
+}
+@keyframes cta-shine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+.lily-cta-btn:hover{
+  border-color:rgba(157,0,255,.7);
+  box-shadow:0 0 30px rgba(157,0,255,.3);
+  transform:translateY(-2px);
+}
+.lily-cta-ico{font-size:30px;filter:drop-shadow(0 0 8px var(--c2));}
+.lily-cta-text .t1{display:block;font-family:'UnifrakturMaguntia',cursive;font-size:18px;letter-spacing:.15em;color:var(--c2);text-shadow:0 0 10px var(--c2);}
+.lily-cta-text .t2{display:block;font-size:10px;color:rgba(157,0,255,.5);letter-spacing:.1em;margin-top:2px;font-family:'Share Tech Mono',monospace;}
+
+/* ═══ MODALS ═══ */
 .modal-overlay{
-  position:fixed;inset:0;z-index:1000;
-  background:rgba(0,0,0,0.95);backdrop-filter:blur(20px);
-  display:flex;align-items:center;justify-content:center;
-  opacity:0;pointer-events:none;transition:0.5s;
+  position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.85);backdrop-filter:blur(12px);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .3s;
 }
 .modal-overlay.open{opacity:1;pointer-events:all;}
 .modal-box{
-  width:94%;max-width:580px;max-height:88vh;
-  background:linear-gradient(160deg, rgba(0,20,40,0.9), rgba(0,5,10,0.95));
-  border:1px solid rgba(0,242,255,0.25);
-  border-radius:30px;
+  width:100%;max-width:480px;max-height:88vh;
+  background:rgba(0,4,16,.97);
+  border:1px solid var(--border);
+  border-top:1px solid rgba(0,245,255,.2);
+  border-radius:20px 20px 0 0;
   overflow:hidden;display:flex;flex-direction:column;
-  transform:scale(0.9) translateY(30px);transition:0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow:0 0 60px rgba(0,242,255,0.15);
+  transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 -10px 60px rgba(0,0,0,.6),0 -1px 0 rgba(0,245,255,.1);
 }
-.modal-overlay.open .modal-box{transform:scale(1) translateY(0);}
-.modal-head{padding:25px 30px;border-bottom:1px solid rgba(0,242,255,0.1);display:flex;align-items:center;justify-content:space-between;}
-.modal-title{font-family:'Bebas Neue',cursive;font-size:20px;letter-spacing:.25em;color:var(--c5);text-shadow:0 0 15px var(--c5);}
-.modal-close{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.3s;}
-.modal-close:hover{background:var(--c3);border-color:var(--c3);transform:rotate(90deg);}
-.modal-body{padding:35px;overflow-y:auto;flex:1;font-size:16px;line-height:1.9;color:#d0e0e8;}
+.modal-overlay.open .modal-box{transform:translateY(0);}
+.modal-handle{width:36px;height:3px;background:rgba(0,245,255,.3);border-radius:2px;margin:12px auto 0;}
+.modal-head{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.modal-title{font-family:'UnifrakturMaguntia',cursive;font-size:16px;letter-spacing:.1em;color:var(--c5);text-shadow:0 0 8px var(--c5);}
+.modal-close{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
+.modal-close:hover{border-color:var(--c3);color:var(--c3);}
+.modal-body{padding:20px;overflow-y:auto;flex:1;font-size:13px;line-height:1.9;color:#b0c8d8;}
+.modal-body strong{color:var(--c1);display:block;margin-top:12px;margin-bottom:4px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;}
+.modal-body strong:first-child{margin-top:0;}
+.modal-body a{color:var(--c4);text-decoration:none;border-bottom:1px solid rgba(0,255,136,.2);}
+.promo-tag{display:inline-block;background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.3);color:var(--c5);padding:3px 10px;font-size:9px;letter-spacing:.2em;border-radius:4px;margin-bottom:12px;text-transform:uppercase;}
 
-/* ── CHAT GEN 2028 ── */
-#chat-msgs{flex:1;overflow-y:auto;padding:25px;display:flex;flex-direction:column;gap:18px;}
-.cbub{max-width:85%;padding:15px 22px;font-size:16px;border-radius:20px;backdrop-filter:blur(5px);}
-.cmsg.user .cbub{background:rgba(0,242,255,0.12);border:1px solid rgba(0,242,255,0.25);border-bottom-right-radius:5px;}
-.cmsg.lily .cbub{background:rgba(138,43,226,0.08);border:1px solid rgba(138,43,226,0.25);border-bottom-left-radius:5px;}
-.chat-inp-wrap{padding:25px;border-top:1px solid rgba(0,242,255,0.1);}
-.chat-inp-box{display:flex;align-items:center;gap:15px;background:rgba(255,255,255,0.04);border-radius:25px;padding:10px 25px;border:1px solid rgba(138,43,226,0.3);}
-.chat-inp-box textarea{flex:1;background:none;border:none;outline:none;color:#fff;font-family:inherit;padding:12px 0;resize:none;max-height:140px;font-size:16px;}
-.csend{background:var(--c2);border:none;width:48px;height:48px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:0.4s;box-shadow:0 0 20px var(--c2);}
-.csend:hover{transform:scale(1.15) rotate(15deg);background:var(--c3);box-shadow:0 0 30px var(--c3);}
-
-/* MOBILE OPTIMIZATION */
-@media (max-width: 480px) {
-  .social-grid { grid-template-columns: repeat(2, 1fr); gap:15px; }
-  .s-card:last-child { grid-column: span 2; }
-  .gal-grid { grid-template-columns: 1fr; }
-  .hn-baxto { font-size: 56px; }
-  .hn-tattoo { font-size: 28px; letter-spacing: 8px; }
-  .logo-container { width:140px; height:140px; }
-  .logo-hex { width:140px; height:140px; }
-}
+/* ═══ CHAT MODAL ═══ */
+#chat-modal .modal-box{max-height:95vh;}
+#chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:180px;}
+#chat-msgs::-webkit-scrollbar{width:2px;}
+#chat-msgs::-webkit-scrollbar-thumb{background:var(--c2);border-radius:1px;}
+.cmsg{display:flex;gap:8px;animation:msg-in .25s ease;}
+@keyframes msg-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.cmsg.user{flex-direction:row-reverse;}
+.cav{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:8px;letter-spacing:.05em;font-family:'Share Tech Mono',monospace;font-weight:700;flex-shrink:0;border:1px solid;}
+.cmsg.user .cav{border-color:var(--c1);color:var(--c1);background:rgba(0,245,255,.06);}
+.cmsg.lily .cav{border-color:var(--c2);color:var(--c2);background:rgba(157,0,255,.06);}
+.cbub{max-width:80%;padding:9px 13px;font-size:13px;line-height:1.65;border-radius:8px;}
+.cmsg.user .cbub{background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.15);border-radius:8px 8px 0 8px;}
+.cmsg.lily .cbub{background:rgba(0,3,15,.9);border:1px solid rgba(157,0,255,.2);border-left:2px solid var(--c2);border-radius:8px 8px 8px 0;}
+.cmeta{font-size:8px;color:var(--muted);letter-spacing:.1em;margin-bottom:3px;font-family:'Share Tech Mono',monospace;}
+.tdots{display:flex;gap:3px;padding:3px 0;}
+.td{width:4px;height:4px;background:var(--c2);border-radius:50%;animation:td .9s ease-in-out infinite;}
+.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
+@keyframes td{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-5px);opacity:1}}
+.chat-acts{display:flex;gap:8px;padding:8px 14px 0;}
+.chat-act{flex:1;padding:6px;background:rgba(157,0,255,.06);border:1px solid rgba(157,0,255,.2);color:var(--c2);font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.1em;cursor:pointer;border-radius:6px;transition:all .2s;}
+.chat-act:hover{background:rgba(157,0,255,.12);}
+.chat-inp-wrap{padding:10px 14px 20px;border-top:1px solid var(--border);}
+.chat-inp-box{display:flex;align-items:flex-end;gap:8px;background:rgba(0,3,15,.9);border:1px solid rgba(157,0,255,.25);border-radius:10px;padding:10px 12px;transition:border-color .2s;}
+.chat-inp-box:focus-within{border-color:rgba(157,0,255,.6);box-shadow:0 0 16px rgba(157,0,255,.1);}
+.chat-inp-box textarea{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;resize:none;max-height:80px;min-height:22px;line-height:1.5;}
+.chat-inp-box textarea::placeholder{color:var(--muted);}
+.csend{width:36px;height:36px;background:var(--c2);border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;box-shadow:0 0 10px rgba(157,0,255,.4);}
+.csend:hover{background:var(--c3);box-shadow:0 0 16px var(--c3);}
+.csend:active{transform:scale(.92);}
 </style>
 </head>
 <body>
 
-<canvas id="neural"></canvas>
 <canvas id="plasma"></canvas>
-<canvas id="energy"></canvas>
-
-<div id="main">
-  <section id="hero">
-    <div class="logo-container" id="logoTarget">
-      <div class="logo-holo-ring"></div>
-      <div class="logo-hex"></div>
-      <div class="logo-hex-inner">
-        <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/image_1762409915252.jpeg">
-      </div>
-    </div>
-
-    <div class="hero-name">
-      <span class="hn-baxto">BAXTO STYLE</span>
-      <span class="hn-tattoo">TATTOO</span>
-    </div>
-
-    <div class="hero-sub">ESTÉTICA DE AUTOR</div>
-    <div style="font-size:12px;letter-spacing:.5em;color:rgba(0,242,255,0.6);text-transform:uppercase;margin-bottom:25px;">Playa del Carmen · México</div>
-    <div class="hero-phrase" id="phrase"></div>
-
-    <div class="lily-avatar-wrap" id="lilyTarget" onclick="openChat()">
-      <div class="lily-aura"></div>
-      <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" class="lily-avatar-img">
-      <span class="lily-av-name">BLACK LILY</span>
-      <span style="font-size:12px;letter-spacing:.25em;color:rgba(138,43,226,0.8);">⚜️ IA GENERATIVA 2028</span>
-    </div>
-
-    <div class="social-grid" id="socialTarget">
-      <a class="s-card" href="https://wa.me/5219842562365" target="_blank" style="color:#25D366;" id="btn-wa">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        <span>WhatsApp</span>
-      </a>
-      <a class="s-card" href="https://www.instagram.com/baxto.tattooist" target="_blank" style="color:#E1306C;" id="btn-ig">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-        <span>Instagram</span>
-      </a>
-      <a class="s-card" href="https://www.facebook.com/share/18QE2k44rP/" target="_blank" style="color:#1877F2;" id="btn-fb">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
-        <span>Facebook</span>
-      </a>
-      <a class="s-card" href="https://tiktok.com/@baxtostyletattoo" target="_blank" style="color:#ff0050;" id="btn-tk">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
-        <span>TikTok</span>
-      </a>
-      <a class="s-card" href="https://maps.app.goo.gl/p165HXNeh4p7GbuA8" target="_blank" style="color:#EA4335;" id="btn-mp">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        <span>Maps</span>
-      </a>
-      <div class="s-card" onclick="openChat()" style="color:var(--c2);" id="btn-bl">
-        <div style="width:30px;height:30px;border-radius:50%;overflow:hidden;border:1px solid var(--c2);">
-          <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" style="width:100%;height:100%;object-fit:cover;">
-        </div>
-        <span>Black Lily</span>
-      </div>
-    </div>
-  </section>
-
-  <section id="gallery">
-    <div class="section-title">PORTAFOLIO 2028</div>
-    <div class="gal-grid">
-      <div class="gal-item" id="gal-1">
-        <div class="gal-card"><img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_153716186.jpg"></div>
-        <div class="gal-label">Felinos + Floral · 28cm · 7RL · Dynamic Triple Black</div>
-      </div>
-      <div class="gal-item" id="gal-2">
-        <div class="gal-card"><img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_154348790.jpg"></div>
-        <div class="gal-label">Neo Tradicional · Colores primarios · Color vibrante</div>
-      </div>
-      <div class="gal-item" id="gal-3">
-        <div class="gal-card"><img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_161221693.jpg"></div>
-        <div class="gal-label">Blackwork · Una sola aguja · Rigor técnico</div>
-      </div>
-      <div class="gal-item" id="gal-4">
-        <div class="gal-card"><img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_161812794.jpg"></div>
-        <div class="gal-label">Lettering · Script chicano · Trazo limpio</div>
-      </div>
-      <div class="gal-item" id="gal-5">
-        <div class="gal-card"><img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_162704690.jpg"></div>
-        <div class="gal-label">Retrato Realista · Expresión capturada · Negro puro</div>
-      </div>
-      <div class="gal-item" id="gal-6">
-        <div class="gal-card"><img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_153716186.jpg"></div>
-        <div class="gal-label">Cover-up · Transformación total · Trazo fluido</div>
-      </div>
-    </div>
-  </section>
-
-  <section style="padding:0 20px 80px; max-width:650px; margin:0 auto; display:flex; flex-direction:column; gap:20px;">
-    <div class="s-card" onclick="openModal('m-cuidados')" style="flex-direction:row; justify-content:space-between; padding:25px; width:100%;" id="btn-cuidados">
-      <div style="text-align:left;">
-        <div style="font-family:'Bebas Neue'; color:var(--c1); font-size:20px; letter-spacing:3px;">Cuidados Post-Tatuaje</div>
-        <div style="font-size:13px; color:rgba(255,255,255,0.6);">Protocolo de sanación avanzada</div>
-      </div>
-      <div style="font-size:28px; color:var(--c1);">📋</div>
-    </div>
-    <div class="s-card" onclick="openModal('m-precios')" style="flex-direction:row; justify-content:space-between; padding:25px; width:100%;" id="btn-precios">
-      <div style="text-align:left;">
-        <div style="font-family:'Bebas Neue'; color:var(--c1); font-size:20px; letter-spacing:3px;">Precios y Promociones</div>
-        <div style="font-size:13px; color:rgba(255,255,255,0.6);">10% OFF vía Black Lily</div>
-      </div>
-      <div style="font-size:28px; color:var(--c5);">🔥</div>
-    </div>
-    <div class="s-card" onclick="openModal('m-politicas')" style="flex-direction:row; justify-content:space-between; padding:25px; width:100%;" id="btn-politicas">
-      <div style="text-align:left;">
-        <div style="font-family:'Bebas Neue'; color:var(--c1); font-size:20px; letter-spacing:3px;">Políticas y Pagos</div>
-        <div style="font-size:13px; color:rgba(255,255,255,0.6);">Ubicación y métodos de pago</div>
-      </div>
-      <div style="font-size:28px; color:var(--c2);">📜</div>
-    </div>
-  </section>
-</div>
 
 <!-- MODALS -->
-<div class="modal-overlay" id="m-cuidados" onclick="closeModal(this)">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <div class="modal-head"><div class="modal-title">📋 Cuidados Post-Tatuaje</div><button class="modal-close" onclick="closeModal(document.getElementById('m-cuidados'))">✕</button></div>
+<div class="modal-overlay" id="m-cuidados" onclick="if(event.target===this)closeModal(this)">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title">Cuidados Post-Tatuaje</div>
+      <button class="modal-close" onclick="closeModal(document.getElementById('m-cuidados'))">✕</button>
+    </div>
     <div class="modal-body">
-      <strong style="color:var(--c1)">Día 1 y 2 — Solo jabón neutro nuevo</strong><br>
-      ✦ Usa un jabón neutro exclusivo para tu tatuaje, nuevo y sin usar.<br>
-      ✦ Lava suavemente con agua tibia.<br>
-      ✦ Secado al aire libre — NO uses toalla ni papel.<br><br>
-      <strong style="color:var(--c1)">Desde el día 3</strong><br>
-      ✦ Lava con tu jabón neutro, seca al aire.<br>
-      ✦ Aplica una capa fina de Bepanthen 2-3 veces al día.<br><br>
-      <strong style="color:var(--c3)">Restricciones Críticas</strong><br>
-      ✦ NO rasques, NO sol directo, NO playa/alberca por 15 días.
+      <strong>Día 1 y 2 — Solo jabón neutro nuevo</strong>
+      ✦ Usa un jabón neutro exclusivo para tu tatuaje, nuevo y sin usar<br>
+      ✦ Lava suavemente con agua tibia<br>
+      ✦ Secado al aire libre — NO uses toalla ni papel<br>
+      ✦ No apliques nada estos primeros 2 días<br>
+      <strong>Desde el día 3</strong>
+      ✦ Lava con tu jabón neutro, seca al aire<br>
+      ✦ Cuando esté completamente seco aplica una capa fina de Bepanthen<br>
+      ✦ Repite 2-3 veces al día<br>
+      ✦ Mantén limpio e hidratado en todo momento<br>
+      <strong>Durante todo el proceso</strong>
+      ✦ NO rasques aunque pique — es parte de la sanación<br>
+      ✦ NO te expongas al sol directo<br>
+      ✦ NO entres a playa, alberca, aguas termales ni cualquier cuerpo de agua<br>
+      ✦ Evita el gym y actividades que generen sudor excesivo<br>
+      <strong>Touch-up</strong>
+      ✦ Baxto evalúa retoques al mes de sanado<br>
+      ✦ Zonas de roce pueden necesitar retoque<br><br>
+      <a href="https://wa.me/5219842562365">💬 Dudas al WhatsApp →</a>
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="m-precios" onclick="closeModal(this)">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <div class="modal-head"><div class="modal-title">💰 Precios y Promociones</div><button class="modal-close" onclick="closeModal(document.getElementById('m-precios'))">✕</button></div>
+<div class="modal-overlay" id="m-precios" onclick="if(event.target===this)closeModal(this)">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title">Precios y Promociones</div>
+      <button class="modal-close" onclick="closeModal(document.getElementById('m-precios'))">✕</button>
+    </div>
     <div class="modal-body">
-      <div style="background:rgba(255,204,0,0.1); border:1px solid var(--c5); padding:20px; border-radius:15px; margin-bottom:25px; text-align:center; font-weight:bold; color:var(--c5); text-shadow:0 0 15px var(--c5);">🔥 PROMO BLACK LILY: 10% OFF RESERVANDO AQUÍ</div>
+      <span class="promo-tag">🔥 Promo Black Lily</span>
+      <strong>Reserva por Black Lily IA y obtén</strong>
+      ✦ 10% descuento en tu primer tatuaje<br>
+      ✦ Consulta de diseño personalizada gratis<br>
+      ✦ Touch-up gratuito al mes<br>
+      <strong>Precios orientativos</strong>
       ✦ Micro / minimalista: desde $500 MXN<br>
       ✦ Lettering cursivo: desde $800 MXN<br>
       ✦ Medianos (10-15cm): desde $1,200 MXN<br>
-      ✦ Retratos / realismo: desde $2,500 MXN<br><br>
-      <em style="font-size:13px; color:rgba(255,255,255,0.5);">* Precios sujetos a complejidad y zona del cuerpo.</em>
+      ✦ Retratos / realismo: desde $2,500 MXN<br>
+      ✦ Cover-up complejo: cotización especial<br>
+      ✦ Sleeve / manga: proyecto personalizado<br><br>
+      <em style="color:var(--muted);font-size:11px;">* Precio final según tamaño, detalle y zona del cuerpo</em><br><br>
+      <a href="https://wa.me/5219842562365?text=Hola%20Baxto!%20Vi%20la%20promo%20de%20Black%20Lily%20y%20quiero%20reservar">💬 Reservar con descuento →</a>
     </div>
   </div>
 </div>
 
-<div class="modal-overlay" id="m-politicas" onclick="closeModal(this)">
-  <div class="modal-box" onclick="event.stopPropagation()">
-    <div class="modal-head"><div class="modal-title">📜 Políticas y Pagos</div><button class="modal-close" onclick="closeModal(document.getElementById('m-politicas'))">✕</button></div>
-    <div class="modal-body">
-      <strong style="color:var(--c1)">Formas de pago:</strong><br>
-      ✦ Efectivo MXN/USD, Transferencia, Tarjeta.<br><br>
-      <strong style="color:var(--c1)">Políticas:</strong><br>
-      ✦ Depósito del 30% para apartar cita.<br>
-      ✦ Mayores de 18 años (ID requerida).<br><br>
-      <strong style="color:var(--c5)">📍 Ubicación:</strong><br>
-      Villas del Sol, Playa del Carmen, Quintana Roo.
-    </div>
-  </div>
-</div>
-
-<div class="modal-overlay" id="chat-modal" onclick="closeModal(this)">
-  <div class="modal-box" onclick="event.stopPropagation()">
+<div class="modal-overlay" id="m-politicas" onclick="if(event.target===this)closeModal(this)">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
     <div class="modal-head">
-      <div class="modal-title">🖤 Black Lily ⚜️ — IA 2028</div>
+      <div class="modal-title">Políticas y Formas de Pago</div>
+      <button class="modal-close" onclick="closeModal(document.getElementById('m-politicas'))">✕</button>
+    </div>
+    <div class="modal-body">
+      <strong>Formas de pago</strong>
+      ✦ Efectivo MXN y USD<br>
+      ✦ Transferencia bancaria<br>
+      ✦ Tarjeta débito/crédito<br>
+      <strong>Políticas</strong>
+      ✦ Depósito del 30% para apartar cita<br>
+      ✦ Cancelaciones con 24h de anticipación<br>
+      ✦ Mayores de 18 años (ID requerida)<br>
+      ✦ No se tatúa bajo efectos de alcohol<br>
+      <strong>Ubicación</strong>
+      Villas del Sol, Playa del Carmen, QRoo<br>
+      📱 +52 984 256 2365<br>
+      🕐 Horarios en Google Maps
+    </div>
+  </div>
+</div>
+
+<!-- CHAT -->
+<div class="modal-overlay" id="chat-modal" onclick="if(event.target===this)closeModal(this)">
+  <div class="modal-box">
+    <div class="modal-handle"></div>
+    <div class="modal-head">
+      <div class="modal-title">🖤 Black Lily ⚜️</div>
       <button class="modal-close" onclick="closeModal(document.getElementById('chat-modal'))">✕</button>
+    </div>
+    <div class="chat-acts">
+      <button class="chat-act" onclick="newChat()">＋ Nuevo</button>
+      <button class="chat-act" onclick="clearChat()">🗑 Limpiar</button>
     </div>
     <div id="chat-msgs">
       <div class="cmsg lily">
-        <div class="cav" style="border-color:var(--c2)">BL</div>
-        <div class="cbub">Hola 🖤 Soy Black Lily. Mi red neural ha sido actualizada a la generación 2028. ¿Qué visión artística vamos a materializar hoy?</div>
+        <div class="cav">BL</div>
+        <div class="cbub">Hola 🖤 Soy Black Lily, asistente de Baxto Style Tattoo. Mi creador es Baxto, maestro del tatuaje en Playa del Carmen. ¿En qué te puedo ayudar?</div>
       </div>
     </div>
     <div class="chat-inp-wrap">
       <div class="chat-inp-box">
-        <textarea id="cinp" placeholder="Escribe a Black Lily..." rows="1"></textarea>
+        <textarea id="cinp" placeholder="Escribe aquí..." rows="1"></textarea>
         <button class="csend" onclick="sendChat()">
-          <svg width="20" height="20" viewBox="0 0 14 14" fill="none"><path d="M1 7L13 1L7 13L6.5 7.5L1 7Z" fill="white"/></svg>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7L13 1L7 13L6.5 7.5L1 7Z" fill="white"/></svg>
         </button>
       </div>
     </div>
   </div>
 </div>
 
+<!-- APP -->
+<div id="app">
+  <section id="hero">
+    <!-- LOGO -->
+    <div class="logo-wrap">
+      <div class="logo-pulse3"></div>
+      <div class="logo-pulse2"></div>
+      <div class="logo-pulse"></div>
+      <div class="logo-ring2"></div>
+      <div class="logo-ring"></div>
+      <div class="logo-inner" id="logoEl">
+        <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/image_1762409915252.jpeg" alt="Baxto">
+      </div>
+    </div>
+
+    <!-- TITLE -->
+    <div style="line-height:1;margin-bottom:6px;">
+      <span class="title-baxto">Baxto</span>
+      <span class="title-style">Style</span>
+      <span class="title-tattoo">Tattoo</span>
+    </div>
+
+    <div class="hero-exp">⚜ 8 Años de Arte en tu Piel ⚜</div>
+    <div class="hero-loc">Playa del Carmen · Quintana Roo · México</div>
+    <div class="hero-phrase" id="phrase"></div>
+
+    <!-- AVATAR -->
+    <div class="lily-section" id="lilyAvatar" onclick="openChat()">
+      <div class="lily-mandala2"></div>
+      <div class="lily-mandala"></div>
+      <div class="lily-glow-bg"></div>
+      <div class="lily-ring-outer"></div>
+      <div class="lily-ring-inner"></div>
+      <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" class="lily-img" alt="Black Lily">
+      <div class="lily-shimmer"></div>
+      <div class="lily-eye-glow"></div>
+      <canvas id="lilyParticles" class="lily-particles-wrap" width="200" height="260" style="position:absolute;inset:0;pointer-events:none;z-index:6;"></canvas>
+      <span class="lily-name">Black Lily</span>
+      <span class="lily-sub">⚜ Asistente IA · Toca para chatear ⚜</span>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="social-grid">
+      <a class="s-card s-wa" href="https://wa.me/5219842562365" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        <span>WhatsApp</span>
+      </a>
+      <a class="s-card s-ig" href="https://www.instagram.com/baxto.tattooist?igsh=eXk5anRob3Q3dHVx" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+        <span>Instagram</span>
+      </a>
+      <a class="s-card s-fb" href="https://www.facebook.com/share/18QE2k44rP/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        <span>Facebook</span>
+      </a>
+      <a class="s-card s-tk" href="https://tiktok.com/@baxtostyletattoo" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>
+        <span>TikTok</span>
+      </a>
+      <a class="s-card s-mp" href="https://maps.app.goo.gl/p165HXNeh4p7GbuA8" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <span>Maps</span>
+      </a>
+      <div class="s-card s-bl" onclick="openChat()" style="cursor:pointer;">
+        <div class="s-bl-avatar">
+          <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" alt="Black Lily">
+        </div>
+        <span>Black Lily IA</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY -->
+  <section id="gallery">
+    <div class="sec-title">Portafolio</div>
+    <div class="gal-grid">
+      <div class="gal-item">
+        <img class="gal-img" src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_153716186.jpg" alt="Felinos">
+        <div class="gal-desc"><div class="gal-desc-title">Felinos + Floral</div><div class="gal-desc-sub">28cm · 7RL · Dynamic Triple Black</div></div>
+      </div>
+      <div class="gal-item">
+        <img class="gal-img" src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_154348790.jpg" alt="Neo Tradicional">
+        <div class="gal-desc"><div class="gal-desc-title">Neo Tradicional</div><div class="gal-desc-sub">Colores primarios · Color vibrante</div></div>
+      </div>
+      <div class="gal-item">
+        <img class="gal-img" src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_161221693.jpg" alt="Blackwork">
+        <div class="gal-desc"><div class="gal-desc-title">Blackwork</div><div class="gal-desc-sub">Una sola aguja · Rigor técnico</div></div>
+      </div>
+      <div class="gal-item">
+        <img class="gal-img" src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_161812794.jpg" alt="Lettering">
+        <div class="gal-desc"><div class="gal-desc-title">Lettering Chicano</div><div class="gal-desc-sub">Script fluido · Trazo limpio</div></div>
+      </div>
+      <div class="gal-item">
+        <img class="gal-img" src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_162704690.jpg" alt="Retrato">
+        <div class="gal-desc"><div class="gal-desc-title">Retrato Realista</div><div class="gal-desc-sub">Expresión capturada · Negro puro</div></div>
+      </div>
+      <div class="gal-item">
+        <img class="gal-img" src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_153716186.jpg" alt="Cover-up">
+        <div class="gal-desc"><div class="gal-desc-title">Cover-up</div><div class="gal-desc-sub">Transformación total · Trazo fluido</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INFO -->
+  <section id="info">
+    <div class="info-card" onclick="openModal('m-cuidados')">
+      <div class="info-icon">📋</div>
+      <div class="info-text">
+        <div class="info-title">Cuidados Post-Tatuaje</div>
+        <div class="info-sub">Guía completa para tu nuevo tatuaje</div>
+      </div>
+      <div class="info-arr">›</div>
+    </div>
+    <div class="info-card" onclick="openModal('m-precios')">
+      <div class="info-icon">🔥</div>
+      <div class="info-text">
+        <div class="info-title">Precios y Promociones</div>
+        <div class="info-sub">10% descuento reservando por Black Lily</div>
+      </div>
+      <div class="info-arr">›</div>
+    </div>
+    <div class="info-card" onclick="openModal('m-politicas')">
+      <div class="info-icon">📜</div>
+      <div class="info-text">
+        <div class="info-title">Políticas y Formas de Pago</div>
+        <div class="info-sub">Efectivo, transferencia y tarjeta</div>
+      </div>
+      <div class="info-arr">›</div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="lily-cta">
+    <div class="lily-cta-btn" onclick="openChat()" style="cursor:pointer;">
+      <div class="lily-cta-ico">🖤</div>
+      <div class="lily-cta-text">
+        <span class="t1">Hablar con Black Lily ⚜️</span>
+        <span class="t2">IA disponible 24/7 · Respuestas instantáneas</span>
+      </div>
+    </div>
+  </section>
+</div>
+
 <script>
-// ── CONFIG & SESSION ──
-const API = 'https://black-lily-elite.cherry-v1pro.workers.dev/api/chat';
-if(!sessionStorage.getItem('PERSISTENT_ID')) sessionStorage.setItem('PERSISTENT_ID', 'uid_' + Date.now() + '_' + Math.random().toString(36).substr(2,9));
-if(!sessionStorage.getItem('SESSION_ID')) sessionStorage.setItem('SESSION_ID', 'sess_' + Date.now());
-const PERSISTENT_ID = sessionStorage.getItem('PERSISTENT_ID');
-const SESSION_ID = sessionStorage.getItem('SESSION_ID');
+// ── PLASMA BACKGROUND ──
+const pl = document.getElementById('plasma');
+const pc = pl.getContext('2d');
+let PW = pl.width = innerWidth, PH = pl.height = innerHeight;
 
-// ── MODALS ──
-function openModal(id) {
-  const el = document.getElementById(id);
-  if(el) { el.classList.add('open'); document.body.style.overflow='hidden'; createExplosion(window.innerWidth/2, window.innerHeight/2); }
-}
-function closeModal(el) {
-  if(el) { el.classList.remove('open'); document.body.style.overflow=''; }
-}
-function openChat() {
-  openModal('chat-modal');
-  setTimeout(() => document.getElementById('cinp')?.focus(), 500);
-}
+const COLS = ['#00f5ff','#9d00ff','#ff0066','#00ff88','#ffd700','#ff6b00'];
+const particles = Array.from({length:80},(_,i)=>({
+  x:Math.random()*PW, y:Math.random()*PH,
+  vx:(Math.random()-.5)*.3, vy:(Math.random()-.5)*.3,
+  r:Math.random()*1.5+.3,
+  c:COLS[i%COLS.length],
+  o:Math.random()*.5+.1,
+  born:Date.now()+Math.random()*2000,
+  size:0
+}));
 
-// ── CHAT LOGIC ──
-let busy = false;
-async function sendChat() {
-  const cinp = document.getElementById('cinp');
-  const msgs = document.getElementById('chat-msgs');
-  if(!cinp || !msgs || busy) return;
-  const t = cinp.value.trim(); if(!t) return;
-  
-  busy = true; cinp.value = ''; cinp.style.height = 'auto';
-  addMsg(t, 'user');
-  addTyping();
-
-  try {
-    const r = await fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: t, customerId: PERSISTENT_ID, session_id: SESSION_ID, channel: 'web' })
-    });
-    const data = await r.json();
-    document.getElementById('tbl')?.remove();
-    addMsg(data.reply || data.respuesta || 'Conexión Gen 2028 establecida.', 'lily');
-  } catch(e) {
-    document.getElementById('tbl')?.remove();
-    addMsg('Error de sincronización. Reintentando...', 'lily');
-  } finally {
-    busy = false;
-  }
-}
-
-function addMsg(txt, type) {
-  const msgs = document.getElementById('chat-msgs');
-  const d = document.createElement('div'); d.className = 'cmsg ' + type;
-  d.innerHTML = `<div class="cav" style="border-color:${type==='user'?'var(--c1)':'var(--c2)'}">${type==='user'?'TÚ':'BL'}</div><div class="cbub">${txt.replace(/\n/g,'<br>')}</div>`;
-  msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
-}
-
-function addTyping() {
-  const msgs = document.getElementById('chat-msgs');
-  const d = document.createElement('div'); d.className = 'cmsg lily'; d.id = 'tbl';
-  d.innerHTML = '<div class="cav" style="border-color:var(--c2)">BL</div><div class="cbub">Sincronizando...</div>';
-  msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
-}
-
-document.getElementById('cinp')?.addEventListener('keydown', e => { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); } });
-
-// ── VISUAL ENGINE GEN 2028 ──
-
-// 1. FLUID PLASMA
-const p_cv = document.getElementById('plasma');
-const p_cx = p_cv.getContext('2d');
-let p_list = [];
-const p_colors = ['#00f2ff', '#8a2be2', '#ff003c', '#00ff88', '#ffcc00'];
-
-function initPlasma() {
-  p_cv.width = window.innerWidth; p_cv.height = window.innerHeight;
-  p_list = Array.from({length: 70}, () => ({
-    x: Math.random() * p_cv.width, y: Math.random() * p_cv.height,
-    s: Math.random() * 4 + 1, vx: (Math.random() - 0.5) * 1.2, vy: (Math.random() - 0.5) * 1.2,
-    c: p_colors[Math.floor(Math.random() * p_colors.length)], o: Math.random() * 0.7 + 0.3
-  }));
-}
-
-function drawPlasma() {
-  p_cx.clearRect(0, 0, p_cv.width, p_cv.height);
-  p_list.forEach(p => {
-    p.x += p.vx; p.y += p.vy;
-    if(p.x < 0) p.x = p_cv.width; if(p.x > p_cv.width) p.x = 0;
-    if(p.y < 0) p.y = p_cv.height; if(p.y > p_cv.height) p.y = 0;
-    p_cx.beginPath(); p_cx.arc(p.x, p.y, p.s, 0, Math.PI*2);
-    p_cx.fillStyle = p.c; p_cx.globalAlpha = p.o;
-    p_cx.shadowBlur = 15; p_cx.shadowColor = p.c;
-    p_cx.fill();
+function drawPlasma(){
+  PW = pl.width = innerWidth; PH = pl.height = innerHeight;
+  pc.clearRect(0,0,PW,PH);
+  const now = Date.now();
+  particles.forEach(p=>{
+    if(now < p.born) return;
+    p.size = Math.min(1,(now-p.born)/800);
+    p.x+=p.vx; p.y+=p.vy;
+    if(p.x<0)p.x=PW; if(p.x>PW)p.x=0;
+    if(p.y<0)p.y=PH; if(p.y>PH)p.y=0;
+    const r = p.r*p.size;
+    const g = pc.createRadialGradient(p.x,p.y,0,p.x,p.y,r*3);
+    g.addColorStop(0,p.c+'cc'); g.addColorStop(1,p.c+'00');
+    pc.beginPath(); pc.arc(p.x,p.y,r*3,0,Math.PI*2);
+    pc.fillStyle=g; pc.fill();
+    pc.beginPath(); pc.arc(p.x,p.y,r,0,Math.PI*2);
+    pc.fillStyle=p.c+Math.floor(p.o*p.size*255).toString(16).padStart(2,'0');
+    pc.fill();
   });
-  requestAnimationFrame(drawPlasma);
-}
-
-// 2. VOLUMETRIC ENERGY
-const e_cv = document.getElementById('energy');
-const e_cx = e_cv.getContext('2d');
-let e_time = 0;
-
-function drawEnergy() {
-  e_cv.width = window.innerWidth; e_cv.height = window.innerHeight;
-  e_cx.clearRect(0, 0, e_cv.width, e_cv.height);
-  e_time += 0.04;
-
-  const logo = document.getElementById('logoTarget').getBoundingClientRect();
-  const lily = document.getElementById('lilyTarget').getBoundingClientRect();
-  const targets = ['btn-wa', 'btn-ig', 'btn-fb', 'btn-tk', 'btn-mp', 'btn-bl', 'gal-1', 'btn-cuidados'];
-  
-  const p1 = {x: logo.left + logo.width/2, y: logo.top + logo.height/2};
-  const p2 = {x: lily.left + lily.width/2, y: lily.top + lily.height/2};
-
-  // Main connection Logo -> Lily
-  drawHoloLine(p1, p2, 'var(--c1)', 'var(--c2)');
-
-  // Connections Lily -> Buttons
-  targets.forEach(id => {
-    const el = document.getElementById(id);
-    if(el) {
-      const rect = el.getBoundingClientRect();
-      const p3 = {x: rect.left + rect.width/2, y: rect.top + rect.height/2};
-      if(rect.top > 0 && rect.top < window.innerHeight) {
-        drawHoloLine(p2, p3, 'rgba(138,43,226,0.4)', 'rgba(0,242,255,0.3)');
+  // Connections
+  const active = particles.filter(p=>now>=p.born&&p.size>.5);
+  for(let i=0;i<active.length;i++){
+    for(let j=i+1;j<active.length;j++){
+      const dx=active[i].x-active[j].x, dy=active[i].y-active[j].y;
+      const d=Math.sqrt(dx*dx+dy*dy);
+      if(d<90){
+        pc.beginPath(); pc.moveTo(active[i].x,active[i].y); pc.lineTo(active[j].x,active[j].y);
+        pc.strokeStyle=active[i].c+Math.floor(.07*(1-d/90)*255).toString(16).padStart(2,'0');
+        pc.lineWidth=.4; pc.stroke();
       }
     }
-  });
+  }
+  requestAnimationFrame(drawPlasma);
+}
+drawPlasma();
 
+// ── LILY PARTICLES ──
+const lpc = document.getElementById('lilyParticles');
+const lpx = lpc ? lpc.getContext('2d') : null;
+const lilyParts = Array.from({length:25},()=>({
+  angle:Math.random()*Math.PI*2,
+  radius:60+Math.random()*30,
+  speed:(Math.random()-.5)*.02,
+  r:Math.random()*1.5+.3,
+  c:['#9d00ff','#00f5ff','#ff0066','#ffd700'][Math.floor(Math.random()*4)],
+  o:Math.random()*.6+.2,
+  phase:Math.random()*Math.PI*2
+}));
+let lt=0;
+function drawLilyParticles(){
+  if(!lpx){requestAnimationFrame(drawLilyParticles);return;}
+  lt+=.016;
+  lpx.clearRect(0,0,200,260);
+  lilyParts.forEach(p=>{
+    p.angle+=p.speed;
+    const cx=100, cy=110;
+    const x=cx+p.radius*Math.cos(p.angle);
+    const y=cy+p.radius*.6*Math.sin(p.angle);
+    const pulse=.5+.5*Math.sin(lt*2+p.phase);
+    const g=lpx.createRadialGradient(x,y,0,x,y,p.r*3);
+    g.addColorStop(0,p.c+'cc'); g.addColorStop(1,p.c+'00');
+    lpx.beginPath(); lpx.arc(x,y,p.r*3*pulse,0,Math.PI*2);
+    lpx.fillStyle=g; lpx.fill();
+    lpx.beginPath(); lpx.arc(x,y,p.r*pulse,0,Math.PI*2);
+    lpx.fillStyle=p.c+Math.floor(p.o*255).toString(16).padStart(2,'0');
+    lpx.fill();
+  });
+  requestAnimationFrame(drawLilyParticles);
+}
+drawLilyParticles();
+
+// ── ENERGY LINES ──
+const ec = document.createElement('canvas');
+ec.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;';
+document.body.appendChild(ec);
+const ex = ec.getContext('2d');
+const energyPulses = [];
+let eT=0;
+
+function spawnPulse(x1,y1,x2,y2,col){
+  energyPulses.push({x1,y1,x2,y2,progress:0,speed:.005+Math.random()*.007,col,size:Math.random()*2+1});
+}
+
+function drawEnergy(){
+  ec.width=innerWidth; ec.height=innerHeight;
+  ex.clearRect(0,0,ec.width,ec.height);
+  eT+=.016;
+
+  const logo = document.getElementById('logoEl');
+  const avatar = document.getElementById('lilyAvatar');
+  const cards = document.querySelectorAll('.s-card');
+
+  if(logo && avatar){
+    const lr=logo.getBoundingClientRect();
+    const ar=avatar.getBoundingClientRect();
+    const lx=lr.left+lr.width/2, ly=lr.bottom;
+    const ax=ar.left+ar.width/2, ay=ar.top+50;
+
+    // Base line logo->avatar
+    const grd=ex.createLinearGradient(lx,ly,ax,ay);
+    grd.addColorStop(0,'rgba(157,0,255,.15)');
+    grd.addColorStop(1,'rgba(0,245,255,.15)');
+    ex.beginPath(); ex.moveTo(lx,ly);
+    ex.bezierCurveTo(lx,ly+40,ax,ay-40,ax,ay);
+    ex.strokeStyle=grd; ex.lineWidth=1.5;
+    ex.setLineDash([4,8]); ex.stroke(); ex.setLineDash([]);
+
+    // Spawn pulses
+    if(Math.random()<.04) spawnPulse(lx,ly,ax,ay,'#9d00ff');
+
+    // Lines avatar->cards
+    cards.forEach((card,i)=>{
+      const cr=card.getBoundingClientRect();
+      const cx2=cr.left+cr.width/2, cy2=cr.top+cr.height/2;
+      const alpha=.06+.03*Math.sin(eT*1.5+i);
+      ex.beginPath(); ex.moveTo(ax,ay+100); ex.lineTo(cx2,cy2);
+      ex.strokeStyle=COLS[i%COLS.length]+Math.floor(alpha*255).toString(16).padStart(2,'0');
+      ex.lineWidth=.8; ex.setLineDash([2,8]); ex.stroke(); ex.setLineDash([]);
+      if(Math.random()<.012) spawnPulse(ax,ay+100,cx2,cy2,COLS[i%COLS.length]);
+    });
+  }
+
+  // Draw pulses
+  for(let i=energyPulses.length-1;i>=0;i--){
+    const p=energyPulses[i];
+    p.progress+=p.speed;
+    if(p.progress>=1){energyPulses.splice(i,1);continue;}
+    const t=p.progress;
+    const mx=(p.x1+p.x2)/2, my=(p.y1+p.y2)/2-30;
+    const px=(1-t)*(1-t)*p.x1+2*(1-t)*t*mx+t*t*p.x2;
+    const py=(1-t)*(1-t)*p.y1+2*(1-t)*t*my+t*t*p.y2;
+    const g=ex.createRadialGradient(px,py,0,px,py,p.size*4);
+    g.addColorStop(0,p.col+'ff'); g.addColorStop(1,p.col+'00');
+    ex.beginPath(); ex.arc(px,py,p.size*4,0,Math.PI*2); ex.fillStyle=g; ex.fill();
+    ex.beginPath(); ex.arc(px,py,p.size,0,Math.PI*2); ex.fillStyle=p.col; ex.fill();
+  }
   requestAnimationFrame(drawEnergy);
 }
+setTimeout(drawEnergy,600);
 
-function drawHoloLine(p1, p2, c1, c2) {
-  e_cx.lineWidth = 1.5;
-  const grad = e_cx.createLinearGradient(p1.x, p1.y, p2.x, p2.y);
-  grad.addColorStop(0, c1); grad.addColorStop(1, c2);
-  e_cx.strokeStyle = grad;
-  e_cx.beginPath();
-  e_cx.moveTo(p1.x, p1.y);
-  const cpX = (p1.x + p2.x)/2 + Math.sin(e_time) * 25;
-  const cpY = (p1.y + p2.y)/2 + Math.cos(e_time) * 25;
-  e_cx.quadraticCurveTo(cpX, cpY, p2.x, p2.y);
-  e_cx.stroke();
+// ── TYPEWRITER ──
+const PH2=['Arte en tu piel para siempre.','Cada tatuaje cuenta tu historia.','Diseños únicos, sin repetición.','Tu visión, nuestro arte.','Playa del Carmen te espera 🌴','Restricción como identidad de autor.'];
+let pi2=0,ci2=0,del2=false;
+function typeNext(){
+  const el=document.getElementById('phrase');
+  if(!el) return;
+  const cur=PH2[pi2];
+  if(!del2){el.textContent=cur.slice(0,++ci2);if(ci2>=cur.length){del2=true;setTimeout(typeNext,2800);return;}}
+  else{el.textContent=cur.slice(0,--ci2);if(ci2===0){del2=false;pi2=(pi2+1)%PH2.length;}}
+  setTimeout(typeNext,del2?35:75);
+}
+setTimeout(typeNext,800);
 
-  // Traveling Scan
-  const scan = (e_time % 4) / 4;
-  const px = p1.x + (p2.x - p1.x) * scan;
-  const py = p1.y + (p2.y - p1.y) * scan;
-  e_cx.fillStyle = '#fff'; e_cx.shadowBlur = 20; e_cx.shadowColor = '#fff';
-  e_cx.beginPath(); e_cx.arc(px, py, 2.5, 0, Math.PI*2); e_cx.fill();
+// ── MODALS ──
+function openModal(id){
+  const el=document.getElementById(id);
+  if(el){el.classList.add('open');document.body.style.overflow='hidden';}
+}
+function closeModal(el){
+  if(el){el.classList.remove('open');document.body.style.overflow='';}
+}
+function openChat(){
+  openModal('chat-modal');
+  setTimeout(()=>{const c=document.getElementById('cinp');if(c)c.focus();},400);
 }
 
-// 3. NEURAL NETWORK GEN 2028
-const n_cv = document.getElementById('neural');
-const n_cx = n_cv.getContext('2d');
-let n_nodes = [];
+// ── CHAT ──
+const API='https://black-lily-elite.cherry-v1pro.workers.dev/api/chat';
+let PERSISTENT_ID = null;
+try{ PERSISTENT_ID = localStorage.getItem('baxto_uid'); }catch(e){}
+if(!PERSISTENT_ID){ PERSISTENT_ID='uid_'+Date.now()+'_'+Math.random().toString(36).substr(2,9); try{localStorage.setItem('baxto_uid',PERSISTENT_ID);}catch(e){} }
+let SESSION_ID = null;
+try{ SESSION_ID = sessionStorage.getItem('baxto_sid'); }catch(e){}
+if(!SESSION_ID){ SESSION_ID='sid_'+Date.now()+'_'+Math.random().toString(36).substr(2,9); try{sessionStorage.setItem('baxto_sid',SESSION_ID);}catch(e){} }
+let busy=false;
+const cinp=document.getElementById('cinp');
+const msgs=document.getElementById('chat-msgs');
 
-function initNeural() {
-  n_cv.width = window.innerWidth; n_cv.height = window.innerHeight;
-  n_nodes = Array.from({length: 50}, () => ({
-    x: Math.random() * n_cv.width, y: Math.random() * n_cv.height,
-    vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5
-  }));
+if(cinp){
+  cinp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}});
+  cinp.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px';});
 }
 
-function drawNeural() {
-  n_cx.clearRect(0, 0, n_cv.width, n_cv.height);
-  n_nodes.forEach(n => {
-    n.x += n.vx; n.y += n.vy;
-    if(n.x < 0 || n.x > n_cv.width) n.vx *= -1;
-    if(n.y < 0 || n.y > n_cv.height) n.vy *= -1;
-    n_nodes.forEach(m => {
-      const d = Math.hypot(n.x - m.x, n.y - m.y);
-      if(d < 180) {
-        n_cx.beginPath(); n_cx.moveTo(n.x, n.y); n_cx.lineTo(m.x, m.y);
-        n_cx.strokeStyle = `rgba(0, 242, 255, ${0.2 * (1 - d/180)})`;
-        n_cx.lineWidth = 1; n_cx.stroke();
-      }
-    });
-  });
-  requestAnimationFrame(drawNeural);
+function addMsg(txt,type,meta){
+  if(!msgs) return;
+  const d=document.createElement('div');
+  d.className='cmsg '+type;
+  const metaHtml=meta&&(meta.model||meta.modelo)?'<div class="cmeta">'+(meta.model||meta.modelo)+'</div>':'';
+  d.innerHTML='<div class="cav">'+(type==='user'?'TÚ':'BL')+'</div><div class="cbub">'+metaHtml+txt.replace(/\n/g,'<br>')+'</div>';
+  msgs.appendChild(d);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+function addTyping(){
+  if(!msgs) return;
+  const d=document.createElement('div');
+  d.className='cmsg lily';d.id='tbl';
+  d.innerHTML='<div class="cav">BL</div><div class="cbub"><div class="tdots"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>';
+  msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
 }
 
-// 4. PARTICLE EXPLOSION
-function createExplosion(x, y) {
-  for(let i=0; i<20; i++) {
-    const p = { x, y, vx: (Math.random()-0.5)*12, vy: (Math.random()-0.5)*12, s: Math.random()*5, o: 1, c: p_colors[Math.floor(Math.random()*5)] };
-    p_list.push(p);
-    setTimeout(() => { const idx = p_list.indexOf(p); if(idx > -1) p_list.splice(idx, 1); }, 1200);
+window.sendChat=async function(){
+  const t=cinp?cinp.value.trim():'';
+  if(!t||busy)return;
+  busy=true;
+  if(cinp){cinp.value='';cinp.style.height='auto';}
+  addMsg(t,'user');addTyping();
+  try{
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,customerId:PERSISTENT_ID,customer_id:PERSISTENT_ID,session_id:SESSION_ID,channel:'web'})});
+    const data=await r.json();
+    const tbl=document.getElementById('tbl');if(tbl)tbl.remove();
+    addMsg(data.reply||data.respuesta||'Sin respuesta','lily',data);
+  }catch(e){
+    const tbl=document.getElementById('tbl');if(tbl)tbl.remove();
+    addMsg('Error: '+e.message,'lily');
   }
-}
+  busy=false;
+};
 
-// TYPEWRITER
-const PH = ['Arte en tu piel para siempre.', 'Cada tatuaje cuenta tu historia.', 'Diseños únicos, sin repetición.', 'Tu visión, nuestro arte.', 'Playa del Carmen te espera 🌴'];
-let pi=0, ci=0, del=false;
-function typeNext() {
-  const el = document.getElementById('phrase'); if(!el) return;
-  const cur = PH[pi];
-  if(!del) { el.textContent = cur.slice(0, ++ci); if(ci >= cur.length) { del = true; setTimeout(typeNext, 3000); return; } }
-  else { el.textContent = cur.slice(0, --ci); if(ci === 0) { del = false; pi = (pi+1)%PH.length; } }
-  setTimeout(typeNext, del ? 30 : 60);
-}
+window.newChat=function(){
+  if(!msgs)return;
+  msgs.innerHTML='';
+  addMsg('Chat nuevo. Hola 🖤 Soy Black Lily. ¿En qué te ayudo?','lily');
+};
+window.clearChat=function(){
+  if(confirm('¿Borrar conversación?')){
+    if(msgs)msgs.innerHTML='';
+    addMsg('Listo. Aquí estoy. 🖤','lily');
+  }
+};
 
-// INITIALIZE
-window.addEventListener('resize', () => { initPlasma(); initNeural(); });
-initPlasma(); drawPlasma();
-initNeural(); drawNeural();
-drawEnergy();
-typeNext();
-
-// Interaction: Explosion on click
-document.addEventListener('click', e => { if(e.target.closest('.s-card, .gal-item')) createExplosion(e.clientX, e.clientY); });
+// ── GYROSCOPE ──
+window.addEventListener('deviceorientation',function(e){
+  const avatar=document.getElementById('lilyAvatar');
+  if(avatar){
+    const rx=Math.max(-10,Math.min(10,(e.beta||0)/5));
+    const ry=Math.max(-10,Math.min(10,(e.gamma||0)/5));
+    avatar.querySelector('.lily-img').style.transform='perspective(600px) rotateX('+(-rx)+'deg) rotateY('+ry+'deg) translateY('+(Math.sin(Date.now()/2000)*8)+'px)';
+  }
+});
 </script>
 </body>
 </html>
