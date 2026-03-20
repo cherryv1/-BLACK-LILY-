@@ -431,6 +431,52 @@ setInterval(loadMetrics,30000);
 </html>`;
 }
 
+
+async function sendWhatsApp(env, to, message) {
+  try {
+    const r = await fetch("https://graph.facebook.com/v18.0/"+env.PHONE_NUMBER_ID+"/messages", {
+      method: "POST",
+      headers: {"Authorization":"Bearer "+env.WHATSAPP_TOKEN,"Content-Type":"application/json"},
+      body: JSON.stringify({messaging_product:"whatsapp",to:to,type:"text",text:{body:message}})
+    });
+    return await r.json();
+  } catch(e) { console.error("WA error:",e); return null; }
+}
+
+async function handleWhatsAppWebhook(request, env) {
+  if (request.method === "GET") {
+    const url = new URL(request.url);
+    const mode = url.searchParams.get("hub.mode");
+    const token = url.searchParams.get("hub.verify_token");
+    const challenge = url.searchParams.get("hub.challenge");
+    if (mode === "subscribe" && token === env.WEBHOOK_VERIFY_TOKEN) {
+      return new Response(challenge, {status:200});
+    }
+    return new Response("Forbidden", {status:403});
+  }
+  if (request.method === "POST") {
+    try {
+      const body = await request.json();
+      const msg = body.entry?.[0]?.changes?.[0]?.value?.messages?.[0];
+      if (!msg) return new Response("OK", {status:200});
+      const from = msg.from;
+      const text = msg.text?.body || "";
+      if (!text) return new Response("OK", {status:200});
+      const result = await chatWithMemory(env, "wa_"+from, from, text);
+      const reply = result.reply || "Error";
+      await sendWhatsApp(env, from, reply);
+      if (reply.includes("RESUMEN PARA BAXTO") && env.BAXTO_WHATSAPP) {
+        await sendWhatsApp(env, env.BAXTO_WHATSAPP, "NUEVA CITA:\n\n"+reply);
+      }
+      return new Response("OK", {status:200});
+    } catch(e) {
+      console.error("Webhook error:",e);
+      return new Response("OK", {status:200});
+    }
+  }
+  return new Response("Not allowed", {status:405});
+}
+
 // ============================================================================
 // MAIN HANDLER
 // ============================================================================
@@ -522,6 +568,10 @@ async function handleRequest(request, env) {
       const result = await env.DB.prepare('SELECT * FROM customer_profiles ORDER BY created_at DESC').all();
       return jsonRes(result?.results || []);
     } catch(e) { return jsonRes([], 500); }
+  }
+
+  if (path === '/webhook/whatsapp') {
+    return await handleWhatsAppWebhook(request, env);
   }
 
   // GET /health
