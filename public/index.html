@@ -771,7 +771,7 @@ window.sendChat=async function(){
   busy=true;cinp.value='';cinp.style.height='auto';
   addMsg(t,'user');addTyping();
   try{
-    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,customerId:PERSISTENT_ID,customer_id:PERSISTENT_ID,channel:'web'})});
+    const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,customerId:PERSISTENT_ID,customer_id:PERSISTENT_ID,session_id:SESSION_ID,channel:'web'})});
     const data=await r.json();
     document.getElementById('tbl')?.remove();
     addMsg(data.reply||data.respuesta||'Sin respuesta','lily',data);
