@@ -745,10 +745,10 @@ function openChat() {
 
 // CHAT
 const API='https://black-lily-elite.cherry-v1pro.workers.dev/api/chat';
-let PERSISTENT_ID = localStorage.getItem('baxto_uid');
-  PERSISTENT_ID = 'uid_' + Date.now() + '_' + Math.random().toString(36).substr(2,9);
-  localStorage.setItem('baxto_uid', PERSISTENT_ID);
-}
+const PERSISTENT_ID = 'uid_' + Date.now() + '_' + Math.random().toString(36).substr(2,9);
+
+
+
 let busy=false;
 const cinp=document.getElementById('cinp');
 const msgs=document.getElementById('chat-msgs');
