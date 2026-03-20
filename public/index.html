@@ -775,10 +775,7 @@ window.sendChat=async function(){
     const data=await r.json();
     document.getElementById('tbl')?.remove();
     addMsg(data.reply||data.respuesta||'Sin respuesta','lily',data);
-  }catch(e){document.getElementById('tbl')?.remove();addMsg('Error de conexión. Intenta de nuevo.','lily');}
-  busy=false;
-};
-window.newChat=function(){msgs.innerHTML='';addMsg('Chat nuevo iniciado. Hola 🖤 Soy Black Lily. ¿En qué te ayudo?','lily');};
+  }catch(e){document.getElementById('tbl')?.remove();addMsg(}catch(e){document.getElementById('tbl')?.remove();addMsg('ERR:'+e.message,'lily');}s.innerHTML='';addMsg('Chat nuevo iniciado. Hola 🖤 Soy Black Lily. ¿En qué te ayudo?','lily');};
 window.clearChat=function(){if(confirm('¿Borrar conversación?')){msgs.innerHTML='';addMsg('Listo. Estoy aquí para ayudarte. 🖤','lily');}};
 
 // Energy system removed
