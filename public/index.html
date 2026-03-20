@@ -666,8 +666,8 @@ floatStyle.textContent = `
 .gal-card{transition:border-color .3s,box-shadow .3s,transform .3s!important;}
 .gal-card:hover{transform:translateY(-4px) scale(1.02)!important;}
 .lily-btn{position:relative;overflow:hidden;}
-.lily-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.04),transparent);transform:translateX(-100%);animation:lily-shine 3s ease-in-out infinite;}
-@keyframes lily-shine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
+.lily-btn::after{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle,rgba(255,255,255,.04) 0%,transparent 60%);opacity:0;transition:opacity .3s;}
+.lily-btn:hover::after{opacity:1;}
 .info-card{transition:all .25s,transform .25s!important;}
 .info-card:hover{transform:translateX(4px)!important;}
 `;
@@ -714,6 +714,7 @@ window.addEventListener('resize',()=>{W=cv.width=innerWidth;H=cv.height=innerHei
 // TYPEWRITER
 function animTitle() {
   const e1=document.getElementById('t1'),e2=document.getElementById('t2'),e3=document.getElementById('t3');
+  if(!e1 || !e2 || !e3) return;
   let i=0;
   const t1=setInterval(()=>{e1.textContent='BAXTO'.slice(0,++i);if(i>=5){clearInterval(t1);let j=0;const t2i=setInterval(()=>{e2.textContent='STYLE'.slice(0,++j);if(j>=5){clearInterval(t2i);let k=0;const t3i=setInterval(()=>{e3.textContent='TATTOO'.slice(0,++k);if(k>=6){clearInterval(t3i);startPhrases();}},80);}},80);}},120);
 }
@@ -723,7 +724,9 @@ const PH=['Arte en tu piel para siempre.','Cada tatuaje cuenta tu historia.','Di
 let pi=0,ci=0,del=false;
 function startPhrases(){typeNext();}
 function typeNext(){
-  const el=document.getElementById('phrase'),cur=PH[pi];
+  const el=document.getElementById('phrase');
+  if(!el) return;
+  const cur=PH[pi];
   if(!del){el.textContent=cur.slice(0,++ci);if(ci>=cur.length){del=true;setTimeout(typeNext,2500);return;}}
   else{el.textContent=cur.slice(0,--ci);if(ci===0){del=false;pi=(pi+1)%PH.length;}}
   setTimeout(typeNext,del?40:80);
@@ -731,54 +734,83 @@ function typeNext(){
 
 // MODALS
 function openModal(id) {
-  document.getElementById(id).classList.add('open');
-  document.body.style.overflow='hidden';
+  const el = document.getElementById(id);
+  if(el) {
+    el.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
 }
 function closeModal(el) {
-  el.classList.remove('open');
-  document.body.style.overflow='';
+  if(el) {
+    el.classList.remove('open');
+    document.body.style.overflow='';
+  }
 }
 function openChat() {
   openModal('chat-modal');
-  setTimeout(()=>document.getElementById('cinp').focus(),400);
+  setTimeout(()=>{
+    const cinp = document.getElementById('cinp');
+    if(cinp) cinp.focus();
+  },400);
 }
 
 // CHAT
 const API='https://black-lily-elite.cherry-v1pro.workers.dev/api/chat';
 const PERSISTENT_ID = 'uid_' + Date.now() + '_' + Math.random().toString(36).substr(2,9);
-
-
+const SESSION_ID = 'sess_' + Date.now();
 
 let busy=false;
 const cinp=document.getElementById('cinp');
 const msgs=document.getElementById('chat-msgs');
 
-cinp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}});
-cinp.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px';});
+if(cinp) {
+  cinp.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}});
+  cinp.addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px';});
+}
 
 function addMsg(txt,type,meta){
+  if(!msgs) return;
   const d=document.createElement('div');d.className='cmsg '+type;
   d.innerHTML=`<div class="cav">${type==='user'?'TÚ':'BL'}</div><div class="cbub">${meta?`<div class="cmeta">${meta.modelo||meta.model||''}</div>`:''}${txt.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
   msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
 }
 function addTyping(){
+  if(!msgs) return;
   const d=document.createElement('div');d.className='cmsg lily';d.id='tbl';
   d.innerHTML='<div class="cav">BL</div><div class="cbub"><div class="tdots"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>';
   msgs.appendChild(d);msgs.scrollTop=msgs.scrollHeight;
 }
 window.sendChat=async function(){
+  if(!cinp) return;
   const t=cinp.value.trim();if(!t||busy)return;
   busy=true;cinp.value='';cinp.style.height='auto';
   addMsg(t,'user');addTyping();
   try{
     const r=await fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:t,customerId:PERSISTENT_ID,customer_id:PERSISTENT_ID,session_id:SESSION_ID,channel:'web'})});
     const data=await r.json();
-    document.getElementById('tbl')?.remove();
+    const tbl = document.getElementById('tbl');
+    if(tbl) tbl.remove();
     addMsg(data.reply||data.respuesta||'Sin respuesta','lily',data);
-  }catch(e){document.getElementById('tbl')?.remove();addMsg(}catch(e){document.getElementById('tbl')?.remove();addMsg('ERR:'+e.message,'lily');}s.innerHTML='';addMsg('Chat nuevo iniciado. Hola 🖤 Soy Black Lily. ¿En qué te ayudo?','lily');};
-window.clearChat=function(){if(confirm('¿Borrar conversación?')){msgs.innerHTML='';addMsg('Listo. Estoy aquí para ayudarte. 🖤','lily');}};
-
-// Energy system removed
+  }catch(e){
+    const tbl = document.getElementById('tbl');
+    if(tbl) tbl.remove();
+    addMsg('ERR:'+e.message,'lily');
+  } finally {
+    busy = false;
+  }
+};
+window.newChat=function(){
+  if(msgs) {
+    msgs.innerHTML='<div class="cmsg lily"><div class="cav">BL</div><div class="cbub">Chat nuevo iniciado. Hola 🖤 Soy Black Lily. ¿En qué te ayudo?</div></div>';
+  }
+};
+window.clearChat=function(){
+  if(confirm('¿Borrar conversación?')){
+    if(msgs) {
+      msgs.innerHTML='<div class="cmsg lily"><div class="cav">BL</div><div class="cbub">Listo. Estoy aquí para ayudarte. 🖤</div></div>';
+    }
+  }
+};
 </script>
 </body>
 </html>
