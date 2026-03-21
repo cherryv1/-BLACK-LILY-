@@ -44,7 +44,7 @@ body::after{
 }
 
 /* MAIN */
-#app{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+#app{position:relative;z-index:12;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
 
 /* ═══ HERO ═══ */
 #hero{
@@ -740,7 +740,7 @@ drawLilyParticles();
 
 // ── ENERGY LINES ──
 const ec = document.createElement('canvas');
-ec.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5;';
+ec.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
 document.body.appendChild(ec);
 const ex = ec.getContext('2d');
 const energyPulses = [];
