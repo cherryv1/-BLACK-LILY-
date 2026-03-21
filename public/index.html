@@ -26,7 +26,7 @@
 html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;cursor:default;}
 
 /* PLASMA CANVAS */
-#plasma{position:fixed;inset:0;z-index:0;pointer-events:none;}
+#plasma{position:fixed;inset:0;z-index:-1;pointer-events:none;}
 
 /* GRID OVERLAY */
 body::before{
@@ -44,7 +44,7 @@ body::after{
 }
 
 /* MAIN */
-#app{position:relative;z-index:12;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+#app{position:relative;z-index:20;min-height:100vh;display:flex;flex-direction:column;align-items:center;}
 
 /* ═══ HERO ═══ */
 #hero{
@@ -133,6 +133,7 @@ body::after{
 .lily-section{
   position:relative;width:200px;margin:0 auto 24px;
   cursor:pointer;display:flex;flex-direction:column;align-items:center;
+  z-index:20;
 }
 .lily-mandala{
   position:absolute;top:-10px;left:50%;transform:translateX(-50%);
@@ -211,7 +212,7 @@ body::after{
 }
 @keyframes eye-glow{0%,100%{opacity:.3;width:50px}50%{opacity:.8;width:70px}}
 
-.lily-particles-wrap{position:absolute;inset:0;z-index:6;pointer-events:none;overflow:visible;}
+.lily-particles-wrap{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:visible;}
 
 .lily-name{
   display:block;margin-top:10px;z-index:5;
@@ -258,137 +259,143 @@ body::after{
 .s-card span{font-size:9px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;}
 .s-wa svg,.s-wa span{color:#25d366;}.s-wa:hover{border-color:rgba(37,211,102,.4);box-shadow:0 8px 30px rgba(37,211,102,.2)!important;}
 .s-ig svg,.s-ig span{color:#e1306c;}.s-ig:hover{border-color:rgba(225,48,108,.4);box-shadow:0 8px 30px rgba(225,48,108,.2)!important;}
-.s-fb svg,.s-fb span{color:#1877f2;}.s-fb:hover{border-color:rgba(24,119,242,.4);}
-.s-tk svg,.s-tk span{color:#ff0050;}.s-tk:hover{border-color:rgba(255,0,80,.4);}
-.s-mp svg,.s-mp span{color:#ea4335;}.s-mp:hover{border-color:rgba(234,67,53,.4);}
-.s-bl{border-color:rgba(157,0,255,.3);background:linear-gradient(160deg,rgba(157,0,255,.1),rgba(0,0,20,.9))!important;}
-.s-bl svg,.s-bl span{color:var(--c2);}
-.s-bl:hover{border-color:rgba(157,0,255,.6);box-shadow:0 8px 30px rgba(157,0,255,.3)!important;}
-.s-bl-avatar{width:28px;height:28px;border-radius:50%;overflow:hidden;border:1px solid rgba(157,0,255,.5);}
-.s-bl-avatar img{width:100%;height:100%;object-fit:cover;object-position:top;}
+.s-fb svg,.s-fb span{color:#1877f2;}.s-fb:hover{border-color:rgba(24,119,242,.4);box-shadow:0 8px 30px rgba(24,119,242,.2)!important;}
+.s-tk svg,.s-tk span{color:#fff;}.s-tk:hover{border-color:rgba(255,255,255,.4);box-shadow:0 8px 30px rgba(255,255,255,.2)!important;}
+.s-mp svg,.s-mp span{color:#ea4335;}.s-mp:hover{border-color:rgba(234,67,53,.4);box-shadow:0 8px 30px rgba(234,67,53,.2)!important;}
+.s-bl svg,.s-bl span{color:var(--c2);}.s-bl:hover{border-color:rgba(157,0,255,.4);box-shadow:0 8px 30px rgba(157,0,255,.2)!important;}
+.s-bl-avatar{width:26px;height:26px;border-radius:50%;overflow:hidden;border:1px solid var(--c2);filter:drop-shadow(0 0 4px var(--c2));}
+.s-bl-avatar img{width:100%;height:100%;object-fit:cover;}
 
 /* ═══ GALLERY ═══ */
-#gallery{padding:0 16px 24px;max-width:480px;margin:0 auto;width:100%;}
+#gallery{width:100%;max-width:480px;padding:20px;}
 .sec-title{
-  font-family:'UnifrakturMaguntia',cursive;
-  font-size:22px;letter-spacing:.2em;color:var(--c1);
-  text-align:center;margin-bottom:16px;
-  text-shadow:0 0 10px var(--c1);
+  font-family:'UnifrakturMaguntia',cursive;font-size:28px;color:var(--c1);
+  text-align:center;margin-bottom:20px;letter-spacing:.1em;
+  text-shadow:0 0 10px rgba(0,245,255,.4);
 }
-.sec-title::before,.sec-title::after{content:'⟡';opacity:.4;margin:0 8px;font-family:sans-serif;}
-.gal-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
-.gal-item{border-radius:8px;overflow:hidden;border:1px solid rgba(0,245,255,.08);background:rgba(0,5,20,.5);transition:all .3s;}
-.gal-item:hover{border-color:rgba(0,245,255,.3);box-shadow:0 0 20px rgba(0,245,255,.1);}
-.gal-img{width:100%;aspect-ratio:1;object-fit:cover;display:block;transition:transform .4s;}
-.gal-item:hover .gal-img{transform:scale(1.04);}
-.gal-desc{padding:6px 8px;background:rgba(0,5,15,.95);border-top:1px solid rgba(0,245,255,.08);}
-.gal-desc-title{font-size:10px;letter-spacing:.1em;color:var(--c1);font-weight:600;text-shadow:0 0 6px rgba(0,245,255,.4);}
-.gal-desc-sub{font-size:9px;color:var(--muted);letter-spacing:.05em;margin-top:1px;}
-
-/* ═══ INFO CARDS ═══ */
-#info{padding:0 16px 20px;max-width:480px;margin:0 auto;width:100%;display:flex;flex-direction:column;gap:8px;}
-.info-card{
-  padding:14px 16px;
-  background:rgba(0,5,20,.7);
+.gal-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;}
+.gal-item{
+  position:relative;border-radius:12px;overflow:hidden;aspect-ratio:1;
   border:1px solid var(--border);
-  border-radius:8px;cursor:pointer;
-  display:flex;align-items:center;gap:12px;
-  transition:all .25s;position:relative;overflow:hidden;
+  box-shadow:0 10px 20px rgba(0,0,0,.5);
 }
-.info-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--c1);transform:scaleY(0);transition:transform .3s;transform-origin:bottom;}
-.info-card:hover::before,.info-card:active::before{transform:scaleY(1);}
-.info-card:hover,.info-card:active{border-color:rgba(0,245,255,.3);background:rgba(0,10,30,.8);transform:translateX(4px);}
-.info-icon{font-size:18px;flex-shrink:0;}
-.info-text{flex:1;}
-.info-title{font-size:13px;letter-spacing:.15em;color:var(--c1);font-weight:600;text-shadow:0 0 6px rgba(0,245,255,.3);}
-.info-sub{font-size:10px;color:var(--muted);letter-spacing:.05em;margin-top:1px;}
-.info-arr{color:var(--muted);font-size:16px;}
+.gal-img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.gal-item:hover .gal-img{transform:scale(1.1);}
+.gal-desc{
+  position:absolute;bottom:0;left:0;right:0;padding:10px;
+  background:linear-gradient(transparent,rgba(0,0,0,.9));
+  transform:translateY(100%);transition:transform .3s;
+}
+.gal-item:hover .gal-desc{transform:translateY(0);}
+.gal-desc-title{font-size:12px;font-weight:700;color:var(--c1);text-transform:uppercase;}
+.gal-desc-sub{font-size:9px;color:rgba(255,255,255,.7);margin-top:2px;}
 
-/* ═══ LILY CTA ═══ */
-#lily-cta{padding:0 16px 40px;max-width:480px;margin:0 auto;width:100%;}
+/* ═══ INFO ═══ */
+#info{width:100%;max-width:480px;padding:20px;display:flex;flex-direction:column;gap:12px;}
+.info-card{
+  display:flex;align-items:center;padding:16px;gap:16px;
+  background:rgba(255,255,255,.03);border:1px solid var(--border);
+  border-radius:14px;cursor:pointer;transition:all .3s;
+}
+.info-card:hover{background:rgba(255,255,255,.06);border-color:var(--c1);transform:translateX(4px);}
+.info-icon{font-size:24px;}
+.info-text{flex:1;}
+.info-title{font-size:15px;font-weight:600;color:#fff;}
+.info-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.info-arr{color:var(--c1);font-size:20px;opacity:.5;}
+
+/* ═══ CTA ═══ */
+#lily-cta{width:100%;max-width:480px;padding:20px 20px 40px;}
 .lily-cta-btn{
-  width:100%;padding:18px;
-  background:linear-gradient(135deg,rgba(157,0,255,.15),rgba(0,245,255,.08));
-  border:1px solid rgba(157,0,255,.4);border-radius:12px;
-  cursor:pointer;display:flex;align-items:center;gap:14px;
-  transition:all .3s;position:relative;overflow:hidden;
-  text-decoration:none;
+  display:flex;align-items:center;padding:18px;gap:16px;
+  background:linear-gradient(135deg,rgba(157,0,255,.15),rgba(0,245,255,.1));
+  border:1px solid rgba(157,0,255,.3);border-radius:16px;
+  box-shadow:0 0 30px rgba(157,0,255,.2);
+  animation:cta-glow 3s ease-in-out infinite;
 }
-.lily-cta-btn::after{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent,rgba(157,0,255,.06),transparent);
-  animation:cta-shine 3s ease-in-out infinite;
-}
-@keyframes cta-shine{0%{transform:translateX(-100%)}60%,100%{transform:translateX(100%)}}
-.lily-cta-btn:hover{
-  border-color:rgba(157,0,255,.7);
-  box-shadow:0 0 30px rgba(157,0,255,.3);
-  transform:translateY(-2px);
-}
-.lily-cta-ico{font-size:30px;filter:drop-shadow(0 0 8px var(--c2));}
-.lily-cta-text .t1{display:block;font-family:'UnifrakturMaguntia',cursive;font-size:18px;letter-spacing:.15em;color:var(--c2);text-shadow:0 0 10px var(--c2);}
-.lily-cta-text .t2{display:block;font-size:10px;color:rgba(157,0,255,.5);letter-spacing:.1em;margin-top:2px;font-family:'Share Tech Mono',monospace;}
+@keyframes cta-glow{0%,100%{box-shadow:0 0 20px rgba(157,0,255,.1)}50%{box-shadow:0 0 40px rgba(157,0,255,.3),0 0 10px rgba(0,245,255,.2)}}
+.lily-cta-ico{font-size:28px;filter:drop-shadow(0 0 8px var(--c2));}
+.lily-cta-text{display:flex;flex-direction:column;}
+.lily-cta-text .t1{font-size:16px;font-weight:700;color:#fff;letter-spacing:.05em;}
+.lily-cta-text .t2{font-size:11px;color:rgba(255,255,255,.6);margin-top:2px;}
 
 /* ═══ MODALS ═══ */
 .modal-overlay{
-  position:fixed;inset:0;z-index:200;
-  background:rgba(0,0,0,.85);backdrop-filter:blur(12px);
-  display:flex;align-items:flex-end;justify-content:center;
-  opacity:0;pointer-events:none;transition:opacity .3s;
+  position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);
+  z-index:200;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .4s;padding:20px;
 }
 .modal-overlay.open{opacity:1;pointer-events:all;}
-.modal-box{
-  width:100%;max-width:480px;max-height:88vh;
-  background:rgba(0,4,16,.97);
-  border:1px solid var(--border);
-  border-top:1px solid rgba(0,245,255,.2);
-  border-radius:20px 20px 0 0;
-  overflow:hidden;display:flex;flex-direction:column;
-  transform:translateY(100%);transition:transform .4s cubic-bezier(.4,0,.2,1);
-  box-shadow:0 -10px 60px rgba(0,0,0,.6),0 -1px 0 rgba(0,245,255,.1);
+.modal-content{
+  width:100%;max-width:420px;background:var(--panel);
+  border:1px solid var(--c1);border-radius:20px;
+  position:relative;overflow:hidden;
+  transform:translateY(30px) scale(.95);transition:transform .4s cubic-bezier(.175,.885,.32,1.275);
+  box-shadow:0 20px 60px rgba(0,0,0,.8),0 0 30px rgba(0,245,255,.1);
 }
-.modal-overlay.open .modal-box{transform:translateY(0);}
-.modal-handle{width:36px;height:3px;background:rgba(0,245,255,.3);border-radius:2px;margin:12px auto 0;}
-.modal-head{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.modal-title{font-family:'UnifrakturMaguntia',cursive;font-size:16px;letter-spacing:.1em;color:var(--c5);text-shadow:0 0 8px var(--c5);}
-.modal-close{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--muted);width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.modal-close:hover{border-color:var(--c3);color:var(--c3);}
-.modal-body{padding:20px;overflow-y:auto;flex:1;font-size:13px;line-height:1.9;color:#b0c8d8;}
-.modal-body strong{color:var(--c1);display:block;margin-top:12px;margin-bottom:4px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;}
-.modal-body strong:first-child{margin-top:0;}
-.modal-body a{color:var(--c4);text-decoration:none;border-bottom:1px solid rgba(0,255,136,.2);}
-.promo-tag{display:inline-block;background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.3);color:var(--c5);padding:3px 10px;font-size:9px;letter-spacing:.2em;border-radius:4px;margin-bottom:12px;text-transform:uppercase;}
+.modal-overlay.open .modal-content{transform:translateY(0) scale(1);}
+.modal-header{
+  padding:20px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.modal-title{font-family:'UnifrakturMaguntia',cursive;font-size:24px;color:var(--c1);}
+.modal-close{
+  width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.05);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;
+}
+.modal-body{padding:20px;max-height:70vh;overflow-y:auto;font-size:14px;line-height:1.6;color:rgba(255,255,255,.8);}
+.modal-body b{color:var(--c1);}
+.modal-body ul{list-style:none;margin-top:10px;}
+.modal-body li{margin-bottom:8px;padding-left:18px;position:relative;}
+.modal-body li::before{content:'⚜';position:absolute;left:0;color:var(--c2);font-size:10px;}
 
 /* ═══ CHAT MODAL ═══ */
-#chat-modal .modal-box{max-height:95vh;}
-#chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;min-height:180px;}
-#chat-msgs::-webkit-scrollbar{width:2px;}
-#chat-msgs::-webkit-scrollbar-thumb{background:var(--c2);border-radius:1px;}
-.cmsg{display:flex;gap:8px;animation:msg-in .25s ease;}
-@keyframes msg-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-.cmsg.user{flex-direction:row-reverse;}
-.cav{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:8px;letter-spacing:.05em;font-family:'Share Tech Mono',monospace;font-weight:700;flex-shrink:0;border:1px solid;}
-.cmsg.user .cav{border-color:var(--c1);color:var(--c1);background:rgba(0,245,255,.06);}
-.cmsg.lily .cav{border-color:var(--c2);color:var(--c2);background:rgba(157,0,255,.06);}
-.cbub{max-width:80%;padding:9px 13px;font-size:13px;line-height:1.65;border-radius:8px;}
-.cmsg.user .cbub{background:rgba(0,245,255,.06);border:1px solid rgba(0,245,255,.15);border-radius:8px 8px 0 8px;}
-.cmsg.lily .cbub{background:rgba(0,3,15,.9);border:1px solid rgba(157,0,255,.2);border-left:2px solid var(--c2);border-radius:8px 8px 8px 0;}
-.cmeta{font-size:8px;color:var(--muted);letter-spacing:.1em;margin-bottom:3px;font-family:'Share Tech Mono',monospace;}
-.tdots{display:flex;gap:3px;padding:3px 0;}
-.td{width:4px;height:4px;background:var(--c2);border-radius:50%;animation:td .9s ease-in-out infinite;}
-.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
-@keyframes td{0%,60%,100%{transform:translateY(0);opacity:.3}30%{transform:translateY(-5px);opacity:1}}
-.chat-acts{display:flex;gap:8px;padding:8px 14px 0;}
-.chat-act{flex:1;padding:6px;background:rgba(157,0,255,.06);border:1px solid rgba(157,0,255,.2);color:var(--c2);font-family:'Rajdhani',sans-serif;font-size:11px;letter-spacing:.1em;cursor:pointer;border-radius:6px;transition:all .2s;}
-.chat-act:hover{background:rgba(157,0,255,.12);}
-.chat-inp-wrap{padding:10px 14px 20px;border-top:1px solid var(--border);}
-.chat-inp-box{display:flex;align-items:flex-end;gap:8px;background:rgba(0,3,15,.9);border:1px solid rgba(157,0,255,.25);border-radius:10px;padding:10px 12px;transition:border-color .2s;}
-.chat-inp-box:focus-within{border-color:rgba(157,0,255,.6);box-shadow:0 0 16px rgba(157,0,255,.1);}
-.chat-inp-box textarea{flex:1;background:none;border:none;outline:none;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:14px;resize:none;max-height:80px;min-height:22px;line-height:1.5;}
-.chat-inp-box textarea::placeholder{color:var(--muted);}
-.csend{width:36px;height:36px;background:var(--c2);border:none;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;box-shadow:0 0 10px rgba(157,0,255,.4);}
-.csend:hover{background:var(--c3);box-shadow:0 0 16px var(--c3);}
-.csend:active{transform:scale(.92);}
+#chat-modal .modal-content{height:85vh;display:flex;flex-direction:column;max-width:450px;}
+#chat-modal .modal-body{flex:1;padding:0;display:flex;flex-direction:column;overflow:hidden;}
+.chat-msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px;scroll-behavior:smooth;}
+.cmsg{display:flex;gap:12px;max-width:85%;}
+.cmsg.user{align-self:flex-end;flex-direction:row-reverse;}
+.cav{
+  width:30px;height:30px;border-radius:50%;background:var(--bg);
+  border:1px solid var(--c1);display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;flex-shrink:0;color:var(--c1);
+}
+.cmsg.lily .cav{border-color:var(--c2);color:var(--c2);}
+.cbub{
+  padding:12px 16px;border-radius:18px;font-size:14px;position:relative;
+  box-shadow:0 4px 15px rgba(0,0,0,.2);
+}
+.cmsg.lily .cbub{background:rgba(157,0,255,.1);border:1px solid rgba(157,0,255,.2);border-top-left-radius:2px;color:#fff;}
+.cmsg.user .cbub{background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.2);border-top-right-radius:2px;color:#fff;}
+.cmeta{font-size:9px;color:var(--muted);margin-bottom:4px;text-transform:uppercase;letter-spacing:1px;}
+
+.chat-input-area{padding:16px;background:rgba(0,0,0,.3);border-top:1px solid var(--border);display:flex;gap:10px;align-items:flex-end;}
+.cinp-wrap{flex:1;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:20px;padding:8px 16px;display:flex;align-items:center;}
+.cinp-wrap textarea{
+  width:100%;background:none;border:none;color:#fff;font-family:inherit;font-size:14px;
+  resize:none;max-height:80px;padding:4px 0;outline:none;
+}
+.csend{
+  width:40px;height:40px;border-radius:50%;background:var(--c2);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;border:none;
+  transition:transform .2s;box-shadow:0 0 15px rgba(157,0,255,.4);
+}
+.csend:active{transform:scale(.9);}
+
+.tdots{display:flex;gap:4px;padding:4px 0;}
+.td{width:6px;height:6px;border-radius:50%;background:var(--c2);animation:tdot 1.4s infinite;}
+.td:nth-child(2){animation-delay:.2s;}.td:nth-child(3){animation-delay:.4s;}
+@keyframes tdot{0%,100%{opacity:.3;transform:scale(.8)}50%{opacity:1;transform:scale(1.2)}}
+
+/* WA BUTTON IN CHAT */
+.wa-btn{
+  display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;
+  padding:8px 16px;border-radius:10px;text-decoration:none;font-weight:700;
+  margin-top:10px;font-size:13px;box-shadow:0 4px 12px rgba(37,211,102,.3);
+  transition:transform .2s;cursor:pointer;border:none;
+}
+.wa-btn:active{transform:scale(.96);}
+.wa-btn svg{width:16px;height:16px;}
 </style>
 </head>
 <body>
@@ -397,108 +404,74 @@ body::after{
 
 <!-- MODALS -->
 <div class="modal-overlay" id="m-cuidados" onclick="if(event.target===this)closeModal(this)">
-  <div class="modal-box">
-    <div class="modal-handle"></div>
-    <div class="modal-head">
-      <div class="modal-title">Cuidados Post-Tatuaje</div>
-      <button class="modal-close" onclick="closeModal(document.getElementById('m-cuidados'))">✕</button>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Cuidados</div>
+      <div class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">×</div>
     </div>
     <div class="modal-body">
-      <strong>Día 1 y 2 — Solo jabón neutro nuevo</strong>
-      ✦ Usa un jabón neutro exclusivo para tu tatuaje, nuevo y sin usar<br>
-      ✦ Lava suavemente con agua tibia<br>
-      ✦ Secado al aire libre — NO uses toalla ni papel<br>
-      ✦ No apliques nada estos primeros 2 días<br>
-      <strong>Desde el día 3</strong>
-      ✦ Lava con tu jabón neutro, seca al aire<br>
-      ✦ Cuando esté completamente seco aplica una capa fina de Bepanthen<br>
-      ✦ Repite 2-3 veces al día<br>
-      ✦ Mantén limpio e hidratado en todo momento<br>
-      <strong>Durante todo el proceso</strong>
-      ✦ NO rasques aunque pique — es parte de la sanación<br>
-      ✦ NO te expongas al sol directo<br>
-      ✦ NO entres a playa, alberca, aguas termales ni cualquier cuerpo de agua<br>
-      ✦ Evita el gym y actividades que generen sudor excesivo<br>
-      <strong>Touch-up</strong>
-      ✦ Baxto evalúa retoques al mes de sanado<br>
-      ✦ Zonas de roce pueden necesitar retoque<br><br>
-      <a href="https://wa.me/5219842562365">💬 Dudas al WhatsApp →</a>
+      <b>Primeras 24 horas:</b> Mantén el parche puesto. No lo retires hasta llegar a casa en un ambiente limpio.<br><br>
+      <b>Limpieza:</b> Lava con jabón neutro y agua tibia 3 veces al día. Seca a toques con servitoalla desechable.<br><br>
+      <b>Hidratación:</b> Aplica una capa muy delgada de pomada recomendada (como Aquaphor o crema especializada) después de lavar.<br><br>
+      <b>PROHIBIDO:</b>
+      <ul>
+        <li>Exponer al sol directo por 15 días.</li>
+        <li>Albercas, mar, saunas o gimnasio (primera semana).</li>
+        <li>Arrancar costras o rascarse.</li>
+        <li>Consumir alcohol o irritantes en exceso.</li>
+      </ul>
     </div>
   </div>
 </div>
 
 <div class="modal-overlay" id="m-precios" onclick="if(event.target===this)closeModal(this)">
-  <div class="modal-box">
-    <div class="modal-handle"></div>
-    <div class="modal-head">
-      <div class="modal-title">Precios y Promociones</div>
-      <button class="modal-close" onclick="closeModal(document.getElementById('m-precios'))">✕</button>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Precios</div>
+      <div class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">×</div>
     </div>
     <div class="modal-body">
-      <span class="promo-tag">🔥 Promo Black Lily</span>
-      <strong>Reserva por Black Lily IA y obtén</strong>
-      ✦ 10% descuento en tu primer tatuaje<br>
-      ✦ Consulta de diseño personalizada gratis<br>
-      ✦ Touch-up gratuito al mes<br>
-      <strong>Precios orientativos</strong>
-      ✦ Micro / minimalista: desde $500 MXN<br>
-      ✦ Lettering cursivo: desde $800 MXN<br>
-      ✦ Medianos (10-15cm): desde $1,200 MXN<br>
-      ✦ Retratos / realismo: desde $2,500 MXN<br>
-      ✦ Cover-up complejo: cotización especial<br>
-      ✦ Sleeve / manga: proyecto personalizado<br><br>
-      <em style="color:var(--muted);font-size:11px;">* Precio final según tamaño, detalle y zona del cuerpo</em><br><br>
-      <a href="https://wa.me/5219842562365?text=Hola%20Baxto!%20Vi%20la%20promo%20de%20Black%20Lily%20y%20quiero%20reservar">💬 Reservar con descuento →</a>
+      <b>Base mínima:</b> $1,200 MXN (Diseños pequeños/simples).<br><br>
+      <b>Sesión completa (6-8 hrs):</b> $5,000 - $7,000 MXN.<br><br>
+      <b>Promoción Black Lily:</b> Menciona que hablaste con la IA y obtén un <b>10% de descuento</b> en piezas mayores a $2,500 MXN.<br><br>
+      <b>Flash Days:</b> Todos los viernes diseños seleccionados desde $800 MXN.
     </div>
   </div>
 </div>
 
 <div class="modal-overlay" id="m-politicas" onclick="if(event.target===this)closeModal(this)">
-  <div class="modal-box">
-    <div class="modal-handle"></div>
-    <div class="modal-head">
-      <div class="modal-title">Políticas y Formas de Pago</div>
-      <button class="modal-close" onclick="closeModal(document.getElementById('m-politicas'))">✕</button>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Políticas</div>
+      <div class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">×</div>
     </div>
     <div class="modal-body">
-      <strong>Formas de pago</strong>
-      ✦ Efectivo MXN y USD<br>
-      ✦ Transferencia bancaria<br>
-      ✦ Tarjeta débito/crédito<br>
-      <strong>Políticas</strong>
-      ✦ Depósito del 30% para apartar cita<br>
-      ✦ Cancelaciones con 24h de anticipación<br>
-      ✦ Mayores de 18 años (ID requerida)<br>
-      ✦ No se tatúa bajo efectos de alcohol<br>
-      <strong>Ubicación</strong>
-      Villas del Sol, Playa del Carmen, QRoo<br>
-      📱 +52 984 256 2365<br>
-      🕐 Horarios en Google Maps
+      <b>Citas:</b> Se requiere un anticipo de $500 MXN para agendar y diseñar. No es reembolsable en caso de inasistencia.<br><br>
+      <b>Reprogramación:</b> Mínimo con 48 horas de anticipación para mantener tu depósito.<br><br>
+      <b>Pagos:</b> Aceptamos Efectivo, Transferencia (SPEI) y Tarjetas de Crédito/Débito (+5% comisión).<br><br>
+      <b>Garantía:</b> Retoque gratuito durante los primeros 45 días (excepto en manos, pies y cuello).
     </div>
   </div>
 </div>
 
-<!-- CHAT -->
+<!-- CHAT MODAL -->
 <div class="modal-overlay" id="chat-modal" onclick="if(event.target===this)closeModal(this)">
-  <div class="modal-box">
-    <div class="modal-handle"></div>
-    <div class="modal-head">
-      <div class="modal-title">🖤 Black Lily ⚜️</div>
-      <button class="modal-close" onclick="closeModal(document.getElementById('chat-modal'))">✕</button>
+  <div class="modal-content">
+    <div class="modal-header">
+      <div class="modal-title">Black Lily IA</div>
+      <div class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">×</div>
     </div>
-    <div class="chat-acts">
-      <button class="chat-act" onclick="newChat()">＋ Nuevo</button>
-      <button class="chat-act" onclick="clearChat()">🗑 Limpiar</button>
-    </div>
-    <div id="chat-msgs">
-      <div class="cmsg lily">
-        <div class="cav">BL</div>
-        <div class="cbub">Hola 🖤 Soy Black Lily, asistente de Baxto Style Tattoo. Mi creador es Baxto, maestro del tatuaje en Playa del Carmen. ¿En qué te puedo ayudar?</div>
+    <div class="modal-body">
+      <div class="chat-msgs" id="chat-msgs">
+        <div class="cmsg lily">
+          <div class="cav">BL</div>
+          <div class="cbub">Hola 🖤 Soy Black Lily, la asistente virtual de Baxto. ¿Quieres cotizar un tatuaje o tienes dudas sobre los cuidados?</div>
+        </div>
       </div>
-    </div>
-    <div class="chat-inp-wrap">
-      <div class="chat-inp-box">
-        <textarea id="cinp" placeholder="Escribe aquí..." rows="1"></textarea>
+      <div class="chat-input-area">
+        <div class="cinp-wrap">
+          <textarea id="cinp" placeholder="Escribe un mensaje..." rows="1"></textarea>
+        </div>
         <button class="csend" onclick="sendChat()">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7L13 1L7 13L6.5 7.5L1 7Z" fill="white"/></svg>
         </button>
@@ -543,7 +516,7 @@ body::after{
       <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" class="lily-img" alt="Black Lily">
       <div class="lily-shimmer"></div>
       <div class="lily-eye-glow"></div>
-      <canvas id="lilyParticles" class="lily-particles-wrap" width="200" height="260" style="position:absolute;inset:0;pointer-events:none;z-index:6;"></canvas>
+      <canvas id="lilyParticles" class="lily-particles-wrap" width="200" height="260" style="position:absolute;inset:0;pointer-events:none;z-index:-1;"></canvas>
       <span class="lily-name">Black Lily</span>
       <span class="lily-sub">⚜ Asistente IA · Toca para chatear ⚜</span>
     </div>
@@ -740,7 +713,8 @@ drawLilyParticles();
 
 // ── ENERGY LINES ──
 const ec = document.createElement('canvas');
-ec.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+ec.id = 'energyCanvas';
+ec.style.cssText='position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:-1;';
 document.body.appendChild(ec);
 const ex = ec.getContext('2d');
 const energyPulses = [];
@@ -879,7 +853,9 @@ window.sendChat=async function(){
     const tbl=document.getElementById('tbl');if(tbl)tbl.remove();
     const raw = data.reply||data.respuesta||'Sin respuesta';
     const waReg = /(https:\/\/wa\.me\/[^\s<]+)/g;
-    const fmt = raw.replace(waReg,'<a href="" target="_blank" class="wa-btn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg" onclick="event.stopPropagation();event.preventDefault();var u=this.getAttribute('href');if(u.startsWith('https://wa.me')){window.open(u,'_blank','noopener');}else{location.href=u;}return false;"> Confirmar cita con Baxto 🖤</a>');
+    const fmt = raw.replace(waReg, function(url) {
+        return '<button class="wa-btn" data-href="'+url+'" onclick="event.stopPropagation();event.preventDefault();window.open(this.getAttribute(\'data-href\'),\'_blank\',\'noopener\');return false;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Confirmar cita con Baxto 🖤</button>';
+    });
     addMsg(fmt,'lily',data);
   }catch(e){
     const tbl=document.getElementById('tbl');if(tbl)tbl.remove();
