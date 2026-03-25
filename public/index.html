@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Baxto Style Tattoo</title>
+<title>BRA GT </title>
 <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -472,7 +472,7 @@ body::after{
       <div class="chat-msgs" id="chat-msgs">
         <div class="cmsg lily">
           <div class="cav">BL</div>
-          <div class="cbub">Hola 🖤 Soy BRA GT, la asistente virtual de Baxto. ¿Quieres cotizar un tatuaje o tienes dudas sobre los cuidados?</div>
+          <div class="cbub">Hola 🖤 Soy BRA GT, la asistente virtual de BRA. ¿Quieres cotizar un tatuaje o tienes dudas sobre los cuidados?</div>
         </div>
       </div>
       <div class="chat-input-area">
@@ -498,15 +498,15 @@ body::after{
       <div class="logo-ring2"></div>
       <div class="logo-ring"></div>
       <div class="logo-inner" id="logoEl">
-        <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/image_1762409915252.jpeg" alt="Baxto">
+        <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/image_1762409915252.jpeg" alt="BRA">
       </div>
     </div>
 
     <!-- TITLE -->
     <div style="line-height:1;margin-bottom:6px;">
-      <span class="title-baxto">Baxto</span>
-      <span class="title-style">Style</span>
-      <span class="title-tattoo">Tattoo</span>
+      <span class="title-baxto">BRA</span>
+      <span class="title-style">GT</span>
+      <span class="title-tattoo"></span>
     </div>
 
     <div class="hero-exp">⚜ 8 Años de Arte en tu Piel ⚜</div>
@@ -661,9 +661,9 @@ function drawPlasma(){
     const g = pc.createRadialGradient(p.x,p.y,0,p.x,p.y,r*3);
     g.addColorStop(0,p.c+'cc'); g.addColorStop(1,p.c+'00');
     pc.beginPath(); pc.arc(p.x,p.y,r*3,0,Math.PI*2);
-    pc.fillStyle=g; pc.fill();
+    pc.fillGT=g; pc.fill();
     pc.beginPath(); pc.arc(p.x,p.y,r,0,Math.PI*2);
-    pc.fillStyle=p.c+Math.floor(p.o*p.size*255).toString(16).padStart(2,'0');
+    pc.fillGT=p.c+Math.floor(p.o*p.size*255).toString(16).padStart(2,'0');
     pc.fill();
   });
   // Connections
@@ -674,7 +674,7 @@ function drawPlasma(){
       const d=Math.sqrt(dx*dx+dy*dy);
       if(d<90){
         pc.beginPath(); pc.moveTo(active[i].x,active[i].y); pc.lineTo(active[j].x,active[j].y);
-        pc.strokeStyle=active[i].c+Math.floor(.07*(1-d/90)*255).toString(16).padStart(2,'0');
+        pc.strokeGT=active[i].c+Math.floor(.07*(1-d/90)*255).toString(16).padStart(2,'0');
         pc.lineWidth=.4; pc.stroke();
       }
     }
@@ -709,9 +709,9 @@ function drawLilyParticles(){
     const g=lpx.createRadialGradient(x,y,0,x,y,p.r*3);
     g.addColorStop(0,p.c+'cc'); g.addColorStop(1,p.c+'00');
     lpx.beginPath(); lpx.arc(x,y,p.r*3*pulse,0,Math.PI*2);
-    lpx.fillStyle=g; lpx.fill();
+    lpx.fillGT=g; lpx.fill();
     lpx.beginPath(); lpx.arc(x,y,p.r*pulse,0,Math.PI*2);
-    lpx.fillStyle=p.c+Math.floor(p.o*255).toString(16).padStart(2,'0');
+    lpx.fillGT=p.c+Math.floor(p.o*255).toString(16).padStart(2,'0');
     lpx.fill();
   });
   requestAnimationFrame(drawLilyParticles);
@@ -752,7 +752,7 @@ function drawEnergy(){
     grd.addColorStop(1,'rgba(0,245,255,.15)');
     ex.beginPath(); ex.moveTo(lx,ly);
     ex.bezierCurveTo(lx,ly+40,ax,ay-40,ax,ay);
-    ex.strokeStyle=grd; ex.lineWidth=1.5;
+    ex.strokeGT=grd; ex.lineWidth=1.5;
     ex.setLineDash([4,8]); ex.stroke(); ex.setLineDash([]);
 
     // Spawn pulses
@@ -764,7 +764,7 @@ function drawEnergy(){
       const cx2=cr.left+cr.width/2, cy2=cr.top+cr.height/2;
       const alpha=.06+.03*Math.sin(eT*1.5+i);
       ex.beginPath(); ex.moveTo(ax,ay+100); ex.lineTo(cx2,cy2);
-      ex.strokeStyle=COLS[i%COLS.length]+Math.floor(alpha*255).toString(16).padStart(2,'0');
+      ex.strokeGT=COLS[i%COLS.length]+Math.floor(alpha*255).toString(16).padStart(2,'0');
       ex.lineWidth=.8; ex.setLineDash([2,8]); ex.stroke(); ex.setLineDash([]);
       if(Math.random()<.012) spawnPulse(ax,ay+100,cx2,cy2,COLS[i%COLS.length]);
     });
@@ -781,8 +781,8 @@ function drawEnergy(){
     const py=(1-t)*(1-t)*p.y1+2*(1-t)*t*my+t*t*p.y2;
     const g=ex.createRadialGradient(px,py,0,px,py,p.size*4);
     g.addColorStop(0,p.col+'ff'); g.addColorStop(1,p.col+'00');
-    ex.beginPath(); ex.arc(px,py,p.size*4,0,Math.PI*2); ex.fillStyle=g; ex.fill();
-    ex.beginPath(); ex.arc(px,py,p.size,0,Math.PI*2); ex.fillStyle=p.col; ex.fill();
+    ex.beginPath(); ex.arc(px,py,p.size*4,0,Math.PI*2); ex.fillGT=g; ex.fill();
+    ex.beginPath(); ex.arc(px,py,p.size,0,Math.PI*2); ex.fillGT=p.col; ex.fill();
   }
   requestAnimationFrame(drawEnergy);
 }
@@ -861,7 +861,7 @@ window.sendChat=async function(){
     const raw = data.reply||data.respuesta||'Sin respuesta';
     const waReg = /(https:\/\/wa\.me\/[^\s<]+)/g;
     const fmt = raw.replace(waReg, function(url) {
-        return '<button class="wa-btn" data-href="'+url+'" onclick="event.stopPropagation();event.preventDefault();window.open(this.getAttribute(\'data-href\'),\'_blank\',\'noopener\');return false;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Confirmar cita con Baxto 🖤</button>';
+        return '<button class="wa-btn" data-href="'+url+'" onclick="event.stopPropagation();event.preventDefault();window.open(this.getAttribute(\'data-href\'),\'_blank\',\'noopener\');return false;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg> Confirmar cita con BRA 🖤</button>';
     });
     addMsg(fmt,'lily',data);
   }catch(e){
