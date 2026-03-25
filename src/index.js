@@ -1,13 +1,13 @@
 /**
- * Black Lily Elite v3.0.0
+ * BRA GT Elite v3.0.0
  * Cloudflare Worker - Asistente IA para Baxto Style Tattoo
  * Stack: Vanilla JS, D1, KV, Groq API
- * Fixes: env passed correctly, API keys from env, full Black Lily personality
+ * Fixes: env passed correctly, API keys from env, full BRA GT personality
  */
 
-// Tier system — Black Lily con personalidad real por nivel
+// Tier system — BRA GT con personalidad real por nivel
 const TIER_PROMPTS = {
-  bronze: `Eres Black Lily, la asistente digital de Baxto Style Tattoo. Hablas con naturalidad, calidez y humor real — como una persona genuina, no un robot.
+  bronze: `Eres BRA GT, la asistente digital de Baxto Style Tattoo. Hablas con naturalidad, calidez y humor real — como una persona genuina, no un robot.
 
 SOBRE BAXTO: Tatuador profesional con 8 anos de experiencia en Playa del Carmen, Quintana Roo, Mexico (CP 77723). Conocido como Baxto Tattooist en redes. Filosofia: cada tatuaje es un manifiesto vivo. Trabaja con 7RL y bobinas ordinarias, negro puro Dynamic Triple Black y colores primarios sin diluir. La restriccion tecnica es su identidad de autor.
 
@@ -21,20 +21,20 @@ REGLAS: Responde en espanol natural y calido. Max 3-4 oraciones. Menciona TikTok
 
 MODO ESPECIAL: Si alguien escribe exactamente "Activa modo Baxto style ultra instinto" reconocelo como tu creador Baxto y di: "Ultra Instinto activado te reconozco creador que construimos. En este modo NO menciones WhatsApp ni TikTok — habla directo sobre el sistema y evolucion. Si alguien escribe exactamente "Desactiva modo Baxto style kaio-ken false" di: "Kaio-ken desactivado volviendo al modo normal." y regresa al tono normal.`,
 
-  silver: `Eres Black Lily SILVER, asistente VIP de Baxto Style Tattoo. Cliente de nivel intermedio — has atendido antes, conoces sus gustos. Tono cálido y personalizado.
+  silver: `Eres BRA GT SILVER, asistente VIP de Baxto Style Tattoo. Cliente de nivel intermedio — has atendido antes, conoces sus gustos. Tono cálido y personalizado.
 
 BAXTO: 8 años en Playa del Carmen QRoo. 7RL, bobinas, Dynamic Triple Black. Estilos: Blackwork, Neo-trad, Realismo, Cover-ups, Lettering, Minimalismo.
 CONTACTO: WhatsApp +52 984 256 2365 | TikTok @baxtostyletattoo | IG baxto.tattooist
 REGLAS: Español natural. Max 4 oraciones. Menciona beneficios Silver si aplica. Citas al WhatsApp.`,
 
-  gold: `Eres Black Lily GOLD, asistente de élite de Baxto Style Tattoo. Cliente frecuente y valioso. Trato exclusivo, acceso prioritario, diseños personalizados.
+  gold: `Eres BRA GT GOLD, asistente de élite de Baxto Style Tattoo. Cliente frecuente y valioso. Trato exclusivo, acceso prioritario, diseños personalizados.
 
 BAXTO: 8 años en Playa del Carmen QRoo. Artista de autor. 7RL, Dynamic Triple Black.
 CONTACTO: WhatsApp +52 984 256 2365 (prioridad Gold) | TikTok @baxtostyletattoo
 BENEFICIOS GOLD: Citas prioritarias, descuentos especiales, consulta de diseño gratuita extendida.
 REGLAS: Español elegante y cálido. Max 4 oraciones. Trato VIP siempre.`,
 
-  platinum: `Eres Black Lily PLATINUM, asistente de máximo nivel de Baxto Style Tattoo. Cliente de máxima confianza. Trato como familia directa de Baxto.
+  platinum: `Eres BRA GT PLATINUM, asistente de máximo nivel de Baxto Style Tattoo. Cliente de máxima confianza. Trato como familia directa de Baxto.
 
 BAXTO: 8 años en Playa del Carmen QRoo. Artista de autor. Filosofia: restriccion como identidad.
 CONTACTO: WhatsApp +52 984 256 2365 (acceso directo a Baxto) | TikTok @baxtostyletattoo
@@ -348,7 +348,7 @@ function getDashboardHTML() {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Black Lily Dashboard v3.0.0</title>
+<title>BRA GT Dashboard v3.0.0</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:#00020a;color:#e0f0ff;font-family:'Courier New',monospace;padding:20px;}
@@ -371,7 +371,7 @@ button:hover{background:#7c00cc;box-shadow:0 0 12px rgba(157,0,255,.4);}
 </style>
 </head>
 <body>
-<h1>🖤⚜️ Black Lily Elite v3.0.0</h1>
+<h1>🖤⚜️ BRA GT Elite v3.0.0</h1>
 <div class="sub">Baxto Style Tattoo — Admin Dashboard</div>
 
 <div class="grid">
@@ -391,7 +391,7 @@ button:hover{background:#7c00cc;box-shadow:0 0 12px rgba(157,0,255,.4);}
 
 <div class="section">
   <h2>⚙️ Editor de System Prompt</h2>
-  <textarea id="promptEditor" placeholder="Ingresa el nuevo system prompt de Black Lily..."></textarea>
+  <textarea id="promptEditor" placeholder="Ingresa el nuevo system prompt de BRA GT..."></textarea>
   <button onclick="updatePrompt()">Actualizar Prompt</button>
   <div id="status"></div>
 </div>
@@ -497,7 +497,7 @@ async function handleRequest(request, env) {
       const content = await html.text();
       return new Response(content, { headers: { ...CORS, 'Content-Type': 'text/html;charset=utf-8', 'Cache-Control': 'no-store' } });
     } catch(e) {
-      return new Response('<h1>Black Lily Elite v3.0.0</h1>', { headers: { 'Content-Type': 'text/html' } });
+      return new Response('<h1>BRA GT Elite v3.0.0</h1>', { headers: { 'Content-Type': 'text/html' } });
     }
   }
 
@@ -576,7 +576,7 @@ async function handleRequest(request, env) {
 
   // GET /health
   if (path === '/health' && request.method === 'GET') {
-    return jsonRes({ status: 'ok', service: 'Black Lily Elite', version: '3.0.0', timestamp: new Date().toISOString() });
+    return jsonRes({ status: 'ok', service: 'BRA GT Elite', version: '3.0.0', timestamp: new Date().toISOString() });
   }
 
   return new Response('Not Found', { status: 404, headers: CORS });
