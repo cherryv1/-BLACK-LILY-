@@ -24,7 +24,7 @@
   --panel:rgba(0,5,20,.92);
   --border:rgba(0,245,255,.12);
 }
-html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow-x:hidden;cursor:default;}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family: "Courier New", monospace;
 
 /* PLASMA CANVAS */
 #plasma{position:fixed;inset:0;z-index:-1;pointer-events:none;}
@@ -472,7 +472,7 @@ body::after{
       <div class="chat-msgs" id="chat-msgs">
         <div class="cmsg lily">
           <div class="cav">BL</div>
-          <div class="cbub">Hola 🖤 Soy BRA GT, la asistente virtual de BRA. ¿Quieres cotizar un tatuaje o tienes dudas sobre los cuidados?</div>
+          <div class="cbub">Hola 🖤 Soy **BRA GT**, la asistente virtual de BRA. ¿Quieres cotizar un tatuaje o tienes dudas sobre los cuidados?</div>
         </div>
       </div>
       <div class="chat-input-area">
@@ -524,7 +524,7 @@ body::after{
       <div class="lily-shimmer"></div>
       <div class="lily-eye-glow"></div>
       <canvas id="lilyParticles" class="lily-particles-wrap" width="200" height="260" style="position:absolute;inset:0;pointer-events:none;z-index:-1;"></canvas>
-      <span class="lily-name" style="font-family: sans-serif; font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 10px #00ffff;">BRA GT</span>
+      <span class="lily-name" style="font-family: "Courier New", monospace;
       <span class="lily-sub">⚜ Asistente IA · Toca para chatear ⚜</span>
     </div>
 
@@ -874,7 +874,7 @@ window.sendChat=async function(){
 window.newChat=function(){
   if(!msgs)return;
   msgs.innerHTML='';
-  addMsg('Chat nuevo. Hola 🖤 Soy BRA GT. ¿En qué te ayudo?','lily');
+  addMsg('Chat nuevo. Hola 🖤 Soy **BRA GT**. ¿En qué te ayudo?','lily');
 };
 window.clearChat=function(){
   if(confirm('¿Borrar conversación?')){
