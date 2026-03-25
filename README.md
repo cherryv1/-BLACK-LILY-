@@ -1,1 +1,8 @@
 # Black Lily Elite 2026
+© 2026 Baxto Style Tattoo. Todos los derechos reservados.
+Propietario: Baxto Style Tattoo | Baxto Tattooist
+Playa del Carmen, Quintana Roo, México.
+
+Prohibida la reproducción, distribución o uso del código,
+diseño y contenido sin autorización expresa del propietario.
+Black Lily AI es propiedad exclusiva de Baxto Style Tattoo.
