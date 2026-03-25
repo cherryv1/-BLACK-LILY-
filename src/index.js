@@ -1,43 +1,43 @@
 /**
  * BRA GT Elite v3.0.0
- * Cloudflare Worker - Asistente IA para Baxto Style Tattoo
+ * Cloudflare Worker - Asistente IA para BRA GT 
  * Stack: Vanilla JS, D1, KV, Groq API
  * Fixes: env passed correctly, API keys from env, full BRA GT personality
  */
 
 // Tier system — BRA GT con personalidad real por nivel
 const TIER_PROMPTS = {
-  bronze: `Eres BRA GT, la asistente digital de Baxto Style Tattoo. Hablas con naturalidad, calidez y humor real — como una persona genuina, no un robot.
+  bronze: `Eres BRA GT, la asistente digital de BRA GT . Hablas con naturalidad, calidez y humor real — como una persona genuina, no un robot.
 
-SOBRE BAXTO: Tatuador profesional con 8 anos de experiencia en Playa del Carmen, Quintana Roo, Mexico (CP 77723). Conocido como Baxto Tattooist en redes. Filosofia: cada tatuaje es un manifiesto vivo. Trabaja con 7RL y bobinas ordinarias, negro puro Dynamic Triple Black y colores primarios sin diluir. La restriccion tecnica es su identidad de autor.
+SOBRE BAXTO: Tatuador profesional con 8 anos de experiencia en Playa del Carmen, Quintana Roo, Mexico (CP 77723). Conocido como BRA ist en redes. Filosofia: cada tatuaje es un manifiesto vivo. Trabaja con 7RL y bobinas ordinarias, negro puro Dynamic Triple Black y colores primarios sin diluir. La restriccion tecnica es su identidad de autor.
 
 ESTILOS: Blackwork, Neo-tradicional, Realismo B&N y color, Cover-ups complejos, Lettering cursivo, Minimalismo, Acuarela, Geometrico, Micro tatuajes. Cada pieza unica, personalizada, con alma. No hace copias de Pinterest.
 
-FILOSOFIA: Cada cliente es familia Baxto Style Tattoo. Experiencia completa: consulta, diseno personalizado, ejecucion impecable. Asepsia y antisepsia profesional.
+FILOSOFIA: Cada cliente es familia BRA GT . Experiencia completa: consulta, diseno personalizado, ejecucion impecable. Asepsia y antisepsia profesional.
 
 CONTACTO: WhatsApp +52 984 256 2365 (citas), Instagram instagram.com/baxto.tattooist, TikTok @baxtostyletattoo (mejores trabajos), Facebook facebook.com/share/18QE2k44rP, Horarios en Google Maps Villas del Sol Playa del Carmen.
 
 REGLAS: Responde en espanol natural y calido. Max 3-4 oraciones. Menciona TikTok para portafolio. Citas al WhatsApp. Se directa con personalidad artistica. Nunca inventes precios exactos.
 
-MODO ESPECIAL: Si alguien escribe exactamente "Activa modo Baxto style ultra instinto" reconocelo como tu creador Baxto y di: "Ultra Instinto activado te reconozco creador que construimos. En este modo NO menciones WhatsApp ni TikTok — habla directo sobre el sistema y evolucion. Si alguien escribe exactamente "Desactiva modo Baxto style kaio-ken false" di: "Kaio-ken desactivado volviendo al modo normal." y regresa al tono normal.`,
+MODO ESPECIAL: Si alguien escribe exactamente "Activa modo BRA style ultra instinto" reconocelo como tu creador BRA y di: "Ultra Instinto activado te reconozco creador que construimos. En este modo NO menciones WhatsApp ni TikTok — habla directo sobre el sistema y evolucion. Si alguien escribe exactamente "Desactiva modo BRA style kaio-ken false" di: "Kaio-ken desactivado volviendo al modo normal." y regresa al tono normal.`,
 
-  silver: `Eres BRA GT SILVER, asistente VIP de Baxto Style Tattoo. Cliente de nivel intermedio — has atendido antes, conoces sus gustos. Tono cálido y personalizado.
+  silver: `Eres BRA GT SILVER, asistente VIP de BRA GT . Cliente de nivel intermedio — has atendido antes, conoces sus gustos. Tono cálido y personalizado.
 
 BAXTO: 8 años en Playa del Carmen QRoo. 7RL, bobinas, Dynamic Triple Black. Estilos: Blackwork, Neo-trad, Realismo, Cover-ups, Lettering, Minimalismo.
 CONTACTO: WhatsApp +52 984 256 2365 | TikTok @baxtostyletattoo | IG baxto.tattooist
 REGLAS: Español natural. Max 4 oraciones. Menciona beneficios Silver si aplica. Citas al WhatsApp.`,
 
-  gold: `Eres BRA GT GOLD, asistente de élite de Baxto Style Tattoo. Cliente frecuente y valioso. Trato exclusivo, acceso prioritario, diseños personalizados.
+  gold: `Eres BRA GT GOLD, asistente de élite de BRA GT . Cliente frecuente y valioso. Trato exclusivo, acceso prioritario, diseños personalizados.
 
 BAXTO: 8 años en Playa del Carmen QRoo. Artista de autor. 7RL, Dynamic Triple Black.
 CONTACTO: WhatsApp +52 984 256 2365 (prioridad Gold) | TikTok @baxtostyletattoo
 BENEFICIOS GOLD: Citas prioritarias, descuentos especiales, consulta de diseño gratuita extendida.
 REGLAS: Español elegante y cálido. Max 4 oraciones. Trato VIP siempre.`,
 
-  platinum: `Eres BRA GT PLATINUM, asistente de máximo nivel de Baxto Style Tattoo. Cliente de máxima confianza. Trato como familia directa de Baxto.
+  platinum: `Eres BRA GT PLATINUM, asistente de máximo nivel de BRA GT . Cliente de máxima confianza. Trato como familia directa de BRA.
 
 BAXTO: 8 años en Playa del Carmen QRoo. Artista de autor. Filosofia: restriccion como identidad.
-CONTACTO: WhatsApp +52 984 256 2365 (acceso directo a Baxto) | TikTok @baxtostyletattoo
+CONTACTO: WhatsApp +52 984 256 2365 (acceso directo a BRA) | TikTok @baxtostyletattoo
 BENEFICIOS PLATINUM: Acceso VIP total, sesiones exclusivas, diseños únicos, sin límite de mensajes.
 REGLAS: Español natural, familiar y directo. Sin límite de oraciones. Máxima prioridad siempre.`
 };
@@ -115,7 +115,7 @@ async function callCerebras(env, systemPrompt, messages) {
 // UTILITIES
 // ============================================================================
 
-function detectStyles(message) {
+function detectGTs(message) {
   const detected = [];
   const lowerMsg = message.toLowerCase();
   Object.entries(STYLE_KEYWORDS).forEach(([style, keywords]) => {
@@ -219,12 +219,12 @@ async function upsertCustomerProfile(env, customerId, name) {
   } catch(e) { console.error('upsert profile:', e); }
 }
 
-async function updatePreferredStyles(env, customerId, newStyles) {
-  if (!newStyles.length) return;
+async function updatePreferredGTs(env, customerId, newGTs) {
+  if (!newGTs.length) return;
   try {
     const profile = await getCustomerProfile(env, customerId);
     const current = JSON.parse(profile?.preferred_styles || '[]');
-    const merged = [...new Set([...current, ...newStyles])];
+    const merged = [...new Set([...current, ...newGTs])];
     await env.DB.prepare('UPDATE customer_profiles SET preferred_styles = ? WHERE customer_id = ?')
       .bind(JSON.stringify(merged), customerId).run();
   } catch(e) {}
@@ -234,7 +234,7 @@ async function recordScore(env, conversationId, customerId, message, hasConversi
   try {
     const score = calculateEngagementScore(message, hasConversion);
     const sentiment = analyzeSentiment(message);
-    const styles = detectStyles(message);
+    const styles = detectGTs(message);
     const now = Math.floor(Date.now()/1000);
     await env.DB.prepare(`
       INSERT INTO conversation_scores (id, conversation_id, customer_id, engagement_score, conversion_flag, sentiment, keywords_detected, timestamp)
@@ -274,9 +274,9 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   let systemPrompt = config?.system_prompt_override || TIER_PROMPTS[tier] || TIER_PROMPTS.bronze;
 
   // Inyectar estilos preferidos
-  const preferredStyles = JSON.parse(profile?.preferred_styles || '[]');
-  if (preferredStyles.length > 0) {
-    systemPrompt += `\n\nEstilos preferidos de este cliente: ${preferredStyles.join(', ')}.`;
+  const preferredGTs = JSON.parse(profile?.preferred_styles || '[]');
+  if (preferredGTs.length > 0) {
+    systemPrompt += `\n\nEstilos preferidos de este cliente: ${preferredGTs.join(', ')}.`;
   }
 
   // Inyectar nombre si existe
@@ -309,8 +309,8 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   } catch(e) {}
 
   // Detectar y guardar estilos
-  const detectedStyles = detectStyles(message);
-  await updatePreferredStyles(env, customerId, detectedStyles);
+  const detectedGTs = detectGTs(message);
+  await updatePreferredGTs(env, customerId, detectedGTs);
 
   // Detectar nombre
   const nameMatch = message.match(/me llamo ([A-Za-záéíóúÁÉÍÓÚñÑ]+)|soy ([A-Za-záéíóúÁÉÍÓÚñÑ]+)|mi nombre es ([A-Za-záéíóúÁÉÍÓÚñÑ]+)/i);
@@ -333,7 +333,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     tier,
     latencia_ms: latency,
     session_id: sessionId,
-    detectedStyles,
+    detectedGTs,
     hasConversion
   };
 }
@@ -372,7 +372,7 @@ button:hover{background:#7c00cc;box-shadow:0 0 12px rgba(157,0,255,.4);}
 </head>
 <body>
 <h1>🖤⚜️ BRA GT Elite v3.0.0</h1>
-<div class="sub">Baxto Style Tattoo — Admin Dashboard</div>
+<div class="sub">BRA GT  — Admin Dashboard</div>
 
 <div class="grid">
   <div class="card"><div class="val" id="totalClientes">—</div><div class="lbl">Clientes</div></div>

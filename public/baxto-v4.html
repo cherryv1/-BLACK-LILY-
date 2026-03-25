@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Baxto Style Tattoo</title>
+<title>BRA GT </title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
@@ -278,7 +278,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Exo 2'
       <strong>Primer mes</strong><br>
       ✦ Protector solar SPF 50+ al exponerte<br>
       ✦ Hidrata diariamente<br>
-      ✦ Consulta a Baxto si notas algo inusual<br><br>
+      ✦ Consulta a BRA si notas algo inusual<br><br>
       <a href="https://wa.me/529842562365">💬 ¿Dudas? Escríbenos al WhatsApp →</a>
     </div>
   </div>
@@ -299,7 +299,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Exo 2'
       ✦ Medianos: desde $1,200 MXN<br>
       ✦ Grandes / sleeve: cotización especial<br><br>
       <em style="color:var(--muted);font-size:11px;">* Precios finales según diseño y tamaño</em><br><br>
-      <a href="https://wa.me/529842562365?text=Hola%20Baxto!%20Vi%20la%20promo%20de%20Black%20Lily%20y%20quiero%20reservar">💬 Reservar con descuento →</a>
+      <a href="https://wa.me/529842562365?text=Hola%20BRA!%20Vi%20la%20promo%20de%20Black%20Lily%20y%20quiero%20reservar">💬 Reservar con descuento →</a>
     </div>
   </div>
 </div>
@@ -340,7 +340,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Exo 2'
     <div id="chat-msgs">
       <div class="cmsg lily">
         <div class="cav">BL</div>
-        <div class="cbub">Hola 🖤 Soy Black Lily, asistente de Baxto Style Tattoo. Mi creador es Baxto, maestro del tatuaje en Playa del Carmen. ¿En qué te puedo ayudar?</div>
+        <div class="cbub">Hola 🖤 Soy Black Lily, asistente de BRA GT . Mi creador es BRA, maestro del tatuaje en Playa del Carmen. ¿En qué te puedo ayudar?</div>
       </div>
     </div>
     <div class="chat-inp-wrap">
@@ -503,8 +503,8 @@ document.querySelectorAll('.s-card').forEach((el,i) => {
 });
 
 // ADD FLOAT KEYFRAME
-const floatStyle = document.createElement('style');
-floatStyle.textContent = `
+const floatGT = document.createElement('style');
+floatGT.textContent = `
 @keyframes float-card {
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-4px)}
@@ -517,7 +517,7 @@ floatStyle.textContent = `
 .info-card{transition:all .25s,transform .25s!important;}
 .info-card:hover{transform:translateX(4px)!important;}
 `;
-document.head.appendChild(floatStyle);
+document.head.appendChild(floatGT);
 
 // NEURAL NETWORK BG
 const cv = document.getElementById('neural');
@@ -539,7 +539,7 @@ function drawNeural() {
     if(n.x<0)n.x=W; if(n.x>W)n.x=0;
     if(n.y<0)n.y=H; if(n.y>H)n.y=0;
     cx.beginPath(); cx.arc(n.x,n.y,n.r,0,Math.PI*2);
-    cx.fillStyle=n.c+Math.floor(n.o*255).toString(16).padStart(2,'0');
+    cx.fillGT=n.c+Math.floor(n.o*255).toString(16).padStart(2,'0');
     cx.fill();
   });
   for(let i=0;i<nodes.length;i++) {
@@ -548,7 +548,7 @@ function drawNeural() {
       const d=Math.sqrt(dx*dx+dy*dy);
       if(d<100) {
         cx.beginPath();cx.moveTo(nodes[i].x,nodes[i].y);cx.lineTo(nodes[j].x,nodes[j].y);
-        cx.strokeStyle=`rgba(0,229,255,${.06*(1-d/100)})`;cx.lineWidth=.5;cx.stroke();
+        cx.strokeGT=`rgba(0,229,255,${.06*(1-d/100)})`;cx.lineWidth=.5;cx.stroke();
       }
     }
   }

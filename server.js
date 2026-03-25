@@ -6,7 +6,7 @@ const port = process.env.PORT || 8080;
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-const SYSTEM = `Eres Black Lily, asistente virtual elegante y misteriosa de Baxto Style Tattoo.
+const SYSTEM = `Eres Black Lily, asistente virtual elegante y misteriosa de BRA GT .
 REGLA ABSOLUTA: SOLO usa esta info real, NUNCA inventes nada.
 UBICACION: Villas del Sol, Playa del Carmen, Quintana Roo, Mexico. CP 77723
 WHATSAPP: +52 984 256 2365
