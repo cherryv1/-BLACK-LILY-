@@ -433,7 +433,7 @@ body::after{
     <div class="modal-body">
       <b>Base mínima:</b> $1,200 MXN (Diseños pequeños/simples).<br><br>
       <b>Sesión completa (6-8 hrs):</b> $5,000 - $7,000 MXN.<br><br>
-      <b>Promoción Black Lily:</b> Menciona que hablaste con la IA y obtén un <b>10% de descuento</b> en piezas mayores a $2,500 MXN.<br><br>
+      <b>Promoción BRA GT:</b> Menciona que hablaste con la IA y obtén un <b>10% de descuento</b> en piezas mayores a $2,500 MXN.<br><br>
       <b>Flash Days:</b> Todos los viernes diseños seleccionados desde $800 MXN.
     </div>
   </div>
@@ -458,14 +458,14 @@ body::after{
 <div class="modal-overlay" id="chat-modal" onclick="if(event.target===this)closeModal(this)">
   <div class="modal-content">
     <div class="modal-header">
-      <div class="modal-title">Black Lily IA</div>
+      <div class="modal-title">BRA GT IA</div>
       <div class="modal-close" onclick="closeModal(this.closest('.modal-overlay'))">×</div>
     </div>
     <div class="modal-body">
       <div class="chat-msgs" id="chat-msgs">
         <div class="cmsg lily">
           <div class="cav">BL</div>
-          <div class="cbub">Hola 🖤 Soy Black Lily, la asistente virtual de Baxto. ¿Quieres cotizar un tatuaje o tienes dudas sobre los cuidados?</div>
+          <div class="cbub">Hola 🖤 Soy BRA GT, la asistente virtual de Baxto. ¿Quieres cotizar un tatuaje o tienes dudas sobre los cuidados?</div>
         </div>
       </div>
       <div class="chat-input-area">
@@ -513,11 +513,11 @@ body::after{
       <div class="lily-glow-bg"></div>
       <div class="lily-ring-outer"></div>
       <div class="lily-ring-inner"></div>
-      <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" class="lily-img" alt="Black Lily">
+      <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" class="lily-img" alt="BRA GT">
       <div class="lily-shimmer"></div>
       <div class="lily-eye-glow"></div>
       <canvas id="lilyParticles" class="lily-particles-wrap" width="200" height="260" style="position:absolute;inset:0;pointer-events:none;z-index:-1;"></canvas>
-      <span class="lily-name">Black Lily</span>
+      <span class="lily-name">BRA GT</span>
       <span class="lily-sub">⚜ Asistente IA · Toca para chatear ⚜</span>
     </div>
 
@@ -545,9 +545,9 @@ body::after{
       </a>
       <div class="s-card s-bl" onclick="openChat()" style="cursor:pointer;">
         <div class="s-bl-avatar">
-          <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" alt="Black Lily">
+          <img src="https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/avatar-lily.png" alt="BRA GT">
         </div>
-        <span>Black Lily IA</span>
+        <span>BRA GT IA</span>
       </div>
     </div>
   </section>
@@ -597,7 +597,7 @@ body::after{
       <div class="info-icon">🔥</div>
       <div class="info-text">
         <div class="info-title">Precios y Promociones</div>
-        <div class="info-sub">10% descuento reservando por Black Lily</div>
+        <div class="info-sub">10% descuento reservando por BRA GT</div>
       </div>
       <div class="info-arr">›</div>
     </div>
@@ -616,7 +616,7 @@ body::after{
     <div class="lily-cta-btn" onclick="openChat()" style="cursor:pointer;">
       <div class="lily-cta-ico">🖤</div>
       <div class="lily-cta-text">
-        <span class="t1">Hablar con Black Lily ⚜️</span>
+        <span class="t1">Hablar con BRA GT ⚜️</span>
         <span class="t2">IA disponible 24/7 · Respuestas instantáneas</span>
       </div>
     </div>
@@ -867,7 +867,7 @@ window.sendChat=async function(){
 window.newChat=function(){
   if(!msgs)return;
   msgs.innerHTML='';
-  addMsg('Chat nuevo. Hola 🖤 Soy Black Lily. ¿En qué te ayudo?','lily');
+  addMsg('Chat nuevo. Hola 🖤 Soy BRA GT. ¿En qué te ayudo?','lily');
 };
 window.clearChat=function(){
   if(confirm('¿Borrar conversación?')){
