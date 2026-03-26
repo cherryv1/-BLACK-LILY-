@@ -91,7 +91,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
       <a class="s-card" href="https://instagram.com/baxto_style" target="_blank" style="color:#E1306C;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.668-.072-4.947C23.727 2.69 21.31.272 16.948.072 15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg><span>Instagram</span></a>
       <a class="s-card" href="https://facebook.com/baxto.style.tattoo" target="_blank" style="color:#1877F2;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg><span>Facebook</span></a>
     </div>
-    <div id="gallery"><h2 class="section-title">PORTAFOLIO REAL</h2><div class="gal-grid" id="galTarget"></div></div>
+    <div id="gallery"><h2 class="section-title" style="text-align:center;font-family:'Bebas Neue',cursive;font-size:24px;letter-spacing:.2em;color:var(--c5);margin:40px 0 20px;">PORTAFOLIO REAL</h2><div class="gal-grid" id="galTarget"></div></div>
   </section>
 </div>
 <div class="modal-overlay" id="galModal"><div class="modal-box"><div class="modal-head"><span class="modal-title">DETALLES</span><button class="modal-close" onclick="closeModal('galModal')">&times;</button></div><div class="modal-body" id="galModalBody" style="padding:0;"></div></div></div>
@@ -112,27 +112,80 @@ const INFO_CONTENT = {
   politicas: { title: 'POLÍTICAS Y PAGOS', body: '<p>• Playa del Carmen, Centro.</p><p>• Depósito del 35% para cita.</p><p>• Efectivo, Transferencia, Tarjeta.</p>' }
 };
 const PHRASES = ["LA PIEL ES EL LIENZO, EL ARTE ES ETERNO.", "PRECISIÓN MECÁNICA, ALMA ARTÍSTICA.", "TU VISIÓN, MI TINTA.", "BIENVENIDO AL FUTURO DEL TATUAJE."];
-document.addEventListener('DOMContentLoaded', () => { initNeural(); initParticles(); initEnergy(); renderGallery(); startPhraseCycle(); const tx = document.getElementById('chatInput'); tx.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px'; }); });
+document.addEventListener('DOMContentLoaded', () => { initNeural(); initParticles(); initEnergy(); renderGallery(); startPhraseCycle(); const tx = document.getElementById('chatInput'); tx.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px'; }); tx.addEventListener('keypress', function(e) { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }); });
 function renderGallery() { const container = document.getElementById('galTarget'); IMAGES.forEach((img, i) => { const div = document.createElement('div'); div.className = 'gal-item'; div.innerHTML = `<div class="gal-card" onclick="openGallery(${i})"><img src="${img.url}" loading="lazy"></div><div class="gal-label">${img.label}</div>`; container.appendChild(div); }); }
-function startPhraseCycle() { const el = document.getElementById('phrase'); let idx = 0; setInterval(() => { el.style.opacity = 0; setTimeout(() => { el.textContent = PHRASES[idx]; el.style.opacity = 1; idx = (idx + 1) % PHRASES.length; }, 500); }, 5000); el.textContent = PHRASES[0]; }
+function startPhraseCycle() { const el = document.getElementById('phrase'); let idx = 0; setInterval(() => { el.style.opacity = 0; setTimeout(() => { el.textContent = PHRASES[idx]; el.style.opacity = 1; idx = (idx + 1) % PHRASES.length; }, 500); }, 5000); el.textContent = PHRASES[0]; el.style.transition = 'opacity 0.5s'; }
 function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
 function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
 function openGallery(idx) { const body = document.getElementById('galModalBody'); body.innerHTML = `<img src="${IMAGES[idx].url}" style="width:100%;"><div style="padding:20px;color:var(--c1);">${IMAGES[idx].label}</div>`; openModal('galModal'); }
 function openInfo(key) { const c = INFO_CONTENT[key]; document.getElementById('infoTitle').textContent = c.title; document.getElementById('infoBody').innerHTML = c.body; openModal('infoModal'); }
 function openChat() { openModal('chatModal'); if(document.getElementById('chat-msgs').innerHTML === '') addMessage('lily', 'Hola, soy BRA GT. ¿En qué puedo ayudarte hoy?'); }
-async function sendMessage() {
-  const input = document.getElementById('chatInput'); const text = input.value.trim(); if(!text) return;
-  input.value = ''; input.style.height = 'auto'; addMessage('user', text);
-  const typingId = 'typing-' + Date.now(); const msgContainer = document.getElementById('chat-msgs');
-  const div = document.createElement('div'); div.className = 'cmsg lily'; div.id = typingId; div.innerHTML = `<div class="cav">GT</div><div class="cbub">...</div>`;
-  msgContainer.appendChild(div); msgContainer.scrollTop = msgContainer.scrollHeight;
-  try {
-    const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text, history: [] }) });
-    const data = await res.json(); document.getElementById(typingId).remove();
-    addMessage('lily', data.response || data.message || data.text || "Error en respuesta");
-  } catch(e) { document.getElementById(typingId).remove(); addMessage('lily', 'Error de conexión.'); }
-}
 function addMessage(role, text) { const container = document.getElementById('chat-msgs'); const div = document.createElement('div'); div.className = `cmsg ${role}`; div.innerHTML = `<div class="cav">${role==='user'?'YO':'GT'}</div><div class="cbub">${text}</div>`; container.appendChild(div); container.scrollTop = container.scrollHeight; }
+
+// 🔧 FUNCIÓN CORREGIDA - Manejo robusto de respuestas
+async function sendMessage() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  
+  input.value = '';
+  input.style.height = 'auto';
+  addMessage('user', text);
+  
+  // Indicador de "escribiendo..."
+  const typingId = 'typing-' + Date.now();
+  const msgContainer = document.getElementById('chat-msgs');
+  const div = document.createElement('div');
+  div.className = 'cmsg lily';
+  div.id = typingId;
+  div.innerHTML = `<div class="cav">GT</div><div class="cbub">...</div>`;
+  msgContainer.appendChild(div);
+  msgContainer.scrollTop = msgContainer.scrollHeight;
+  
+  try {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        message: text, 
+        history: [],
+        phone: 'web_user_' + Math.random().toString(36).substr(2, 9)
+      })
+    });
+    
+    const data = await res.json();
+    document.getElementById(typingId).remove();
+    
+    // 🔧 EXTRACCIÓN ROBUSTA DE RESPUESTA
+    let respuesta = "Error en respuesta";
+    
+    if (data.response) {
+      respuesta = data.response;
+    } else if (data.message) {
+      respuesta = data.message;
+    } else if (data.text) {
+      respuesta = data.text;
+    } else if (data.reply) {
+      respuesta = data.reply;
+    } else if (data.content) {
+      respuesta = data.content;
+    } else if (data.choices && data.choices[0] && data.choices[0].message) {
+      respuesta = data.choices[0].message.content;
+    } else if (data.result) {
+      respuesta = data.result;
+    } else if (typeof data === 'string') {
+      respuesta = data;
+    }
+    
+    addMessage('lily', respuesta);
+    
+  } catch (e) {
+    document.getElementById(typingId).remove();
+    addMessage('lily', 'Error de conexión. Intenta de nuevo.');
+    console.error('Chat error:', e);
+  }
+}
+
 function initNeural() { const canvas = document.getElementById('neural'); const ctx = canvas.getContext('2d'); let w, h, nodes = []; function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize(); for(let i=0; i<40; i++) nodes.push({x:Math.random()*w, y:Math.random()*h, vx:Math.random()-0.5, vy:Math.random()-0.5}); function draw() { ctx.clearRect(0,0,w,h); ctx.strokeStyle = 'rgba(124,77,255,0.2)'; ctx.fillStyle = 'rgba(124,77,255,0.5)'; nodes.forEach((n,i) => { n.x += n.vx; n.y += n.vy; if(n.x<0||n.x>w) n.vx*=-1; if(n.y<0||n.y>h) n.vy*=-1; ctx.beginPath(); ctx.arc(n.x,n.y,2,0,Math.PI*2); ctx.fill(); for(let j=i+1; j<nodes.length; j++) { const n2 = nodes[j]; const dist = Math.hypot(n.x-n2.x, n.y-n2.y); if(dist < 150) { ctx.lineWidth = 1 - dist/150; ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(n2.x,n2.y); ctx.stroke(); } } }); requestAnimationFrame(draw); } draw(); }
 function initParticles() { const canvas = document.getElementById('particles'); const ctx = canvas.getContext('2d'); let w, h, parts = []; function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize(); for(let i=0; i<50; i++) parts.push({x:Math.random()*w, y:Math.random()*h, s:Math.random()*2, o:Math.random(), v:Math.random()*0.5+0.2}); function draw() { ctx.clearRect(0,0,w,h); parts.forEach(p => { p.y -= p.v; if(p.y<0) p.y=h; ctx.fillStyle = `rgba(0,229,255,${p.o})`; ctx.fillRect(p.x,p.y,p.s,p.s); }); requestAnimationFrame(draw); } draw(); }
 function initEnergy() { const canvas = document.getElementById('energy'); const ctx = canvas.getContext('2d'); let w, h; function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize(); function draw(t) { ctx.clearRect(0,0,w,h); ctx.beginPath(); ctx.strokeStyle = 'rgba(255,23,68,0.05)'; for(let i=0; i<w; i+=10) { const y = Math.sin(i*0.01 + t*0.001) * 20 + h*0.8; ctx.lineTo(i,y); } ctx.stroke(); requestAnimationFrame(draw); } draw(0); }
