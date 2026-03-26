@@ -375,24 +375,24 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   let finalText = aiResult.text;
 
   // Detectar si la respuesta tiene resumen de cita con datos clave
-  const hasNombre = /nombre[:\s]+\w+/i.test(finalText);
-  const hasDiseno = /dise[nñ]o[:\s]+\w+/i.test(finalText);
-  const hasZona = /zona[:\s]+\w+/i.test(finalText);
-  const hasTamano = /tama[nñ]o[:\s]+\d+/i.test(finalText);
+  const hasNombre = /nombre[^\w]*(\w+)/i.test(finalText);
+  const hasDiseno = /dise[nñ]o[^\w]*(\w+)/i.test(finalText);
+  const hasZona = /zona[^\w]*(\w+)/i.test(finalText);
+  const hasTamano = /(\d+\s*cm)/i.test(finalText);
 
   if (hasNombre && hasDiseno && hasZona && hasTamano) {
     // Extraer datos
     const nom = (finalText.match(/Nombre[^\w]+([\w]+)/i)||[])[1]?.trim()||'Cliente';
-    const dis = (finalText.match(/Dise[nñ]o[^\w]+([\w][\w\s]*?)(?=\s*[-•\n|]|$)/im)||[])[1]?.trim()||'tatuaje';
-    const zon = (finalText.match(/Zona[^\w]+([\w][\w\s]*?)(?=\s*[-•\n|]|$)/im)||[])[1]?.trim()||'';
+    const dis = (finalText.match(/Dise[nñ]o[^\w]+([\w][\w\s]*?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'tatuaje';
+    const zon = (finalText.match(/Zona[^\w]+([\w][\w\s]*?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'';
     const tam = (finalText.match(/(\d+\s*cm)/i)||[])[1]?.trim()||'';
     const dia = (finalText.match(/(?:mañana|manana|hoy|lunes|martes|miércoles|miercoles|jueves|viernes|sábado|sabado|domingo)/i)||[])[0]?.trim()||'';
     const hora = (finalText.match(/(\d{1,2}(?::\d{2})?\s*(?:am|pm))/i)||[])[1]?.trim()||'';
     const msg = encodeURIComponent(`Hola Baxto, soy ${nom}. Quiero agendar ${dis} ${tam} en ${zon} para ${dia} ${hora} vía BRA GT 10% OFF`);
     const waLink = `https://wa.me/5219842562365?text=${msg}`;
     // Quitar cualquier placeholder o pregunta final
-    finalText = finalText.replace(/¿.*?proceder.*?$/gis, '').trim();
-    finalText = finalText.replace(/¿.*?listo.*?$/gis, '').trim();
+    finalText = finalText.replace(/[¿\?][^\n]*(?:proceder|listo|deseas|quieres|confirma)[^\n]*/gis, '').trim();
+    finalText = finalText.replace(/[¿\?][^\n]*(?:envíe|envie|hablar|definir)[^\n]*/gis, '').trim();
     finalText += `\n\n👉 Confirma con Baxto: ${waLink}`;
   }
   finalText = finalText.replace(/\[.*?[Ee]nlace.*?\]/g, "👉 https://wa.me/5219842562365");
