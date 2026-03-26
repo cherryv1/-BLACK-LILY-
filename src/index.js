@@ -312,7 +312,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   }
 
   // System prompt: config dinámica > tier prompt > elite base
-  let systemPrompt = config?.system_prompt_override || TIER_PROMPTS[tier] || PROMPT_ELITE;
+  let systemPrompt = (config && config.system_prompt_override) ? config.system_prompt_override : (TIER_PROMPTS[tier] || PROMPT_ELITE);
 
   const preferredStyles = JSON.parse(profile?.preferred_styles || '[]');
   if (preferredStyles.length > 0) {
