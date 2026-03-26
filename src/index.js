@@ -382,12 +382,12 @@ async function chatWithMemory(env, sessionId, customerId, message) {
 
   if (hasNombre && hasDiseno && hasZona && hasTamano) {
     // Extraer datos
-    const nom = (finalText.match(/nombre[:\s]+([\w\s]+?)(?:\||\n|•|$)/i)||[])[1]?.trim()||'Cliente';
-    const dis = (finalText.match(/dise[nñ]o[:\s]+([\w\s]+?)(?:\||\n|•|$)/i)||[])[1]?.trim()||'tatuaje';
-    const zon = (finalText.match(/zona[:\s]+([\w\s]+?)(?:\||\n|•|$)/i)||[])[1]?.trim()||'zona';
-    const tam = (finalText.match(/tama[nñ]o[:\s]+([\d]+\s*cm)/i)||[])[1]?.trim()||'';
-    const dia = (finalText.match(/d[ií]a[:\s]+([\w\s]+?)(?:\||\n|•|$)/i)||[])[1]?.trim()||'';
-    const hora = (finalText.match(/hora[:\s]+([\w\s:]+?)(?:\||\n|•|$)/i)||[])[1]?.trim()||'';
+    const nom = (finalText.match(/Nombre[^\w]+([\w]+)/i)||[])[1]?.trim()||'Cliente';
+    const dis = (finalText.match(/Dise[nñ]o[^\w]+([\w][\w\s]*?)(?=\s*[-•\n|]|$)/im)||[])[1]?.trim()||'tatuaje';
+    const zon = (finalText.match(/Zona[^\w]+([\w][\w\s]*?)(?=\s*[-•\n|]|$)/im)||[])[1]?.trim()||'';
+    const tam = (finalText.match(/(\d+\s*cm)/i)||[])[1]?.trim()||'';
+    const dia = (finalText.match(/(?:mañana|manana|hoy|lunes|martes|miércoles|miercoles|jueves|viernes|sábado|sabado|domingo)/i)||[])[0]?.trim()||'';
+    const hora = (finalText.match(/(\d{1,2}(?::\d{2})?\s*(?:am|pm))/i)||[])[1]?.trim()||'';
     const msg = encodeURIComponent(`Hola Baxto, soy ${nom}. Quiero agendar ${dis} ${tam} en ${zon} para ${dia} ${hora} vía BRA GT 10% OFF`);
     const waLink = `https://wa.me/5219842562365?text=${msg}`;
     // Quitar cualquier placeholder o pregunta final
