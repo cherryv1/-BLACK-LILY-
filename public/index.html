@@ -221,6 +221,27 @@ function addMessage(role, text) {
 }
 
 // 🔧 FUNCIÓN CORREGIDA CON MEMORIA PERSISTENTE
+// 🔥 MEMORIA LOCAL: Extraer nombre del historial
+function findNameInHistory() {
+  const patterns = [
+    /me llamo ([a-zA-ZáéíóúÁÉÍÓÚñÑ]+)/i,
+    /soy ([a-zA-ZáéíóúÁÉÍÓÚñÑ]+)(?:\s|$|[,.])/i,
+    /mi nombre es ([a-zA-ZáéíóúÁÉÍÓÚñÑ]+)/i,
+    /nombre:?\s*([a-zA-ZáéíóúÁÉÍÓÚñÑ]+)/i
+  ];
+  
+  for (let i = chatHistory.length - 1; i >= 0; i--) {
+    if (chatHistory[i].role === 'user') {
+      const text = chatHistory[i].text;
+      for (const pattern of patterns) {
+        const match = text.match(pattern);
+        if (match) return match[1].trim();
+      }
+    }
+  }
+  return null;
+}
+
 async function sendMessage() {
   const input = document.getElementById('chatInput');
   const text = input.value.trim();
@@ -250,11 +271,30 @@ async function sendMessage() {
   }));
   
   try {
+    // 🔥 MEMORY INJECTION: Prepend contexto crítico al mensaje
+    let enhancedMessage = text;
+    const lastName = findNameInHistory();
+    const hasContext = chatHistory.length > 2;
+    
+    // Si es pregunta sobre identidad y sabemos el nombre, responder local
+    if ((text.toLowerCase().includes('como me llamo') || 
+         text.toLowerCase().includes('cómo me llamo') ||
+         text.toLowerCase().includes('mi nombre')) && lastName) {
+      document.getElementById(typingId).remove();
+      addMessage('lily', `Te llamas ${lastName}. ¿En qué más puedo ayudarte?`);
+      return;
+    }
+    
+    // Inyectar memoria en el mensaje para el LLM
+    if (lastName && chatHistory.length > 0) {
+      enhancedMessage = `[Contexto: Cliente se llama ${lastName}. Historial previo disponible.] ${text}`;
+    }
+    
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
-        message: text, 
+        message: enhancedMessage, 
         history: historyForWorker,
         phone: phoneId
       })
