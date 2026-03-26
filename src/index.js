@@ -371,9 +371,18 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   const hasConversion = detectConversion(message);
   await recordScore(env, conversationId, customerId, message, hasConversion);
 
+  // Post-process: convertir [Botón WhatsApp] en link real
+  let finalText = aiResult.text;
+  if (finalText.includes('[Botón WhatsApp]') || finalText.includes('[Boton WhatsApp]') || finalText.includes('[botón WhatsApp]')) {
+    finalText = finalText.replace(/\[Bot[oó]n WhatsApp\]/gi,
+      '👉 <a href="https://wa.me/5219842562365" target="_blank" style="color:#25D366;font-weight:bold;">Confirmar con Baxto por WhatsApp</a>');
+  }
+  // Si tiene wa.me sin número, corregir
+  finalText = finalText.replace(/https:\/\/wa\.me\/\?text=/g, 'https://wa.me/5219842562365?text=');
+
   return {
-    reply: aiResult.text,
-    respuesta: aiResult.text,
+    reply: finalText,
+    respuesta: finalText,
     model: aiResult.model,
     modelo: aiResult.model,
     tier,
