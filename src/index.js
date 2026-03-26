@@ -373,6 +373,28 @@ async function chatWithMemory(env, sessionId, customerId, message) {
 
   // Post-process ELITE: forzar link WhatsApp + limpiar formato
   let finalText = aiResult.text;
+
+  // Detectar si la respuesta tiene resumen de cita con datos clave
+  const hasNombre = /nombre[:\s]+\w+/i.test(finalText);
+  const hasDiseno = /dise[nñ]o[:\s]+\w+/i.test(finalText);
+  const hasZona = /zona[:\s]+\w+/i.test(finalText);
+  const hasTamano = /tama[nñ]o[:\s]+\d+/i.test(finalText);
+
+  if (hasNombre && hasDiseno && hasZona && hasTamano) {
+    // Extraer datos
+    const nom = (finalText.match(/nombre[:\s]+([\w\s]+?)(?:\||\n|•|$)/i)||[])[1]?.trim()||'Cliente';
+    const dis = (finalText.match(/dise[nñ]o[:\s]+([\w\s]+?)(?:\||\n|•|$)/i)||[])[1]?.trim()||'tatuaje';
+    const zon = (finalText.match(/zona[:\s]+([\w\s]+?)(?:\||\n|•|$)/i)||[])[1]?.trim()||'zona';
+    const tam = (finalText.match(/tama[nñ]o[:\s]+([\d]+\s*cm)/i)||[])[1]?.trim()||'';
+    const dia = (finalText.match(/d[ií]a[:\s]+([\w\s]+?)(?:\||\n|•|$)/i)||[])[1]?.trim()||'';
+    const hora = (finalText.match(/hora[:\s]+([\w\s:]+?)(?:\||\n|•|$)/i)||[])[1]?.trim()||'';
+    const msg = encodeURIComponent(`Hola Baxto, soy ${nom}. Quiero agendar ${dis} ${tam} en ${zon} para ${dia} ${hora} vía BRA GT 10% OFF`);
+    const waLink = `https://wa.me/5219842562365?text=${msg}`;
+    // Quitar cualquier placeholder o pregunta final
+    finalText = finalText.replace(/¿.*?proceder.*?$/gis, '').trim();
+    finalText = finalText.replace(/¿.*?listo.*?$/gis, '').trim();
+    finalText += `\n\n👉 Confirma con Baxto: ${waLink}`;
+  }
   finalText = finalText.replace(/\[.*?[Ee]nlace.*?\]/g, "👉 https://wa.me/5219842562365");
   finalText = finalText.replace(/\[.*?[Bb]ot[oó]n.*?\]/g, "👉 https://wa.me/5219842562365");
   finalText = finalText.replace(/\[.*?[Ww]hats[Aa]pp.*?\]/g, "👉 https://wa.me/5219842562365");
