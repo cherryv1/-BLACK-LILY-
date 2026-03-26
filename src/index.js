@@ -391,8 +391,8 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     const msg = encodeURIComponent(`Hola Baxto, soy ${nom}. Quiero agendar ${dis} ${tam} en ${zon} para ${dia} ${hora} vía BRA GT 10% OFF`);
     const waLink = `https://wa.me/5219842562365?text=${msg}`;
     // Quitar cualquier placeholder o pregunta final
-    finalText = finalText.replace(/[¿\?][^\n]*(?:proceder|listo|deseas|quieres|confirma)[^\n]*/gis, '').trim();
-    finalText = finalText.replace(/[¿\?][^\n]*(?:envíe|envie|hablar|definir)[^\n]*/gis, '').trim();
+    finalText = finalText.replace(/[¿?][^\n]*$/gm, '').trim();
+    finalText = finalText.replace(/(?:Puedes|Te recomiendo|Con gusto te ayudo a confirmar)[^\n]*/gm, '').trim();
     finalText += `\n\n👉 https://wa.me/5219842562365?text=${msg}`;
   }
   finalText = finalText.replace(/\[.*?[Ee]nlace.*?\]/g, "👉 https://wa.me/5219842562365");
