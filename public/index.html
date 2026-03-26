@@ -96,7 +96,7 @@ html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdha
 </div>
 <div class="modal-overlay" id="galModal"><div class="modal-box"><div class="modal-head"><span class="modal-title">DETALLES</span><button class="modal-close" onclick="closeModal('galModal')">&times;</button></div><div class="modal-body" id="galModalBody" style="padding:0;"></div></div></div>
 <div class="modal-overlay" id="infoModal"><div class="modal-box"><div class="modal-head"><span class="modal-title" id="infoTitle">INFO</span><button class="modal-close" onclick="closeModal('infoModal')">&times;</button></div><div class="modal-body" id="infoBody"></div></div></div>
-<div class="modal-overlay" id="chatModal"><div class="modal-box" style="height:80vh;"><div class="modal-head"><div style="display:flex;align-items:center;gap:10px;"><div style="width:10px;height:10px;background:var(--c4);border-radius:50%;"></div><span class="modal-title">BRA GT · ONLINE</span></div><button class="modal-close" onclick="closeModal('chatModal')">&times;</button></div><div id="chat-msgs"></div><div class="chat-inp-wrap"><div class="chat-inp-box"><textarea id="chatInput" placeholder="Escribe un mensaje..." rows="1"></textarea><button class="csend" onclick="sendMessage()"><svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div></div></div></div>
+<div class="modal-overlay" id="chatModal"><div class="modal-box" style="height:80vh;"><div class="modal-head"><div style="display:flex;align-items:center;gap:10px;"><div style="width:10px;height:10px;background:var(--c4);border-radius:50%;"></div><span class="modal-title">BRA GT · ONLINE</span></div><button class="modal-close" onclick="closeChat()">&times;</button></div><div id="chat-msgs"></div><div class="chat-inp-wrap"><div class="chat-inp-box"><textarea id="chatInput" placeholder="Escribe un mensaje..." rows="1"></textarea><button class="csend" onclick="sendMessage()"><svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg></button></div></div></div></div>
 <script>
 const IMAGES = [
   { url: 'https://raw.githubusercontent.com/cherryv1/-BLACK-LILY-/main/public/img/InShot_20260318_153716186.jpg', label: 'Blackwork · Rigor Técnico · Dynamic Triple Black' },
@@ -112,17 +112,115 @@ const INFO_CONTENT = {
   politicas: { title: 'POLÍTICAS Y PAGOS', body: '<p>• Playa del Carmen, Centro.</p><p>• Depósito del 35% para cita.</p><p>• Efectivo, Transferencia, Tarjeta.</p>' }
 };
 const PHRASES = ["LA PIEL ES EL LIENZO, EL ARTE ES ETERNO.", "PRECISIÓN MECÁNICA, ALMA ARTÍSTICA.", "TU VISIÓN, MI TINTA.", "BIENVENIDO AL FUTURO DEL TATUAJE."];
-document.addEventListener('DOMContentLoaded', () => { initNeural(); initParticles(); initEnergy(); renderGallery(); startPhraseCycle(); const tx = document.getElementById('chatInput'); tx.addEventListener('input', function() { this.style.height = 'auto'; this.style.height = (this.scrollHeight) + 'px'; }); tx.addEventListener('keypress', function(e) { if(e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }); });
-function renderGallery() { const container = document.getElementById('galTarget'); IMAGES.forEach((img, i) => { const div = document.createElement('div'); div.className = 'gal-item'; div.innerHTML = `<div class="gal-card" onclick="openGallery(${i})"><img src="${img.url}" loading="lazy"></div><div class="gal-label">${img.label}</div>`; container.appendChild(div); }); }
-function startPhraseCycle() { const el = document.getElementById('phrase'); let idx = 0; setInterval(() => { el.style.opacity = 0; setTimeout(() => { el.textContent = PHRASES[idx]; el.style.opacity = 1; idx = (idx + 1) % PHRASES.length; }, 500); }, 5000); el.textContent = PHRASES[0]; el.style.transition = 'opacity 0.5s'; }
-function openModal(id) { document.getElementById(id).classList.add('open'); document.body.style.overflow = 'hidden'; }
-function closeModal(id) { document.getElementById(id).classList.remove('open'); document.body.style.overflow = ''; }
-function openGallery(idx) { const body = document.getElementById('galModalBody'); body.innerHTML = `<img src="${IMAGES[idx].url}" style="width:100%;"><div style="padding:20px;color:var(--c1);">${IMAGES[idx].label}</div>`; openModal('galModal'); }
-function openInfo(key) { const c = INFO_CONTENT[key]; document.getElementById('infoTitle').textContent = c.title; document.getElementById('infoBody').innerHTML = c.body; openModal('infoModal'); }
-function openChat() { openModal('chatModal'); if(document.getElementById('chat-msgs').innerHTML === '') addMessage('lily', 'Hola, soy BRA GT. ¿En qué puedo ayudarte hoy?'); }
-function addMessage(role, text) { const container = document.getElementById('chat-msgs'); const div = document.createElement('div'); div.className = `cmsg ${role}`; div.innerHTML = `<div class="cav">${role==='user'?'YO':'GT'}</div><div class="cbub">${text}</div>`; container.appendChild(div); container.scrollTop = container.scrollHeight; }
 
-// 🔧 FUNCIÓN CORREGIDA - Manejo robusto de respuestas
+// 🔧 MEMORIA PERSISTENTE - Phone ID único por sesión de navegador
+function getPhoneId() {
+  let phone = localStorage.getItem('bra_gt_phone');
+  if (!phone) {
+    phone = 'web_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
+    localStorage.setItem('bra_gt_phone', phone);
+  }
+  return phone;
+}
+
+// 🔧 HISTORIAL LOCAL - Para mantener contexto visual en el chat
+let chatHistory = [];
+
+document.addEventListener('DOMContentLoaded', () => { 
+  initNeural(); 
+  initParticles(); 
+  initEnergy(); 
+  renderGallery(); 
+  startPhraseCycle(); 
+  const tx = document.getElementById('chatInput'); 
+  tx.addEventListener('input', function() { 
+    this.style.height = 'auto'; 
+    this.style.height = (this.scrollHeight) + 'px'; 
+  }); 
+  tx.addEventListener('keypress', function(e) { 
+    if(e.key === 'Enter' && !e.shiftKey) { 
+      e.preventDefault(); 
+      sendMessage(); 
+    } 
+  }); 
+});
+
+function renderGallery() { 
+  const container = document.getElementById('galTarget'); 
+  IMAGES.forEach((img, i) => { 
+    const div = document.createElement('div'); 
+    div.className = 'gal-item'; 
+    div.innerHTML = `<div class="gal-card" onclick="openGallery(${i})"><img src="${img.url}" loading="lazy"></div><div class="gal-label">${img.label}</div>`; 
+    container.appendChild(div); 
+  }); 
+}
+
+function startPhraseCycle() { 
+  const el = document.getElementById('phrase'); 
+  let idx = 0; 
+  setInterval(() => { 
+    el.style.opacity = 0; 
+    setTimeout(() => { 
+      el.textContent = PHRASES[idx]; 
+      el.style.opacity = 1; 
+      idx = (idx + 1) % PHRASES.length; 
+    }, 500); 
+  }, 5000); 
+  el.textContent = PHRASES[0]; 
+  el.style.transition = 'opacity 0.5s'; 
+}
+
+function openModal(id) { 
+  document.getElementById(id).classList.add('open'); 
+  document.body.style.overflow = 'hidden'; 
+}
+
+function closeModal(id) { 
+  document.getElementById(id).classList.remove('open'); 
+  document.body.style.overflow = ''; 
+}
+
+function openGallery(idx) { 
+  const body = document.getElementById('galModalBody'); 
+  body.innerHTML = `<img src="${IMAGES[idx].url}" style="width:100%;"><div style="padding:20px;color:var(--c1);">${IMAGES[idx].label}</div>`; 
+  openModal('galModal'); 
+}
+
+function openInfo(key) { 
+  const c = INFO_CONTENT[key]; 
+  document.getElementById('infoTitle').textContent = c.title; 
+  document.getElementById('infoBody').innerHTML = c.body; 
+  openModal('infoModal'); 
+}
+
+// 🔧 CHAT CON MEMORIA
+function openChat() { 
+  openModal('chatModal'); 
+  if(document.getElementById('chat-msgs').innerHTML === '') {
+    addMessage('lily', 'Hola, soy BRA GT. ¿En qué puedo ayudarte hoy?');
+  }
+}
+
+// 🔧 CERRAR CHAT Y LIMPIAR (opcional - para nuevas conversaciones)
+function closeChat() {
+  closeModal('chatModal');
+  // Descomenta la siguiente línea si quieres resetear el chat al cerrar:
+  // setTimeout(() => { document.getElementById('chat-msgs').innerHTML = ''; }, 300);
+}
+
+function addMessage(role, text) { 
+  const container = document.getElementById('chat-msgs'); 
+  const div = document.createElement('div'); 
+  div.className = `cmsg ${role}`; 
+  div.innerHTML = `<div class="cav">${role==='user'?'YO':'GT'}</div><div class="cbub">${text}</div>`; 
+  container.appendChild(div); 
+  container.scrollTop = container.scrollHeight; 
+  
+  // Guardar en historial local
+  chatHistory.push({role, text, time: Date.now()});
+}
+
+// 🔧 FUNCIÓN CORREGIDA CON MEMORIA PERSISTENTE
 async function sendMessage() {
   const input = document.getElementById('chatInput');
   const text = input.value.trim();
@@ -142,14 +240,23 @@ async function sendMessage() {
   msgContainer.appendChild(div);
   msgContainer.scrollTop = msgContainer.scrollHeight;
   
+  // 🔧 USAR PHONE ID PERSISTENTE
+  const phoneId = getPhoneId();
+  
+  // 🔧 PREPARAR HISTORIAL PARA EL WORKER (últimos 10 mensajes)
+  const historyForWorker = chatHistory.slice(-10).map(h => ({
+    role: h.role === 'user' ? 'user' : 'assistant',
+    content: h.text
+  }));
+  
   try {
     const res = await fetch('/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ 
         message: text, 
-        history: [],
-        phone: 'web_user_' + Math.random().toString(36).substr(2, 9)
+        history: historyForWorker,
+        phone: phoneId
       })
     });
     
@@ -186,9 +293,104 @@ async function sendMessage() {
   }
 }
 
-function initNeural() { const canvas = document.getElementById('neural'); const ctx = canvas.getContext('2d'); let w, h, nodes = []; function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize(); for(let i=0; i<40; i++) nodes.push({x:Math.random()*w, y:Math.random()*h, vx:Math.random()-0.5, vy:Math.random()-0.5}); function draw() { ctx.clearRect(0,0,w,h); ctx.strokeStyle = 'rgba(124,77,255,0.2)'; ctx.fillStyle = 'rgba(124,77,255,0.5)'; nodes.forEach((n,i) => { n.x += n.vx; n.y += n.vy; if(n.x<0||n.x>w) n.vx*=-1; if(n.y<0||n.y>h) n.vy*=-1; ctx.beginPath(); ctx.arc(n.x,n.y,2,0,Math.PI*2); ctx.fill(); for(let j=i+1; j<nodes.length; j++) { const n2 = nodes[j]; const dist = Math.hypot(n.x-n2.x, n.y-n2.y); if(dist < 150) { ctx.lineWidth = 1 - dist/150; ctx.beginPath(); ctx.moveTo(n.x,n.y); ctx.lineTo(n2.x,n2.y); ctx.stroke(); } } }); requestAnimationFrame(draw); } draw(); }
-function initParticles() { const canvas = document.getElementById('particles'); const ctx = canvas.getContext('2d'); let w, h, parts = []; function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize(); for(let i=0; i<50; i++) parts.push({x:Math.random()*w, y:Math.random()*h, s:Math.random()*2, o:Math.random(), v:Math.random()*0.5+0.2}); function draw() { ctx.clearRect(0,0,w,h); parts.forEach(p => { p.y -= p.v; if(p.y<0) p.y=h; ctx.fillStyle = `rgba(0,229,255,${p.o})`; ctx.fillRect(p.x,p.y,p.s,p.s); }); requestAnimationFrame(draw); } draw(); }
-function initEnergy() { const canvas = document.getElementById('energy'); const ctx = canvas.getContext('2d'); let w, h; function resize() { w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize(); function draw(t) { ctx.clearRect(0,0,w,h); ctx.beginPath(); ctx.strokeStyle = 'rgba(255,23,68,0.05)'; for(let i=0; i<w; i+=10) { const y = Math.sin(i*0.01 + t*0.001) * 20 + h*0.8; ctx.lineTo(i,y); } ctx.stroke(); requestAnimationFrame(draw); } draw(0); }
+function initNeural() { 
+  const canvas = document.getElementById('neural'); 
+  const ctx = canvas.getContext('2d'); 
+  let w, h, nodes = []; 
+  function resize() { 
+    w = canvas.width = window.innerWidth; 
+    h = canvas.height = window.innerHeight; 
+  } 
+  window.addEventListener('resize', resize); 
+  resize(); 
+  for(let i=0; i<40; i++) nodes.push({
+    x:Math.random()*w, 
+    y:Math.random()*h, 
+    vx:Math.random()-0.5, 
+    vy:Math.random()-0.5
+  }); 
+  function draw() { 
+    ctx.clearRect(0,0,w,h); 
+    ctx.strokeStyle = 'rgba(124,77,255,0.2)'; 
+    ctx.fillStyle = 'rgba(124,77,255,0.5)'; 
+    nodes.forEach((n,i) => { 
+      n.x += n.vx; 
+      n.y += n.vy; 
+      if(n.x<0||n.x>w) n.vx*=-1; 
+      if(n.y<0||n.y>h) n.vy*=-1; 
+      ctx.beginPath(); 
+      ctx.arc(n.x,n.y,2,0,Math.PI*2); 
+      ctx.fill(); 
+      for(let j=i+1; j<nodes.length; j++) { 
+        const n2 = nodes[j]; 
+        const dist = Math.hypot(n.x-n2.x, n.y-n2.y); 
+        if(dist < 150) { 
+          ctx.lineWidth = 1 - dist/150; 
+          ctx.beginPath(); 
+          ctx.moveTo(n.x,n.y); 
+          ctx.lineTo(n2.x,n2.y); 
+          ctx.stroke(); 
+        } 
+      } 
+    }); 
+    requestAnimationFrame(draw); 
+  } 
+  draw(); 
+}
+
+function initParticles() { 
+  const canvas = document.getElementById('particles'); 
+  const ctx = canvas.getContext('2d'); 
+  let w, h, parts = []; 
+  function resize() { 
+    w = canvas.width = window.innerWidth; 
+    h = canvas.height = window.innerHeight; 
+  } 
+  window.addEventListener('resize', resize); 
+  resize(); 
+  for(let i=0; i<50; i++) parts.push({
+    x:Math.random()*w, 
+    y:Math.random()*h, 
+    s:Math.random()*2, 
+    o:Math.random(), 
+    v:Math.random()*0.5+0.2
+  }); 
+  function draw() { 
+    ctx.clearRect(0,0,w,h); 
+    parts.forEach(p => { 
+      p.y -= p.v; 
+      if(p.y<0) p.y=h; 
+      ctx.fillStyle = `rgba(0,229,255,${p.o})`; 
+      ctx.fillRect(p.x,p.y,p.s,p.s); 
+    }); 
+    requestAnimationFrame(draw); 
+  } 
+  draw(); 
+}
+
+function initEnergy() { 
+  const canvas = document.getElementById('energy'); 
+  const ctx = canvas.getContext('2d'); 
+  let w, h; 
+  function resize() { 
+    w = canvas.width = window.innerWidth; 
+    h = canvas.height = window.innerHeight; 
+  } 
+  window.addEventListener('resize', resize); 
+  resize(); 
+  function draw(t) { 
+    ctx.clearRect(0,0,w,h); 
+    ctx.beginPath(); 
+    ctx.strokeStyle = 'rgba(255,23,68,0.05)'; 
+    for(let i=0; i<w; i+=10) { 
+      const y = Math.sin(i*0.01 + t*0.001) * 20 + h*0.8; 
+      ctx.lineTo(i,y); 
+    } 
+    ctx.stroke(); 
+    requestAnimationFrame(draw); 
+  } 
+  draw(0); 
+}
 </script>
 </body>
 </html>
