@@ -377,14 +377,14 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   // Detectar si la respuesta tiene resumen de cita con datos clave
   const hasNombre = /nombre[^\w]*(\w+)/i.test(finalText);
   const hasDiseno = /dise[nñ]o[^\w]*(\w+)/i.test(finalText);
-  const hasZona = /(?:zona|ubicaci[oó]n|lugar)[^\w]*(\w+)/i.test(finalText);
+  const hasZona = /(?:zona|ubicaci[oó]n|lugar|cuerpo)[^\w]*(\w+)/i.test(finalText);
   const hasTamano = /(\d+\s*cm)/i.test(finalText);
 
   if (hasNombre && hasDiseno && hasZona && hasTamano) {
     // Extraer datos
     const nom = (finalText.match(/Nombre[^\w]+([\w]+)/i)||[])[1]?.trim()||'Cliente';
     const dis = (finalText.match(/Dise[nñ]o[^\w]+([\w][\w\s]*?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'tatuaje';
-    const zon = (finalText.match(/(?:Zona|Ubicaci[oó]n|Lugar)[^\w]+([\w][\w\s]*?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'';
+    const zon = (finalText.match(/(?:Zona(?:[\s\w]*)?|Ubicaci[oó]n|Lugar)[:\s]+([\w][\w\s]*?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'';
     const tam = (finalText.match(/(\d+\s*cm)/i)||[])[1]?.trim()||'';
     const dia = (finalText.match(/(?:mañana|manana|hoy|lunes|martes|miércoles|miercoles|jueves|viernes|sábado|sabado|domingo)/i)||[])[0]?.trim()||'';
     const hora = (finalText.match(/(\d{1,2}(?::\d{2})?\s*(?:am|pm))/i)||[])[1]?.trim()||'';
