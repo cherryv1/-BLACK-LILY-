@@ -460,10 +460,18 @@ async function sendChat() {
   }
 }
 
+
+function parseMsg(t){
+  return t
+    .replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,'<a href="$2" target="_blank" style="display:inline-block;margin-top:8px;padding:8px 18px;background:linear-gradient(135deg,#25D366,#128C7E);color:#fff;border-radius:20px;text-decoration:none;font-weight:600;">$1</a>')
+    .replace(/
+/g,'<br>');
+}
 function addMsg(txt, type) {
   const msgs = document.getElementById('chat-msgs');
   const d = document.createElement('div'); d.className = 'cmsg ' + type;
-  d.innerHTML = `<div class="cav">${type==='user'?'TÚ':'BL'}</div><div class="cbub">${txt.replace(/\n/g,'<br>')}</div>`;
+  d.innerHTML = `<div class="cav">${type==='user'?'TÚ':'BL'}</div><div class="cbub">${parseMsg(txt)}</div>`;
   msgs.appendChild(d); msgs.scrollTop = msgs.scrollHeight;
 }
 
