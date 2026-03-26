@@ -393,7 +393,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     // Quitar cualquier placeholder o pregunta final
     finalText = finalText.replace(/[¿\?][^\n]*(?:proceder|listo|deseas|quieres|confirma)[^\n]*/gis, '').trim();
     finalText = finalText.replace(/[¿\?][^\n]*(?:envíe|envie|hablar|definir)[^\n]*/gis, '').trim();
-    finalText += `\n\n👉 Confirma con Baxto: ${waLink}`;
+    finalText += `\n\n👉 https://wa.me/5219842562365?text=${msg}`;
   }
   finalText = finalText.replace(/\[.*?[Ee]nlace.*?\]/g, "👉 https://wa.me/5219842562365");
   finalText = finalText.replace(/\[.*?[Bb]ot[oó]n.*?\]/g, "👉 https://wa.me/5219842562365");
