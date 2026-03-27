@@ -421,11 +421,11 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     finalText = finalText.replace(/(?:Puedes|Te recomiendo|Con gusto te ayudo a confirmar)[^\n]*/gm, '').trim();
     finalText += `\n\n👉 https://wa.me/5219842562365?text=${msg}`;
   }
-  finalText = finalText.replace(/\[.*?[Ee]nlace.*?\]/g, "👉 https://wa.me/5219842562365");
-  finalText = finalText.replace(/\[.*?[Bb]ot[oó]n.*?\]/g, "👉 https://wa.me/5219842562365");
-  finalText = finalText.replace(/\[.*?[Ww]hats[Aa]pp.*?\]/g, "👉 https://wa.me/5219842562365");
-  finalText = finalText.replace(/\[.*?[Ll]ink.*?\]/g, "👉 https://wa.me/5219842562365");
-  finalText = finalText.replace(/https:\/\/wa\.me\/\?text=/g, "https://wa.me/5219842562365?text=");
+    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
+    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
+    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
+    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
+    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
   finalText = finalText.replace(/^\* /gm, "• ");
   return {
     reply: finalText,
