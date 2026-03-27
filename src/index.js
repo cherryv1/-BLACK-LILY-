@@ -367,6 +367,29 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   session.messages.push({ role: 'user', content: message });
   const recentMessages = session.messages.slice(-20);
 
+  // BYPASS LLM: confirmación corta + cita pendiente en historial
+  const isConfirmacion = /^(ok|si|sí|dale|listo|confirmar|agendar|proceder|va|yes)[.!\s]*$/i.test(message.trim());
+  if (isConfirmacion) {
+    const ultimoAsistente = [...session.messages].reverse().find(m => m.role === 'assistant' && m.content);
+    if (ultimoAsistente) {
+      const prev = ultimoAsistente.content;
+      const tieneDatos = /(\d+\s*cm)/i.test(prev) && /(?:brazo|mano|pierna|espalda|pecho|cuello|tobillo|antebrazo|chamorro|zona)/i.test(prev);
+      if (tieneDatos) {
+        const nom = (prev.match(/(?:llamo|soy|nombre)[^\w]+([\w]+)/i)||[])[1]?.trim()||'Cliente';
+        const dis = (prev.match(/(?:Dise[nñ]o)[^\w]+([\w][\w\s]{2,25}?)(?=[\s]*[-•\n|,]|$)/im)||[])[1]?.trim()||'tatuaje';
+        const zon = (prev.match(/(?:brazo|mano|pierna|espalda|pecho|cuello|tobillo|antebrazo|chamorro)/i)||[])[0]?.trim()||'';
+        const tam = (prev.match(/(\d+\s*cm)/i)||[])[1]?.trim()||'';
+        const dia = (prev.match(/(?:mañana|hoy|lunes|martes|miércoles|jueves|viernes|sábado|domingo)/i)||[])[0]?.trim()||'';
+        const hora = (prev.match(/(\d{1,2}(?::\d{2})?\s*(?:am|pm))/i)||[])[1]?.trim()||'';
+        const msg = encodeURIComponent(`Hola Baxto, soy ${nom}. Quiero agendar ${dis} ${tam}${zon?' en '+zon:''}${dia?' para '+dia:''}${hora?' a las '+hora:''} vía BRA GT 10% OFF`);
+        const reply = `¡Listo ${nom}! 🖤\n\n👉 https://wa.me/5219842562365?text=${msg}`;
+        session.messages.push({ role: 'assistant', content: reply });
+        await saveSession(env, sessionId, session);
+        return { reply, model: 'Bypass', tier, session_id: sessionId };
+      }
+    }
+  }
+
   const t0 = Date.now();
   const aiResult = await callGroq(env, systemPrompt, recentMessages);
   const latency = Date.now() - t0;
