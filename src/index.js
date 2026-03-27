@@ -397,7 +397,14 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   const hasConversion = detectConversion(message);
   await recordScore(env, conversationId, customerId, message, hasConversion);
 
-  // Post-process ELITE: forzar link WhatsApp + limpiar formato
+  // POST-PROCESS NUCLEAR
+  let finalText = aiResult.text;
+  // Eliminar CUALQUIER placeholder entre corchetes
+  finalText = finalText.replace(/\[[^\]]*\]/gi, '').trim();
+  // Eliminar preguntas finales
+  finalText = finalText.replace(/[¿?][^\n]*$/gm, '').trim();
+  // Eliminar frases de cierre del modelo
+  finalText = finalText.replace(/(?:Puedes|puedes|Te recomiendo|Con gusto te ayudo a confirmar|comunic)[^\n]*/gm, '').trim();
   let finalText = aiResult.text;
 
   // Detectar si la respuesta tiene resumen de cita con datos clave
