@@ -397,44 +397,31 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   const hasConversion = detectConversion(message);
   await recordScore(env, conversationId, customerId, message, hasConversion);
 
-  // POST-PROCESS NUCLEAR
+  // POST-PROCESS ELITE v2
   let finalText = aiResult.text;
-  // Eliminar CUALQUIER placeholder entre corchetes
+  const msgOrig = message || '';
+  const todo = finalText + ' ' + msgOrig;
+
+  // Extraer datos
+  const nom = (todo.match(/(?:llamo|soy|nombre)[^\w]+([\w]+)/i)||[])[1]?.trim()||'Cliente';
+  const dis = (todo.match(/(?:dise[nñ]o|quiero(?:\s+un?)?\s+(?:tatu\w*)?)[^\w]+([\w][\w\s]{2,30}?)(?=[\s]*[-•\n|,]|\s+de\s|$)/im)||[])[1]?.trim()||'';
+  const zon = (todo.match(/(?:zona(?:[\s\w]*)?|brazo|pierna|mano|espalda|pecho|cuello|tobillo|antebrazo|chamorro|pantorrilla|costilla|muñeca)[^\w]*/i)||[])[0]?.trim()||'';
+  const tam = (todo.match(/(\d+\s*cm)/i)||[])[1]?.trim()||'';
+  const dia = (todo.match(/(?:mañana|manana|hoy|lunes|martes|mi[eé]rcoles|jueves|viernes|s[aá]bado|domingo)/i)||[])[0]?.trim()||'';
+  const hora = (todo.match(/(\d{1,2}(?::\d{2})?\s*(?:am|pm))/i)||[])[1]?.trim()||'';
+
+  // Limpiar texto
   finalText = finalText.replace(/\[[^\]]*\]/gi, '').trim();
-  // Eliminar preguntas finales
   finalText = finalText.replace(/[¿?][^\n]*$/gm, '').trim();
-  // Eliminar frases de cierre del modelo
-  finalText = finalText.replace(/(?:Puedes|puedes|Te recomiendo|Con gusto te ayudo a confirmar|comunic)[^\n]*/gm, '').trim();
-  let finalText = aiResult.text;
+  finalText = finalText.replace(/(?:Puedes|puedes|Te recomiendo|comunic)[^\n]*/gm, '').trim();
+  finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
+  finalText = finalText.replace(/^\* /gm, '• ');
 
-  // Detectar si la respuesta tiene resumen de cita con datos clave
-  const hasNombre = /(?:nombre|llamo|soy)[^\w]*(\w+)/i.test(finalText);
-  const hasDiseno = /dise[nñ]o[^\w]*(\w+)/i.test(finalText);
-  const hasZona = /(?:zona|ubicaci[oó]n|lugar|cuerpo|chamorro|brazo|pierna|espalda|pecho|cuello|muñeca|tobillo|costilla|antebrazo|pantorrilla)[^\w]*(\w+)/i.test(finalText);
-  const hasTamano = /(\d+\s*cm)/i.test(finalText);
-
-  if (hasDiseno && hasZona && hasTamano) {
-    // Extraer datos
-    const nom = (finalText.match(/(?:Nombre|llamo|soy)[^\w]+([\w\s]+?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'Cliente';
-    const dis = (finalText.match(/Dise[nñ]o[^\w]+([\w][\w\s]*?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'tatuaje';
-    const zon = (finalText.match(/(?:Zona(?:[\s\w]*)?|Ubicaci[oó]n|Lugar)[:\s]+([\w][\w\s]*?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'';
-    const tam = (finalText.match(/(\d+\s*cm)/i)||[])[1]?.trim()||'';
-    const dia = (finalText.match(/(?:mañana|manana|hoy|lunes|martes|miércoles|miercoles|jueves|viernes|sábado|sabado|domingo)/i)||[])[0]?.trim()||'';
-    const hora = (finalText.match(/(\d{1,2}(?::\d{2})?\s*(?:am|pm))/i)||[])[1]?.trim()||'';
-    const msg = encodeURIComponent(`Hola Baxto, soy ${nom}. Quiero agendar ${dis} ${tam} en ${zon} para ${dia} ${hora} vía BRA GT 10% OFF`);
-    const waLink = `https://wa.me/5219842562365?text=${msg}`;
-    // Quitar cualquier placeholder o pregunta final
-    finalText = finalText.replace(/[¿?][^\n]*$/gm, '').trim();
-    finalText = finalText.replace(/(?:Puedes|Te recomiendo|Con gusto te ayudo a confirmar)[^\n]*/gm, '').trim();
-    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').replace(/\[.*?[Ww]hats[Aa]pp.*?\]/g, '').replace(/\[.*?[Bb]ot[oó]n.*?\]/g, '').trim();
+  // Inyectar link si hay diseño y tamaño
+  if (dis && tam) {
+    const msg = encodeURIComponent(`Hola Baxto, soy ${nom}. Quiero agendar ${dis} ${tam}${zon ? ' en '+zon : ''}${dia ? ' para '+dia : ''}${hora ? ' a las '+hora : ''} vía BRA GT 10% OFF`);
     finalText += `\n\n👉 https://wa.me/5219842562365?text=${msg}`;
   }
-    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
-    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
-    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
-    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
-    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
-  finalText = finalText.replace(/^\* /gm, "• ");
   return {
     reply: finalText,
     respuesta: finalText,
