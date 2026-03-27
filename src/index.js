@@ -612,6 +612,42 @@ async function handleRequest(request, env) {
     return new Response(null, { headers: CORS });
   }
 
+
+  // ============================================================
+  // BST GT — CANAL PRIVADO BAXTO
+  // ============================================================
+  if (path === '/baxto') {
+    const token = request.headers.get('X-BST-Token') || url.searchParams.get('token');
+    if (token !== env.BST_TOKEN) {
+      return new Response(JSON.stringify({ error: 'Acceso denegado' }), { status: 401, headers: { ...CORS, 'Content-Type': 'application/json' } });
+    }
+
+    if (request.method === 'GET') {
+      // Estado del sistema
+      let stats = {};
+      try {
+        const convs = await env.DB.prepare('SELECT COUNT(*) as total FROM conversations').first();
+        const clients = await env.DB.prepare('SELECT COUNT(*) as total FROM customer_profiles').first();
+        const today = await env.DB.prepare('SELECT COUNT(*) as total FROM conversations WHERE created_at > ?').bind(Math.floor(Date.now()/1000) - 86400).first();
+        stats = { conversaciones_total: convs?.total, clientes: clients?.total, hoy: today?.total, worker: 'BRA-GT v3.1.0', estado: '🟢 Operativo', timestamp: new Date().toISOString() };
+      } catch(e) { stats = { error: e.message }; }
+      return new Response(JSON.stringify(stats, null, 2), { headers: { ...CORS, 'Content-Type': 'application/json' } });
+    }
+
+    if (request.method === 'POST') {
+      const body = await request.json();
+      // Comando BST
+      if (body.cmd === 'prompt') {
+        await env.DB.prepare('UPDATE lily_config SET system_prompt_override = ? WHERE id = 1').bind(body.value).run();
+        return new Response(JSON.stringify({ ok: true, cmd: 'prompt actualizado' }), { headers: { ...CORS, 'Content-Type': 'application/json' } });
+      }
+      if (body.cmd === 'status') {
+        return new Response(JSON.stringify({ ok: true, uptime: Date.now(), modelo: 'llama-3.3-70b', fallbacks: ['Cerebras', 'Gemini'] }), { headers: { ...CORS, 'Content-Type': 'application/json' } });
+      }
+      return new Response(JSON.stringify({ error: 'Comando desconocido' }), { status: 400, headers: { ...CORS, 'Content-Type': 'application/json' } });
+    }
+  }
+
   // GET / — Sirve el HTML del frontend desde GitHub raw
   if (path === '/' && request.method === 'GET') {
     try {
