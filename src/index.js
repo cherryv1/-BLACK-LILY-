@@ -419,6 +419,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     // Quitar cualquier placeholder o pregunta final
     finalText = finalText.replace(/[¿?][^\n]*$/gm, '').trim();
     finalText = finalText.replace(/(?:Puedes|Te recomiendo|Con gusto te ayudo a confirmar)[^\n]*/gm, '').trim();
+    finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').replace(/\[.*?[Ww]hats[Aa]pp.*?\]/g, '').replace(/\[.*?[Bb]ot[oó]n.*?\]/g, '').trim();
     finalText += `\n\n👉 https://wa.me/5219842562365?text=${msg}`;
   }
     finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
