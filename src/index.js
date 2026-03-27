@@ -169,6 +169,28 @@ async function callCerebras(env, systemPrompt, messages) {
   } catch (error) {
     console.error('Cerebras failed:', error);
     return { text: 'Disculpa, estoy teniendo dificultades. Escríbenos al WhatsApp +52 984 256 2365 🖤', model: 'Fallback' };
+
+async function callGemini(env, systemPrompt, messages) {
+  try {
+    const contents = messages.map(m => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+    contents.unshift({ role: 'user', parts: [{ text: systemPrompt }] });
+    contents.splice(1, 0, { role: 'model', parts: [{ text: 'Entendido, soy BRA GT.' }] });
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${env.GEMINI_API_KEY}`,
+      { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents }) }
+    );
+    if (!response.ok) throw new Error(`Gemini ${response.status}`);
+    const data = await response.json();
+    return { text: data.candidates[0].content.parts[0].text, model: 'Gemini 2.0 Flash' };
+  } catch(error) {
+    console.error('Gemini failed:', error);
+    throw error;
+  }
+}
   }
 }
 
