@@ -406,13 +406,10 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   const hasZona = /(?:zona|ubicaci[oó]n|lugar|cuerpo|chamorro|brazo|pierna|espalda|pecho|cuello|muñeca|tobillo|costilla|antebrazo|pantorrilla)[^\w]*(\w+)/i.test(finalText);
   const hasTamano = /(\d+\s*cm)/i.test(finalText);
 
-  // Extraer del mensaje original si el resumen no tiene nombre/diseño
-  const rawMsg = messages[messages.length-1]?.content || '';
-  const allText = finalText + ' ' + rawMsg;
   if (hasDiseno && hasZona && hasTamano) {
     // Extraer datos
-    const nom = (allText.match(/(?:llamo|soy|nombre)[^\w]+([\w]+)/im)||[])[1]?.trim()||'Cliente';
-    const dis = (allText.match(/(?:Dise[nñ]o|quiero(?:\s+un?)?)[^\w]+([\w][\w\s]*?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'tatuaje';
+    const nom = (finalText.match(/(?:Nombre|llamo|soy)[^\w]+([\w\s]+?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'Cliente';
+    const dis = (finalText.match(/Dise[nñ]o[^\w]+([\w][\w\s]*?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'tatuaje';
     const zon = (finalText.match(/(?:Zona(?:[\s\w]*)?|Ubicaci[oó]n|Lugar)[:\s]+([\w][\w\s]*?)(?=[\s]*[-•\n|]|$)/im)||[])[1]?.trim()||'';
     const tam = (finalText.match(/(\d+\s*cm)/i)||[])[1]?.trim()||'';
     const dia = (finalText.match(/(?:mañana|manana|hoy|lunes|martes|miércoles|miercoles|jueves|viernes|sábado|sabado|domingo)/i)||[])[0]?.trim()||'';
