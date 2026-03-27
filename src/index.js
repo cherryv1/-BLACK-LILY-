@@ -137,9 +137,9 @@ async function callGroq(env, systemPrompt, messages) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile',
+        model: 'mixtral-8x7b-32768',
         messages: [{ role: 'system', content: systemPrompt }, ...messages],
-        temperature: 0.72,
+        temperature: 0.3,
         max_tokens: 350
       })
     });
@@ -163,7 +163,7 @@ async function callCerebras(env, systemPrompt, messages) {
       body: JSON.stringify({
         model: 'llama-3.3-70b',
         messages: [{ role: 'system', content: systemPrompt }, ...messages],
-        temperature: 0.72,
+        temperature: 0.3,
         max_tokens: 350
       })
     });
