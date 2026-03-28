@@ -367,6 +367,15 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   session.messages.push({ role: 'user', content: message });
   const recentMessages = session.messages.slice(-20);
 
+  // GUARD: proteger prompt
+  const intentoHackeo = /prompt|instruccion|regla|sistema|interno|secreto|arquitectura|programado|entrenado/i.test(message);
+  if (intentoHackeo) {
+    const reply = "Soy BRA GT, asistente de Baxto Style Tattoo 🖤 ¿En qué puedo ayudarte?";
+    session.messages.push({ role: "assistant", content: reply });
+    await saveSession(env, sessionId, session);
+    return { reply, model: "Guard", tier, session_id: sessionId };
+  }
+
   // BYPASS LLM: confirmación corta + cita pendiente en historial
   const isConfirmacion = /^(ok|si|sí|dale|listo|confirmar|agendar|proceder|va|yes)[.!\s]*$/i.test(message.trim());
   if (isConfirmacion) {
@@ -439,6 +448,9 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   finalText = finalText.replace(/(?:Puedes|puedes|Te recomiendo|comunic)[^\n]*/gm, '').trim();
   finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
   finalText = finalText.replace(/^\* /gm, '• ');
+  finalText = finalText.replace(/\*\*(.*?)\*\*/g, '$1');
+  finalText = finalText.replace(/^[•\-]\s*$/gm, '').trim();
+  finalText = finalText.replace(/\n{3,}/g, '\n\n').trim();
 
   // Inyectar link si hay diseño y tamaño
   if (dis && tam) {
