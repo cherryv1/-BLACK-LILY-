@@ -399,7 +399,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
         const tam = (prev.match(/(\d+\s*cm)/i)||[])[1]?.trim()||'';
         const dia = (prev.match(/(?:mañana|hoy|lunes|martes|miércoles|jueves|viernes|sábado|domingo)/i)||[])[0]?.trim()||'';
         const hora = (prev.match(/(\d{1,2}(?::\d{2})?\s*(?:am|pm))/i)||[])[1]?.trim()||'';
-        const msg = encodeURIComponent(`Hola Baxto, soy ${nom}. Quiero agendar ${dis} ${tam}${zon?' en '+zon:''}${dia?' para '+dia:''}${hora?' a las '+hora:''} vía BRA GT 10% OFF`);
+        const msg = encodeURIComponent(`Hola Baxto, soy ${nom}. Quiero agendar ${dis} ${tam}${zon?' en '+zon:''}${dia?' para '+dia:''}${hora?' a las '+hora:''} vía BRA GT 10% OFF`.replace(/[\u00bf\u00a1]/g,'').trim());
         const reply = `¡Listo ${nom}! 🖤\n\n👉 https://wa.me/5219842562365?text=${msg}`;
         session.messages.push({ role: 'assistant', content: reply });
         await saveSession(env, sessionId, session);
