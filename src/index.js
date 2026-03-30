@@ -413,7 +413,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
 
   // Extraer datos
   const nom = (todo.match(/(?:llamo|soy|nombre)[^\w]+([\w]+)/i)||[])[1]?.trim()||'Cliente';
-  const dis = (todo.match(/(?:dise[nñ]o|quiero(?:\s+un?)?\s+(?:tatu\w*)?)[^\w]+([\w][\w\s]{2,30}?)(?=[\s]*[-•\n|,]|\s+de\s|$)/im)||[])[1]?.trim()||'';
+  const dis = (todo.match(/Dise[n\xf1]o(?:[^:\n]{0,20})?[:\s]+([\w][\w\s]{1,25}?)(?=[\s]*[|\-\n•,]|\s+\d|$)/im)||[])[1]?.trim()||(todo.match(/quiero(?:\s+un?)?\s+([\w][\w\s]{1,25}?)(?=\s+de\s|\s+en\s|\s+\d|$)/i)||[])[1]?.trim()||'';
   const zon = (todo.match(/(?:zona(?:[\s\w]*)?|brazo|pierna|mano|espalda|pecho|cuello|tobillo|antebrazo|chamorro|pantorrilla|costilla|muñeca)[^\w]*/i)||[])[0]?.trim()||'';
   const tam = (todo.match(/(\d+\s*cm)/i)||[])[1]?.trim()||'';
   const dia = (todo.match(/(?:mañana|manana|hoy|lunes|martes|mi[eé]rcoles|jueves|viernes|s[aá]bado|domingo)/i)||[])[0]?.trim()||'';
@@ -425,9 +425,6 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   finalText = finalText.replace(/(?:Puedes|puedes|Te recomiendo|comunic)[^\n]*/gm, '').trim();
   finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
   finalText = finalText.replace(/^\* /gm, '• ');
-  finalText = finalText.replace(/\*\*(.*?)\*\*/g, '$1');
-  finalText = finalText.replace(/^[•\-]\s*$/gm, '').trim();
-  finalText = finalText.replace(/\n{3,}/g, '\n\n').trim();
   finalText = finalText.replace(/\*\*(.*?)\*\*/g, '$1');
   finalText = finalText.replace(/^[•\-]\s*$/gm, '').trim();
   finalText = finalText.replace(/\n{3,}/g, '\n\n').trim();
