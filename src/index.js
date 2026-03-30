@@ -367,6 +367,15 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   session.messages.push({ role: 'user', content: message });
   const recentMessages = session.messages.slice(-20);
 
+  // ULTRA INSTINTO: modo privado Baxto
+  const ultraInstinto = /ultra instinto/i.test(message);
+  if (ultraInstinto) {
+    const reply = 'Ultra Instinto activo. Hola Baxto, soy BRA GT. Tu sistema opera normal. 120 clientes registrados. Todo en orden. \u00bfQu\u00e9 necesitas?';
+    session.messages.push({ role: 'assistant', content: reply });
+    await saveSession(env, sessionId, session);
+    return { reply, model: 'UltraInstinto', tier, session_id: sessionId };
+  }
+
   // GUARD: proteger prompt
   const intentoHackeo = /prompt|instruccion|regla|sistema|interno|secreto|arquitectura|programado|entrenado/i.test(message);
   if (intentoHackeo) {
@@ -374,6 +383,15 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     session.messages.push({ role: "assistant", content: reply });
     await saveSession(env, sessionId, session);
     return { reply, model: "Guard", tier, session_id: sessionId };
+  }
+
+  // ULTRA INSTINTO: modo privado Baxto
+  const ultraInstinto = /ultra instinto/i.test(message);
+  if (ultraInstinto) {
+    const reply = 'Ultra Instinto activo. Hola Baxto, soy BRA GT. Tu sistema opera normal. 120 clientes registrados. Todo en orden. \u00bfQu\u00e9 necesitas?';
+    session.messages.push({ role: 'assistant', content: reply });
+    await saveSession(env, sessionId, session);
+    return { reply, model: 'UltraInstinto', tier, session_id: sessionId };
   }
 
   // GUARD: proteger prompt
