@@ -775,4 +775,29 @@ async function handleRequest(request, env) {
   return new Response('Not Found', { status: 404, headers: CORS });
 }
 
-export default { fetch: handleRequest };
+export default {
+  fetch: handleRequest,
+  async scheduled(event, env, ctx) {
+    // Health check automatico cada 15 min
+    try {
+      const checks = [];
+      // Check D1
+      try { await env.DB.prepare('SELECT 1').first(); checks.push('D1:ok'); } catch(e) { checks.push('D1:fail'); }
+      // Check KV
+      try { await env.SESSIONS.put('health-check', '1', { expirationTtl: 60 }); checks.push('KV:ok'); } catch(e) { checks.push('KV:fail'); }
+      // Si algo falla, alertar via WhatsApp
+      const failed = checks.filter(c => c.includes('fail'));
+      if (failed.length > 0) {
+        const msg = encodeURIComponent('⚠️ BRA GT ALERTA: ' + failed.join(', ') + ' — ' + new Date().toISOString());
+        await fetch('https://wa.me/5219842562365?text=' + msg).catch(() => {});
+        // Log en KV
+        await env.SESSIONS.put('last-health-fail', JSON.stringify({ checks, time: new Date().toISOString() }), { expirationTtl: 86400 });
+      } else {
+        await env.SESSIONS.put('last-health-ok', new Date().toISOString(), { expirationTtl: 86400 });
+      }
+      console.log('Health check:', checks.join(', '));
+    } catch(e) {
+      console.error('Health check error:', e.message);
+    }
+  }
+};
