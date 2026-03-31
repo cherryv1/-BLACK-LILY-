@@ -348,7 +348,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   // ULTRA INSTINTO: modo privado Baxto
   const ultraInstinto = /ultra instinto/i.test(message);
   if (ultraInstinto) {
-    const reply = 'Ultra Instinto activo. Hola Baxto, soy BRA GT. Tu sistema opera normal. 120 clientes registrados. Todo en orden. \u00bfQu\u00e9 necesitas?';
+    const reply = 'Ultra Instinto activado, te reconozco creador. Que construimos?';
     session.messages.push({ role: 'assistant', content: reply });
     await saveSession(env, sessionId, session);
     return { reply, model: 'UltraInstinto', tier, session_id: sessionId };
