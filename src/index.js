@@ -346,7 +346,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   const recentMessages = session.messages.slice(-20);
 
   // ULTRA INSTINTO: modo privado Baxto
-  const ultraInstinto = /ultra instinto/i.test(message);
+  const ultraInstinto = /ultra.?instinto/i.test(message);
   if (ultraInstinto) {
     const reply = 'Ultra Instinto activado, te reconozco creador. Que construimos?';
     session.messages.push({ role: 'assistant', content: reply });
@@ -354,6 +354,13 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     return { reply, model: 'UltraInstinto', tier, session_id: sessionId };
   }
 
+  const kaioKen = /kaio.?ken/i.test(message);
+  if (kaioKen) {
+    const reply = 'Kaio-ken desactivado, volviendo al modo asistente normal.';
+    session.messages.push({ role: 'assistant', content: reply });
+    await saveSession(env, sessionId, session);
+    return { reply, model: 'KaioKen', tier, session_id: sessionId };
+  }
   // GUARD: proteger prompt
   const intentoHackeo = /prompt|instruccion|regla|sistema|interno|secreto|arquitectura|programado|entrenado/i.test(message);
   if (intentoHackeo) {
@@ -435,6 +442,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
   finalText = finalText.replace(/(?:Puedes|puedes|Te recomiendo|comunic)[^\n]*/gm, '').trim();
   finalText = finalText.replace(/https?:\/\/wa\.me\/\S*/g, '').trim();
   finalText = finalText.replace(/^\* /gm, '• ');
+  finalText = finalText.replace(/^\d+\.\s+/gm, '').trim();
   finalText = finalText.replace(/\*\*(.*?)\*\*/g, '$1');
   finalText = finalText.replace(/^[•\-]\s*$/gm, '').trim();
   finalText = finalText.replace(/\n{3,}/g, '\n\n').trim();
