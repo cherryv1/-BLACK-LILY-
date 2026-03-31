@@ -376,7 +376,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     const ultimoAsistente = [...session.messages].reverse().find(m => m.role === 'assistant' && m.content);
     if (ultimoAsistente) {
       const prev = ultimoAsistente.content;
-      const tieneDatos = /(\d+\s*cm)/i.test(prev);
+      const tieneDatos = /(\d+\s*cm)/i.test(prev) || /rosa|calavera|letra|frase|lobo|dragon|flor|mariposa|aguila|tatuaje/i.test(prev);
       if (tieneDatos) {
         const nom = (prev.match(/(?:llamo|soy|nombre)[^\w]+([\w]+)/i)||[])[1]?.trim()||'Cliente';
         const dis = (prev.match(/(?:Dise[nñ]o)[^\w]+([\w][\w\s]{2,25}?)(?=[\s]*[-•\n|,]|$)/im)||[])[1]?.trim()||'tatuaje';
