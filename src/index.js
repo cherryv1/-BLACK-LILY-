@@ -349,9 +349,6 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     await saveSession(env, sessionId, session);
     return { reply, model: "Guard", tier, session_id: sessionId };
   }
-    await saveSession(env, sessionId, session);
-    return { reply, model: "Guard", tier, session_id: sessionId };
-  }
 
   // BYPASS LLM: confirmación corta + cita pendiente en historial
   const isConfirmacion = /^(ok|si|s\u00ed|dale|listo|confirmar|agendar|proceder|va|yes|confirma|confirmar la cita|procede|adelante|perfecto|andale|\u00f3rale|sale)[.!\s]*$/i.test(message.trim());
