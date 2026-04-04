@@ -118,7 +118,7 @@ async function callGroq(env, systemPrompt, messages) {
         model: 'llama-3.3-70b-versatile',
         messages: [{ role: 'system', content: systemPrompt }, ...messages],
         temperature: 0.3,
-        max_tokens: 350
+        max_tokens: 2048
       })
     });
     if (!response.ok) throw new Error(`Groq ${response.status}`);
@@ -142,7 +142,7 @@ async function callCerebras(env, systemPrompt, messages) {
         model: 'llama-3.3-70b',
         messages: [{ role: 'system', content: systemPrompt }, ...messages],
         temperature: 0.3,
-        max_tokens: 350
+        max_tokens: 2048
       })
     });
     if (!response.ok) throw new Error(`Cerebras ${response.status}`);
@@ -150,7 +150,7 @@ async function callCerebras(env, systemPrompt, messages) {
     return { text: data.choices[0].message.content, model: 'Cerebras Llama 3.3 70B' };
   } catch (error) {
     console.error('Cerebras failed:', error);
-    return { text: 'Disculpa, estoy teniendo dificultades. Escríbenos al WhatsApp +52 984 256 2365 🖤', model: 'Fallback' };
+    throw error;
 
 async function callGemini(env, systemPrompt, messages) {
   try {
