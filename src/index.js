@@ -813,6 +813,17 @@ function intentRouter(message) {
     return { reply: respuesta, model: 'IntentRouter-Precio' };
   }
 
+  // Cliente tiene diseño pero le falta CM o zona — preguntar solo lo que falta
+  if (tieneDiseño && !tieneTam && !tieneZona) {
+    return { reply: "Con gusto 🖤 ¿En qué parte del cuerpo y de cuántos centímetros lo quieres?", model: 'IntentRouter-Datos' };
+  }
+  if (tieneDiseño && tieneTam && !tieneZona) {
+    return { reply: "Con gusto 🖤 ¿En qué parte del cuerpo lo quieres?", model: 'IntentRouter-Datos' };
+  }
+  if (tieneDiseño && !tieneTam && tieneZona) {
+    return { reply: "Con gusto 🖤 ¿De cuántos centímetros lo quieres?", model: 'IntentRouter-Datos' };
+  }
+
   // Cotizar / precio genérico
   if (/cotizar|cuánto cuesta|cuanto cuesta|precio|costo|cuánto cobra|cuanto cobra|cuánto vale|cuanto vale/i.test(msg)) {
     return {
