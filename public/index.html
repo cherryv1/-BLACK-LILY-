@@ -284,14 +284,14 @@ async function sendMessage() {
  document.getElementById(typingId).remove();
  // 🔧 EXTRACCIÓN ROBUSTA DE RESPUESTA
  let respuesta = "Error en respuesta";
- if (data.response) {
+ if (data.reply) {
+ respuesta = data.reply;
+ } else if (data.response) {
  respuesta = data.response;
- } else if (data.message) {
- respuesta = data.message;
  } else if (data.text) {
  respuesta = data.text;
- } else if (data.reply) {
- respuesta = data.reply;
+ } else if (data.message) {
+ respuesta = data.message;
  } else if (data.content) {
  respuesta = data.content;
  } else if (data.choices && data.choices[0] && data.choices[0].message) {
