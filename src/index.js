@@ -322,22 +322,26 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     // INTENT ROUTER — respuesta instantánea sin LLM
     const intentResult = intentRouter(message);
     if (intentResult) {
-      // Guardar datos detectados en contexto de sesión
+      // Guardar datos en KV para memoria entre mensajes
       const msg = message.toLowerCase();
-      if (!sessionData.context) sessionData.context = {};
+      const rawSession = await env.SESSIONS.get(`sess:${sessionId}`).catch(() => null);
+      const sd = rawSession ? JSON.parse(rawSession) : { history: [], status: 'base', gender: 'neutral', context: {} };
+      if (!sd.context) sd.context = {};
       const diMatch = msg.match(/rosa|lobo|calavera|mariposa|leon|dragon|serpiente|nombre|letra|frase|flor|corazon|aguila|tribal|mandala|retrato|rostro/i);
       const zoMatch = msg.match(/brazo|antebrazo|mano|pierna|espalda|pecho|cuello|tobillo|chamorro|muneca|muñeca/i);
       const cmMatch = msg.match(/(\d+)\s*cm/i);
-      if (diMatch) sessionData.context.diseño = diMatch[0];
-      if (zoMatch) sessionData.context.zona = zoMatch[0];
-      if (cmMatch) sessionData.context.tamano = cmMatch[1] + 'cm';
-      sessionData.history.push({ role: 'user', content: message }, { role: 'assistant', content: intentResult.reply });
-      await env.SESSIONS.put(`sess:${sessionId}`, JSON.stringify(sessionData), { expirationTtl: 86400 });
+      if (diMatch) sd.context.diseño = diMatch[0];
+      if (zoMatch) sd.context.zona = zoMatch[0];
+      if (cmMatch) sd.context.tamano = cmMatch[1] + 'cm';
+      sd.history.push({ role: 'user', content: message }, { role: 'assistant', content: intentResult.reply });
+      await env.SESSIONS.put(`sess:${sessionId}`, JSON.stringify(sd), { expirationTtl: 86400 });
       return { reply: intentResult.reply, model: intentResult.model, tier: 'bronze', session_id: sessionId };
     }
 
     // Si no hay match en intent router pero hay contexto previo — completar datos
-    if (sessionData.context) {
+    const rawSess = await env.SESSIONS.get(`sess:${sessionId}`).catch(() => null);
+    const prevCtx = rawSess ? (JSON.parse(rawSess).context || {}) : {};
+    if (Object.keys(prevCtx).length > 0) {
       const msg = message.toLowerCase();
       const zoMatch = msg.match(/brazo|antebrazo|mano|pierna|espalda|pecho|cuello|tobillo|chamorro|muneca|muñeca/i);
       const cmMatch = msg.match(/(\d+)\s*cm/i);
@@ -345,7 +349,7 @@ async function chatWithMemory(env, sessionId, customerId, message) {
       if (cmMatch) sessionData.context.tamano = cmMatch[1] + 'cm';
 
       // Si ahora tenemos diseño + zona + tamaño — dar precio directo
-      const { diseño, zona, tamano } = sessionData.context;
+      const { diseño, zona, tamano } = prevCtx;
       if (diseño && zona && tamano) {
         const cm = parseInt(tamano);
         const esComplejo = /retrato|rostro|lobo|leon|dragon|realismo/i.test(diseño);
