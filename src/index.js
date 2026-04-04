@@ -322,7 +322,49 @@ async function chatWithMemory(env, sessionId, customerId, message) {
     // INTENT ROUTER — respuesta instantánea sin LLM
     const intentResult = intentRouter(message);
     if (intentResult) {
+      // Guardar datos detectados en contexto de sesión
+      const msg = message.toLowerCase();
+      if (!sessionData.context) sessionData.context = {};
+      const diMatch = msg.match(/rosa|lobo|calavera|mariposa|leon|dragon|serpiente|nombre|letra|frase|flor|corazon|aguila|tribal|mandala|retrato|rostro/i);
+      const zoMatch = msg.match(/brazo|antebrazo|mano|pierna|espalda|pecho|cuello|tobillo|chamorro|muneca|muñeca/i);
+      const cmMatch = msg.match(/(\d+)\s*cm/i);
+      if (diMatch) sessionData.context.diseño = diMatch[0];
+      if (zoMatch) sessionData.context.zona = zoMatch[0];
+      if (cmMatch) sessionData.context.tamano = cmMatch[1] + 'cm';
+      sessionData.history.push({ role: 'user', content: message }, { role: 'assistant', content: intentResult.reply });
+      await env.SESSIONS.put(`sess:${sessionId}`, JSON.stringify(sessionData), { expirationTtl: 86400 });
       return { reply: intentResult.reply, model: intentResult.model, tier: 'bronze', session_id: sessionId };
+    }
+
+    // Si no hay match en intent router pero hay contexto previo — completar datos
+    if (sessionData.context) {
+      const msg = message.toLowerCase();
+      const zoMatch = msg.match(/brazo|antebrazo|mano|pierna|espalda|pecho|cuello|tobillo|chamorro|muneca|muñeca/i);
+      const cmMatch = msg.match(/(\d+)\s*cm/i);
+      if (zoMatch) sessionData.context.zona = zoMatch[0];
+      if (cmMatch) sessionData.context.tamano = cmMatch[1] + 'cm';
+
+      // Si ahora tenemos diseño + zona + tamaño — dar precio directo
+      const { diseño, zona, tamano } = sessionData.context;
+      if (diseño && zona && tamano) {
+        const cm = parseInt(tamano);
+        const esComplejo = /retrato|rostro|lobo|leon|dragon|realismo/i.test(diseño);
+        let precio = '';
+        if (!esComplejo) {
+          if (cm <= 8) precio = '$500 MXN negro / $800 MXN color';
+          else if (cm <= 13) precio = '$700 MXN negro / $1,000 MXN color';
+          else if (cm <= 15) precio = '$800 MXN negro / $1,100 MXN color';
+          else if (cm <= 20) precio = '$1,000 MXN negro / $1,500 MXN color';
+          else precio = '$1,500 MXN negro / $2,500 MXN color';
+        }
+        const msgWA = encodeURIComponent(`Hola Baxto! Quiero cotizar: ${diseño} de ${cm}cm en ${zona}${precio?' — precio aprox '+precio:''}.`);
+        const reply = esComplejo
+          ? `Esa pieza es de nivel galería 🖤 Baxto cotiza directo.\n\n👉 https://wa.me/5219842562365?text=${msgWA}`
+          : `Un ${diseño} de ${cm}cm en ${zona} — precio aprox ${precio} 🖤 Baxto confirma al ver tu piel.\n\n👉 https://wa.me/5219842562365?text=${msgWA}`;
+        sessionData.history.push({ role: 'user', content: message }, { role: 'assistant', content: reply });
+        await env.SESSIONS.put(`sess:${sessionId}`, JSON.stringify(sessionData), { expirationTtl: 86400 });
+        return { reply, model: 'IntentRouter-Completo', tier: 'bronze', session_id: sessionId };
+      }
     }
 
   const profile = await getCustomerProfile(env, customerId);
