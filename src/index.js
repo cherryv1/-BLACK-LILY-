@@ -139,7 +139,7 @@ async function callCerebras(env, systemPrompt, messages) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'llama-3.3-70b',
+        model: 'llama3.1-8b',
         messages: [{ role: 'system', content: systemPrompt }, ...messages],
         temperature: 0.3,
         max_tokens: 2048
