@@ -788,7 +788,32 @@ async function handleRequest(request, env) {
 function intentRouter(message) {
   const msg = message.toLowerCase().trim();
   
-  // Cotizar / precio
+  // Cliente ya trae datos completos — precio directo del tabulador
+  const tieneDiseño = /rosa|lobo|calavera|mariposa|leon|dragon|serpiente|nombre|letra|frase|flor|corazon|aguila|tribal|mandala|retrato|rostro/i.test(msg);
+  const tieneZona = /brazo|antebrazo|mano|pierna|espalda|pecho|cuello|tobillo|chamorro|muneca|muñeca/i.test(msg);
+  const tieneTam = msg.match(/(\d+)\s*cm/i);
+
+  if (tieneDiseño && tieneZona && tieneTam) {
+    const cm = parseInt(tieneTam[1]);
+    const esComplejo = /retrato|rostro|lobo|leon|dragon|realismo/i.test(msg);
+    let precio = '';
+    if (!esComplejo) {
+      if (cm <= 8) precio = '$500 MXN negro / $800 MXN color';
+      else if (cm <= 13) precio = '$700 MXN negro / $1,000 MXN color';
+      else if (cm <= 15) precio = '$800 MXN negro / $1,100 MXN color';
+      else if (cm <= 20) precio = '$1,000 MXN negro / $1,500 MXN color';
+      else precio = '$1,500 MXN negro / $2,500 MXN color';
+    }
+    const diseño = (msg.match(/rosa|lobo|calavera|mariposa|leon|dragon|serpiente|nombre|letra|frase|flor|corazon|aguila|tribal|mandala|retrato|rostro/i)||[])[0] || 'tatuaje';
+    const zona = (msg.match(/brazo|antebrazo|mano|pierna|espalda|pecho|cuello|tobillo|chamorro|muneca|muñeca/i)||[])[0] || '';
+    const msgWA = encodeURIComponent(`Hola Baxto! Quiero cotizar: ${diseño} de ${cm}cm en ${zona}${precio?' — precio aprox '+precio:' — diseño complejo'}.`);
+    const respuesta = esComplejo
+      ? `Ese ${diseño} es una pieza de nivel galería 🖤 Por la complejidad Baxto cotiza directo:\n\n👉 https://wa.me/5219842562365?text=${msgWA}`
+      : `Un ${diseño} de ${cm}cm en ${zona} — precio aprox ${precio} 🖤 Baxto confirma al ver tu piel.\n\n👉 https://wa.me/5219842562365?text=${msgWA}`;
+    return { reply: respuesta, model: 'IntentRouter-Precio' };
+  }
+
+  // Cotizar / precio genérico
   if (/cotizar|cuánto cuesta|cuanto cuesta|precio|costo|cuánto cobra|cuanto cobra|cuánto vale|cuanto vale/i.test(msg)) {
     return {
       reply: "Con gusto 🖤 Para darte el precio exacto necesito saber: qué diseño quieres, de cuántos centímetros y en qué parte del cuerpo.\n\nMientras tanto puedes escribirle directo a Baxto:\n\n👉 https://wa.me/5219842562365?text=Hola%20Baxto!%20Quiero%20cotizar%20un%20tatuaje.",
