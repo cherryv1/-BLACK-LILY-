@@ -878,7 +878,7 @@ function intentRouter(message) {
   // Saludo inicial
   if (/^(hola|buenas|buenos días|buenos dias|buenas tardes|buenas noches|que tal|qué tal|que onda|cómo está|como esta|cómo estás|como estas|buen dia|good morning|hi|hey)[\s!.?,]*$/i.test(msg)) {
     return {
-      reply: "Hola, ¿cómo está? 🖤 Con gusto le atiendo. ¿Le gustaría cotizar algún diseño de tatuaje?",
+      reply: "Hola, bienvenido a Baxto Style Tattoo 🖤 Con gusto le atiendo. ¿Con quién tengo el gusto?",
       model: 'IntentRouter-Saludo'
     };
   }
