@@ -875,8 +875,24 @@ function intentRouter(message) {
     return { reply: "Con gusto 🖤 ¿De cuántos centímetros lo quieres?", model: 'IntentRouter-Datos' };
   }
 
+  // Saludo inicial
+  if (/^(hola|buenas|buenos días|buenos dias|buenas tardes|buenas noches|que tal|qué tal|que onda|cómo está|como esta|cómo estás|como estas|buen dia|good morning|hi|hey)[\s!.?,]*$/i.test(msg)) {
+    return {
+      reply: "Hola, ¿cómo está? 🖤 Con gusto le atiendo. ¿Le gustaría cotizar algún diseño de tatuaje?",
+      model: 'IntentRouter-Saludo'
+    };
+  }
+
+  // Cliente quiere cotizar — pedir datos + botón WhatsApp
+  if (/cotizar|cuánto cuesta|cuanto cuesta|cuánto sale|cuanto sale|dame precio|precio de|quiero cotizar|si me gustaría|si me gustaria|claro|sí quiero|si quiero/i.test(msg)) {
+    return {
+      reply: "Claro, ¿con quién tengo el gusto? 🖤\n\nPara cotizar tu diseño dime:\n— ¿Qué diseño tienes en mente?\n— ¿De cuántos centímetros aproximadamente?\n— ¿En qué parte del cuerpo?\n\nCon esta información Baxto te dará el precio exacto. Y recuerda que puedes escribirle directo:\n\n👉 https://wa.me/5219842562365?text=Hola%20Baxto!%20Quiero%20cotizar%20un%20dise%C3%B1o.",
+      model: 'IntentRouter-Cotizar'
+    };
+  }
+
   // Cotizar / precio genérico
-  if (/cotizar|cuánto cuesta|cuanto cuesta|precio|costo|cuánto cobra|cuanto cobra|cuánto vale|cuanto vale/i.test(msg)) {
+  if (/precio|costo|cuánto cobra|cuanto cobra|cuánto vale|cuanto vale/i.test(msg)) {
     return {
       reply: "Con gusto 🖤 Para darte el precio exacto necesito saber: qué diseño quieres, de cuántos centímetros y en qué parte del cuerpo.\n\nMientras tanto puedes escribirle directo a Baxto:\n\n👉 https://wa.me/5219842562365?text=Hola%20Baxto!%20Quiero%20cotizar%20un%20tatuaje.",
       model: 'IntentRouter'
