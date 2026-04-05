@@ -370,8 +370,8 @@ async function chatWithMemory(env, sessionId, customerId, message) {
         const reply = esComplejo
           ? `Esa pieza es de nivel galería 🖤 Baxto cotiza directo.\n\n👉 https://wa.me/5219842562365?text=${msgWA}`
           : `Un ${diseño} de ${cm}cm en ${zona} — precio aprox ${precio} 🖤 Baxto confirma al ver tu piel.\n\n👉 https://wa.me/5219842562365?text=${msgWA}`;
-        sessionData.history.push({ role: 'user', content: message }, { role: 'assistant', content: reply });
-        await env.SESSIONS.put(`sess:${sessionId}`, JSON.stringify(sessionData), { expirationTtl: 86400 });
+        sdUpdate.history.push({ role: 'user', content: message }, { role: 'assistant', content: reply });
+        await env.SESSIONS.put(`sess:${sessionId}`, JSON.stringify(sdUpdate), { expirationTtl: 86400 });
         return { reply, model: 'IntentRouter-Completo', tier: 'bronze', session_id: sessionId };
       }
     }
