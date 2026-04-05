@@ -345,8 +345,13 @@ async function chatWithMemory(env, sessionId, customerId, message) {
       const msg = message.toLowerCase();
       const zoMatch = msg.match(/brazo|antebrazo|mano|pierna|espalda|pecho|cuello|tobillo|chamorro|muneca|muñeca/i);
       const cmMatch = msg.match(/(\d+)\s*cm/i);
-      if (zoMatch) sessionData.context.zona = zoMatch[0];
-      if (cmMatch) sessionData.context.tamano = cmMatch[1] + 'cm';
+      if (zoMatch) prevCtx.zona = zoMatch[0];
+      if (cmMatch) prevCtx.tamano = cmMatch[1] + 'cm';
+      // Guardar contexto actualizado
+      const rawSessUpdate = await env.SESSIONS.get(`sess:${sessionId}`).catch(() => null);
+      const sdUpdate = rawSessUpdate ? JSON.parse(rawSessUpdate) : { history: [], status: 'base', gender: 'neutral', context: {} };
+      sdUpdate.context = { ...sdUpdate.context, ...prevCtx };
+      await env.SESSIONS.put(`sess:${sessionId}`, JSON.stringify(sdUpdate), { expirationTtl: 86400 });
 
       // Si ahora tenemos diseño + zona + tamaño — dar precio directo
       const { diseño, zona, tamano } = prevCtx;
