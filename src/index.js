@@ -884,7 +884,8 @@ function intentRouter(message) {
   }
 
   // Cliente quiere cotizar — pedir datos + botón WhatsApp
-  if (/\bcotizar\b|cuánto cuesta|cuanto cuesta|cuánto sale|cuanto sale|dame precio|precio de|quiero cotizar/i.test(msg)) {
+  const tieneNombre = /me llamo|soy [A-Z]|mi nombre/i.test(msg);
+  if (/\bcotizar\b|cuánto cuesta|cuanto cuesta|cuánto sale|cuanto sale|dame precio|precio de|quiero cotizar/i.test(msg) && !tieneDiseño && !tieneNombre) {
     return {
       reply: "Claro, ¿con quién tengo el gusto? 🖤\n\nPara cotizar tu diseño dime:\n— ¿Qué diseño tienes en mente?\n— ¿De cuántos centímetros aproximadamente?\n— ¿En qué parte del cuerpo?\n\nCon esta información Baxto te dará el precio exacto. Y recuerda que puedes escribirle directo:\n\n👉 https://wa.me/5219842562365?text=Hola%20Baxto!%20Quiero%20cotizar%20un%20dise%C3%B1o.",
       model: 'IntentRouter-Cotizar'
